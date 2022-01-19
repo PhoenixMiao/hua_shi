@@ -19,7 +19,7 @@ public class JoinTeam {
     private Long id;
 
     @ApiModelProperty("申请人id")
-    private Long personid;
+    private Long personId;
 
     @ApiModelProperty("项目id")
     private Long projectid;

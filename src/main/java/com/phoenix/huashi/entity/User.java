@@ -7,16 +7,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("User 用户")
-public class User {
+public class User implements Serializable {
     @Id
     @ApiModelProperty("用户id")
     private Long id;
+
+    private String sessionId;
+    private String openId;
+    private String createTime;
+    private String unionId;
+    private String sessionKey;
 
     @ApiModelProperty("真实姓名")
     private String realname;
