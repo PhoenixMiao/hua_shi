@@ -1,5 +1,6 @@
 package com.phoenix.huashi.entity;
 
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -7,23 +8,23 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("JoinTeam 加入团队申请")
-public class JoinTeam {
+@ApiModel("Likes 点赞")
+public class Likes implements Serializable {
     @Id
-    @ApiModelProperty("申请id")
+    @ApiModelProperty("id")
     private Long id;
 
-    @ApiModelProperty("申请人id")
-    private Long personId;
-
     @ApiModelProperty("项目id")
-    private Long projectid;
+    private Long projectId;
 
-    @ApiModelProperty("是否通过")
-    private Integer allow;
+    @ApiModelProperty("用户创赛号")
+    private String chuangNum;
+
+    @ApiModelProperty("点赞时间")
+    private String likeTime;
 }

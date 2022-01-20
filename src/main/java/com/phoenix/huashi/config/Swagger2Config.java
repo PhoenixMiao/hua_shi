@@ -20,11 +20,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnExpression("${dev.enable:true}")//当enable为true时才选择加载该配置类
 public class Swagger2Config {
 
-    private static final String GROUP_NAME = "sex-edu";
-    private static final String BASE_PACKAGE = "com.jyannis.sexeduweb.controller";
-    private static final String TITLE = "sex-edu API Documentation";
-    private static final String DESCRIPTION = "青春同伴接口文档";
-
+    private static final String GROUP_NAME = "hua_shi";
+    private static final String BASE_PACKAGE = "com.phoenix.huashi.controller";
+    private static final String TITLE = "hua_shi API Documentation";
+    private static final String DESCRIPTION = "华实创赛中心接口文档";
     @Bean
     public Docket createTestApi() {
         return new Docket(DocumentationType.SWAGGER_2)

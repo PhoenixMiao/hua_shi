@@ -7,13 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-import java.util.Date;
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("Project 项目")
-public class Project {
+@ApiModel("DisplayProject 展示项目")
+public class DisplayProject implements Serializable {
     @Id
     @ApiModelProperty("项目id")
     private Long id;
@@ -27,14 +27,23 @@ public class Project {
     @ApiModelProperty("项目名称")
     private String name;
 
-    @ApiModelProperty("负责人")
+    @ApiModelProperty("项目负责人")
     private Long principal;
 
-    @ApiModelProperty("指导教师")
-    private String teacher;
+    @ApiModelProperty("指导老师姓名")
+    private String teacherName;
+
+    @ApiModelProperty("指导老师院系")
+    private String teacherApartment;
+
+    @ApiModelProperty("指导老师职称")
+    private String teacherRank;
+
+    @ApiModelProperty("指导老师研究方向")
+    private String teacherStudy;
 
     @ApiModelProperty("项目上传时间")
-    private Date uploadtime;
+    private String uploadTime;
 
     @ApiModelProperty("项目简介")
     private String introduction;
@@ -60,6 +69,12 @@ public class Project {
     @ApiModelProperty("论文成果")
     private String paper;
 
-    @ApiModelProperty("团队")
-    private Long teamid;
+    @ApiModelProperty("截止日期")
+    private String deadline;
+
+    @ApiModelProperty("人数上限")
+    private Long personLimit;
+
+    @ApiModelProperty("状态")
+    private Integer status;
 }

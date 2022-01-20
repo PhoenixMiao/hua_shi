@@ -7,35 +7,35 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Notification 通知公告")
-public class Notification {
+public class Notification implements Serializable {
     @Id
-    @ApiModelProperty("公告id")
+    @ApiModelProperty("Id")
     private Long id;
 
     @ApiModelProperty("标题")
     private String title;
 
-    @ApiModelProperty("比赛简介")
-    private String introduction;
+    @ApiModelProperty("信息来源")
+    private String source;
 
-    @ApiModelProperty("报名方式")
-    private String register_way;
+    @ApiModelProperty("发布日期")
+    private String publishDate;
 
-    @ApiModelProperty("时间节点")
-    private String timepoint;
+    @ApiModelProperty("内容")
+    private String content;
 
-    @ApiModelProperty("参赛要求")
-    private String requirement;
+    @ApiModelProperty("类型")
+    private String type;
 
     @ApiModelProperty("图片")
     private String picture;
 
-    @ApiModelProperty("状态")
-    private Integer status;
+
 }
