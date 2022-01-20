@@ -8,15 +8,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-import java.security.Timestamp;
-import java.time.Year;
-
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Likes 点赞")
-public class Likes {
+public class Likes implements Serializable {
     @Id
     @ApiModelProperty("id")
     private Long id;

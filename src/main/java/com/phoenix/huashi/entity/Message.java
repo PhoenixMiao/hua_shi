@@ -1,24 +1,21 @@
 package com.phoenix.huashi.entity;
 
 
-import cn.hutool.core.date.DateTime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import net.sf.jsqlparser.expression.DateTimeLiteralExpression;
-
 import javax.persistence.Id;
-
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Message 消息")
 
-public class Message {
+public class Message  implements Serializable{
     @Id
     @ApiModelProperty("Id")
     private Long id;

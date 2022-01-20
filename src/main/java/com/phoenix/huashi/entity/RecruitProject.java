@@ -6,13 +6,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("RecruitProject 招募项目")
-public class RecruitProject {
+public class RecruitProject implements Serializable {
     @Id
     @ApiModelProperty("Id")
     private Long id;

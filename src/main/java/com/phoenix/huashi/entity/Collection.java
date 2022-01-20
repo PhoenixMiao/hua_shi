@@ -7,15 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-import java.security.Timestamp;
-import java.time.Year;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Collection 收藏")
-public class Collection {
+public class Collection  implements Serializable{
     @Id
     @ApiModelProperty("项目id")
     private Long id;

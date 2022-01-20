@@ -7,15 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
-import java.security.Timestamp;
-import java.time.Year;
-
+import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("DisplayProject 展示项目")
-public class DisplayProject {
+public class DisplayProject implements Serializable {
     @Id
     @ApiModelProperty("项目id")
     private Long id;

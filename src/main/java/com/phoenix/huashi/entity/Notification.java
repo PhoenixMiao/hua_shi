@@ -7,13 +7,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Notification 通知公告")
-public class Notification {
+public class Notification implements Serializable {
     @Id
     @ApiModelProperty("Id")
     private Long id;
