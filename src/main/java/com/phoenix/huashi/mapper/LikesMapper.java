@@ -9,13 +9,15 @@ import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
+@Repository
 public interface LikesMapper extends MyMapper<Likes> {
 
 
-    @Insert("INSERT INTO likes VALUE(null,#{projectId},#{chuangNum},#{likeTime})")
+    @Insert("INSERT INTO likes VALUE(null,#{projectId},#{userId},#{likeTime})")
     void addToLikes(
             @Param("projectId")Long projectId,
-            @Param ("chuangNum")String chuangNum,
+            @Param ("userId")Long userId,
             @Param("likeTime")String likeTime);
 
 

@@ -5,6 +5,7 @@ import com.phoenix.huashi.entity.User;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserMapper extends MyMapper<User> {
     @Insert("INSERT INTO user(createTime,openId,unionId,sessionKey,sessionId) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId})")
     @Options(useGeneratedKeys=true, keyProperty="id")
