@@ -20,4 +20,7 @@ public class GetBriefListRequest {
     @ApiModelProperty("分页参数")
     PageParam pageParam;
 
+
+    @ApiModelProperty("对象类型")
+    String type;
 }
