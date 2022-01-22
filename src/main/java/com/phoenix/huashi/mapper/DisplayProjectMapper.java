@@ -10,11 +10,11 @@ import java.util.List;
 
 @Repository
 public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
-    @Select("SELECT * FROM displayproject WHERE id=#{id}")
+    @Select("SELECT * FROM displayProject WHERE id=#{id}")
     DisplayProject getDisplayProjectById(@Param("id")Long id);
 
-    @Select("SELECT id,name,principal,type,status FROM displayProject WHERE id=#{id}")
-    List<BriefDisplayProject> getBriefNotificationList(@Param("id")Long id);
+    @Select("SELECT id,name,principal,type,status FROM displayProject ")
+    List<BriefDisplayProject> getBriefDisplayProjectList();
 
     @Select("SELECT likes FROM displayProject WHERE id=#{id}")
     Long getLikes(@Param("id")Long id);

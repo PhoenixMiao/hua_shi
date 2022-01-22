@@ -1,13 +1,27 @@
 package com.phoenix.huashi.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.phoenix.huashi.common.Page;
+import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.controller.Request.GetBriefListRequest;
+
+import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
+import com.phoenix.huashi.dto.notification.BriefNotification;
+import com.phoenix.huashi.entity.DisplayProject;
+
+import com.phoenix.huashi.enums.CommodityTypeEnum;
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
 import com.phoenix.huashi.service.DisplayProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
+import javax.validation.constraints.NotNull;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class DisplayProjectServiceImpl implements DisplayProjectService {
@@ -27,4 +41,21 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         Long likesNumber = displayProjectMapper.getLikes(projectId);
         displayProjectMapper.giveLike(likesNumber+1,projectId);
     }
+    @Override
+    public DisplayProject getDisplayProjectById(Long id, Long user_id){
+        DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(id);
+
+        return displayProject;
+    }
+    @Override
+    public Page<BriefDisplayProject> getBriefDisplayProjectList(@NotNull @RequestBody GetBriefListRequest request)
+    { if(request == null) return null;
+        PageParam pageParam = request.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
+
+
+            List<BriefDisplayProject> briefDisplayProjectList = displayProjectMapper.getBriefDisplayProjectList();
+            return new Page(new PageInfo<>(briefDisplayProjectList));
+
+        }
 }
