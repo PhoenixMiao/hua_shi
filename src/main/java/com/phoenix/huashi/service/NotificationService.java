@@ -8,6 +8,6 @@ import com.phoenix.huashi.entity.Notification;
 
 public interface NotificationService {
 
-    Notification getNotificationById(Long id,Long user_id);
+    Notification getNotificationById(Long id);
     Page<BriefNotification> getBriefNotificationList(GetBriefListRequest request);
 }

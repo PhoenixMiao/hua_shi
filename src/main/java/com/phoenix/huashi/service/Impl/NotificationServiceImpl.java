@@ -24,7 +24,7 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     @Override
-    public Notification getNotificationById (Long id, Long user_id){
+    public Notification getNotificationById (Long id){
         Notification notification = notificationMapper.getNotificationById(id);
 
         return notification;

@@ -22,11 +22,10 @@ public class NotificationController {
 
 
 
-    @GetMapping("/{id}")
+    @GetMapping("/notification/{id}")
     @ApiOperation(value = "查看公告详情", response = Notification.class)
-    public Object getNotificatinById(@PathVariable("id") Long notificationId) {
-        Long user_id = sessionUtils.getUserId();
-        return notificationService.getNotificationById(notificationId, user_id);
+    public Object getNotificationById(@PathVariable("id") Long notificationId) {
+        return notificationService.getNotificationById(notificationId);
     }
 
     @PostMapping("/notificationList")
