@@ -22,8 +22,8 @@ public class Likes implements Serializable {
     @ApiModelProperty("项目id")
     private Long projectId;
 
-    @ApiModelProperty("用户创赛号")
-    private String chuangNum;
+    @ApiModelProperty("用户Id")
+    private Long userId;
 
     @ApiModelProperty("点赞时间")
     private String likeTime;
