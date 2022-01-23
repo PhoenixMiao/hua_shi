@@ -14,8 +14,6 @@ import java.io.Serializable;
 @Builder
 @ApiModel("BriefCollection 展示收藏夹简要信息")
 public class BriefCollection {
-    @ApiModelProperty("Id")
-    private Long id;
 
     @ApiModelProperty("项目名称")
     private String name;

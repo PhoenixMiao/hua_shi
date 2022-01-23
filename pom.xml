@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
-    <groupId>com.example</groupId>
-    <artifactId>HuaShiplatform</artifactId>
+    <groupId>com.phoenix</groupId>
+    <artifactId>huashi</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>HuaShiplatform</name>
+    <name>huashi</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

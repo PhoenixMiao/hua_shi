@@ -42,7 +42,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         displayProjectMapper.giveLike(likesNumber+1,projectId);
     }
     @Override
-    public DisplayProject getDisplayProjectById(Long id, Long user_id){
+    public DisplayProject getDisplayProjectById(Long id, Long userId){
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(id);
 
         return displayProject;

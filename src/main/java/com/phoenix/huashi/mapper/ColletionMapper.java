@@ -9,18 +9,20 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+
 @Repository
 public interface ColletionMapper extends MyMapper<Collection> {
-        @Insert("INSERT INTO  VALUE(null,#{recruitProjectId},#{chuangNum},#{collectTime})")
+        @Insert("INSERT INTO collection VALUE(null,#{recruitProjectId},null,#{collectTime},#{userId})")
         void addToCollection(
-                @Param("recruitProjectId")Long recruitProjectId,
-                @Param ("chuangNum")String chuangNum,
-                @Param("collectTime")String collectTime);
+                @Param("userId") Long userId,
+                @Param("recruitProjectId") Long recruitProjectId,
+                @Param("collectTime") String collectTime);
 
         @Delete("DELETE FROM collection WHERE id=#{id};")
         void cancelCollection(@Param("id")Long id);
 
-        @Select("SELECT * FROM collection WHERE chuangNum = #{chuangNum}")
-        List<Collection> getCollectionList(@Param("chuangNum")String chuangNum);
+        @Select("SELECT * FROM collection WHERE userId = #{userId}")
+        List<Collection> getCollectionList(@Param("userId")Long userId);
+
 
 }
