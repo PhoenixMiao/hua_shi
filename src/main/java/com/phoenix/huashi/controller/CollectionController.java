@@ -25,7 +25,7 @@ public class CollectionController {
     @Autowired
     private SessionUtils sessionUtils;
 
-
+    @Auth
     @PostMapping("/add")
     @ApiOperation(value = "收藏项目",response = String.class)
     public Object addToCollection(@NotNull @Valid @RequestBody AddToCollectionRequest addToCollectionRequest){
@@ -34,7 +34,7 @@ public class CollectionController {
         return "操作成功";
     }
 
-
+    @Auth
     @PostMapping("/cancel/{id}")
     @ApiOperation(value = "取消收藏",response = String.class)
     public Object cancelCollection(@PathVariable("id")Long id){
@@ -42,7 +42,7 @@ public class CollectionController {
         return "操作成功";
     }
 
-
+    @Auth
     @PostMapping("/list")
     @ApiOperation(value = "查看收藏夹",response = BriefCollection.class)
     public Object getBriefCollectionList(@NotNull @Valid @RequestBody GetCollectionRequest getCollectionRequest){
