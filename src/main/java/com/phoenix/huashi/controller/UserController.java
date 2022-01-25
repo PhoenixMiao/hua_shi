@@ -36,7 +36,7 @@ public class UserController {
         return userService.login(code);
 
     }
-
+    @Auth
     @GetMapping("/like/{projectId}")
     @ApiOperation(value = "点赞",response = String.class)
     public Object giveLike(@NotBlank @PathVariable("projectId") Long projectId){

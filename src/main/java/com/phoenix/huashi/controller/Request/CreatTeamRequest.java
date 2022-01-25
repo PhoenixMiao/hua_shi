@@ -1,34 +1,31 @@
-package com.phoenix.huashi.entity;
+package com.phoenix.huashi.controller.Request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import javax.persistence.Id;
-import java.io.Serializable;
+
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("RecruitProject 招募项目")
-public class RecruitProject implements Serializable {
-    @Id
-    @ApiModelProperty("Id")
-    private Long id;
-
+@ApiModel("CreatTeamRequest 创建队伍")
+public class CreatTeamRequest {
+    @NotNull
     @ApiModelProperty("项目名称")
     private String name;
-
-    @ApiModelProperty("状态")
-    private Integer status;
-
+    @NotNull
     @ApiModelProperty("负责人创赛号")
     private String captainChuangNum;
 
+
+    @NotNull
     @ApiModelProperty("要求简述")
     private String briefDemand;
-
+    @NotNull
     @ApiModelProperty("要求详情")
     private String demand;
 
@@ -40,13 +37,13 @@ public class RecruitProject implements Serializable {
 
     @ApiModelProperty("指导老师职称")
     private String teacherRank;
-
+    @NotNull
     @ApiModelProperty("预计起始日期")
     private String planStartTime;
-
+    @NotNull
     @ApiModelProperty("预计截止日期")
     private String planEndTime;
-
+    @NotNull
     @ApiModelProperty("项目介绍")
     private String introduction;
 
@@ -59,8 +56,7 @@ public class RecruitProject implements Serializable {
     @ApiModelProperty("标签三")
     private String tag3;
 
-    @ApiModelProperty("状态更新时间")
-    private String stateUpdateTime;
+
 
     @ApiModelProperty("开始招募时间")
     private String recruitTime;

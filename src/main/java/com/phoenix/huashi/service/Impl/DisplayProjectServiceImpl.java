@@ -7,10 +7,10 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.Request.GetBriefListRequest;
 
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
-import com.phoenix.huashi.dto.notification.BriefNotification;
+
 import com.phoenix.huashi.entity.DisplayProject;
 
-import com.phoenix.huashi.enums.CommodityTypeEnum;
+
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
 import com.phoenix.huashi.service.DisplayProjectService;
