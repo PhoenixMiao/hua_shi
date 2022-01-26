@@ -1,6 +1,6 @@
 package com.phoenix.huashi.mapper;
 import com.phoenix.huashi.MyMapper;
-import com.phoenix.huashi.entity.Collection;
+
 import com.phoenix.huashi.entity.Likes;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;

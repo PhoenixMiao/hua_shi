@@ -22,11 +22,11 @@ public class DisplayProjectController {
     @Autowired
     private SessionUtils sessionUtils;
 
-    @GetMapping("/{id}")
+    @GetMapping("/displayProject/{id}")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
     public Object getDisplayProjectById(@PathVariable("id") Long displayProjectId) {
-        Long user_id = sessionUtils.getUserId();
-        return displayProjectService.getDisplayProjectById(displayProjectId, user_id);
+        Long userId = sessionUtils.getUserId();
+        return displayProjectService.getDisplayProjectById(displayProjectId, userId);
     }
     @PostMapping("/displayProjectList")
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)

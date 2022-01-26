@@ -9,7 +9,7 @@ import com.phoenix.huashi.entity.DisplayProject;
 public interface DisplayProjectService {
     void giveLike(Long projectId,Long userId);
 
-    DisplayProject getDisplayProjectById(Long id, Long user_id);
+    DisplayProject getDisplayProjectById(Long id, Long userId);
     Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefListRequest request);
 
 }
