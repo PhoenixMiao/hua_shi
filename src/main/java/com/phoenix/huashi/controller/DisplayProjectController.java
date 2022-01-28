@@ -1,4 +1,5 @@
 package com.phoenix.huashi.controller;
+import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.controller.Request.GetBriefListRequest;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
@@ -12,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @RestController
@@ -33,6 +35,18 @@ public class DisplayProjectController {
     public Object getBriefDisplayProjectList(@NotNull@Valid @RequestBody GetBriefListRequest request) {
         return displayProjectService.getBriefDisplayProjectList(request);
     }
-
+//    @Auth
+    @GetMapping("/like/{projectId}")
+    @ApiOperation(value = "点赞",response = String.class)
+    public Object giveLike(@NotBlank @PathVariable("projectId") Long projectId){
+        displayProjectService.giveLike(projectId);
+        return "操作成功";
+    }
+    @GetMapping("/getLike/{projectId}")
+    @ApiOperation(value = "获取项目点赞数",response = Long.class)
+    public Object getLike(@NotBlank @PathVariable("projectId") Long projectId){
+        Long likes=displayProjectService.getLike(projectId);
+        return likes;
+    }
 
 }

@@ -19,9 +19,6 @@ import javax.validation.constraints.NotBlank;
 public class UserController {
 
     @Autowired
-    private DisplayProjectService displayProjectService;
-
-    @Autowired
     private UserService userService;
 
     @Autowired
@@ -36,12 +33,6 @@ public class UserController {
         return userService.login(code);
 
     }
-    @Auth
-    @GetMapping("/like/{projectId}")
-    @ApiOperation(value = "点赞",response = String.class)
-    public Object giveLike(@NotBlank @PathVariable("projectId") Long projectId){
-        displayProjectService.giveLike(projectId, sessionUtils.getUserId());
-        return "操作成功";
-    }
+
 
 }
