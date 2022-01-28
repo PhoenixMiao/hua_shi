@@ -28,7 +28,7 @@ public class RecruitProjectController {
 
     @Autowired
     private SessionUtils sessionUtils;
-    @GetMapping("/{id}")
+    @GetMapping("/info/{id}")
     @ApiOperation(value = "查看项目简介", response = RecruitProject.class)
     public Object getRecruitProjectById(@PathVariable("id") Long id) {
         return recruitService.getRecruitProjectById(id);
@@ -40,7 +40,7 @@ public class RecruitProjectController {
         return recruitService.getBriefRecruitProjectList(request);
     }
     @Auth
-    @PostMapping("/info")
+    @PostMapping("/info/{id}")
     @ApiOperation(value = "修改当前项目团队信息",response = String.class)
     public Object updateTeamById(@NotNull @Valid @RequestBody UpdateTeamByIdRequest updateTeamByIdRequest){
         Long id = sessionUtils.getUserId();

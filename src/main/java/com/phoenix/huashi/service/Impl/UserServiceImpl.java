@@ -1,8 +1,16 @@
 package com.phoenix.huashi.service.Impl;
-
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.phoenix.huashi.common.Page;
+import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.controller.Request.GetBriefUserNameListRequest;
+import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
+import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.common.CommonConstants;
 import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.config.YmlConfig;
+import com.phoenix.huashi.controller.Request.UpdateUserByIdRequest;
+import com.phoenix.huashi.controller.response.GetUserByIdResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.WxSession;
 import com.phoenix.huashi.entity.User;
@@ -12,10 +20,7 @@ import com.phoenix.huashi.util.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,6 +34,23 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private YmlConfig ymlConfig;
 
+    @Override
+    public GetUserByIdResponse getUserById(Long id){
+        GetUserByIdResponse getUserByIdResponse = userMapper.getUserById(id);
+        return getUserByIdResponse;
+    }
+    @Override
+    public void updateUserById(UpdateUserByIdRequest updateUserByIdRequest,Long id){
+        userMapper.updateUserById(updateUserByIdRequest.getNickname(),updateUserByIdRequest.getGender(),updateUserByIdRequest.getPortrait(),updateUserByIdRequest.getName(),updateUserByIdRequest.getTelephone(),updateUserByIdRequest.getSchool(),updateUserByIdRequest.getDepartment(),updateUserByIdRequest.getMajor(),updateUserByIdRequest.getGrade(),updateUserByIdRequest.getQQ(),updateUserByIdRequest.getWechatNum(),updateUserByIdRequest.getResume(),updateUserByIdRequest.getAttachment(),id);
+    }
+
+    @Override
+    public Page<BriefUserName> searchBriefUserNameListByName(GetBriefUserNameListRequest searchBriefUserNameListRequest) {
+        PageParam pageParam = searchBriefUserNameListRequest.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
+        List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchBriefUserNameListRequest.getName());
+        return new Page(new PageInfo<>(briefUserNameList));
+    }
 
 
     @Override
