@@ -37,4 +37,7 @@ public class Message  implements Serializable{
 
     @ApiModelProperty("拒绝理由")
     private String reason;
+
+    @ApiModelProperty("是否已读")
+    private String isRead;
 }
