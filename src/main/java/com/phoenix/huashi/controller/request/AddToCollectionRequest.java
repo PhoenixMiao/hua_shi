@@ -1,7 +1,6 @@
-package com.phoenix.huashi.controller.Request;
+package com.phoenix.huashi.controller.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

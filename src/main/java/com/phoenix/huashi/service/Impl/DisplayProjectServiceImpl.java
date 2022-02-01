@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.GetBriefListRequest;
 
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
@@ -16,17 +16,11 @@ import com.phoenix.huashi.mapper.LikesMapper;
 import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.scheduling.TaskScheduler;
-import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import javax.validation.constraints.NotNull;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 

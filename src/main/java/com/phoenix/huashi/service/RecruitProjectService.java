@@ -1,8 +1,8 @@
 package com.phoenix.huashi.service;
 import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.controller.Request.CreatTeamRequest;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
-import com.phoenix.huashi.controller.Request.UpdateTeamByIdRequest;
+import com.phoenix.huashi.controller.request.CreatTeamRequest;
+import com.phoenix.huashi.controller.request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.UpdateTeamByIdRequest;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.entity.RecruitProject;
 

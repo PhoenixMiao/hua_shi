@@ -1,6 +1,5 @@
 package com.phoenix.huashi.controller;
-import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.GetBriefListRequest;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 import com.phoenix.huashi.entity.DisplayProject;

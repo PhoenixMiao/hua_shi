@@ -1,4 +1,4 @@
-package com.phoenix.huashi.controller.Request;
+package com.phoenix.huashi.controller.request;
 import com.phoenix.huashi.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -10,16 +10,13 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("GetBriefUserNameListRequest 根据姓名获取用户姓名、创赛号列表")
-public class GetBriefUserNameListRequest {
+@NoArgsConstructor
+@Builder
+@ApiModel("GetCollectionRequest 查看收藏夹")
+public class GetCollectionRequest {
     @NotNull
     @ApiModelProperty("分页参数")
-    PageParam pageParam;
+    private PageParam pageParam;
 
-
-    @ApiModelProperty("姓名")
-    String name;
 }

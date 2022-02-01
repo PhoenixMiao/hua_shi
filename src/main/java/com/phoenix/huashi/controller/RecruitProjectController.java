@@ -1,8 +1,8 @@
 package com.phoenix.huashi.controller;
 import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
-import com.phoenix.huashi.controller.Request.UpdateTeamByIdRequest;
-import com.phoenix.huashi.controller.Request.CreatTeamRequest;
+import com.phoenix.huashi.controller.request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.UpdateTeamByIdRequest;
+import com.phoenix.huashi.controller.request.CreatTeamRequest;
 
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
@@ -16,7 +16,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import com.phoenix.huashi.annotation.Auth;
 
 @Api("招募项目相关操作")
 @RestController

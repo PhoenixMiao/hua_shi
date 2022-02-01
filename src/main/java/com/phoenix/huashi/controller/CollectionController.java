@@ -1,6 +1,6 @@
 package com.phoenix.huashi.controller;
-import com.phoenix.huashi.controller.Request.GetCollectionRequest;
-import com.phoenix.huashi.controller.Request.AddToCollectionRequest;
+import com.phoenix.huashi.controller.request.GetCollectionRequest;
+import com.phoenix.huashi.controller.request.AddToCollectionRequest;
 import com.phoenix.huashi.dto.collection.BriefCollection;
 import com.phoenix.huashi.service.CollectionService;
 

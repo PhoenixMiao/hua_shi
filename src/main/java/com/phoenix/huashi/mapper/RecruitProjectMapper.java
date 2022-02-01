@@ -42,6 +42,7 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
             @Param("tag3")String tag3
 
     );
+
     @Update("UPDATE recruitProject SET name=#{name},captainName=#{captainName},institute=#{institute},introduction=#{introduction},briefDemand=#{briefDemand},teacherName=#{teacherName},teacherApartment=#{teacherApartment},teacherRank=#{teacherRank},planStartTime=#{planStartTime},planEndTime=#{planEndTime},recruitTime=#{recruitTime},startTime=#{startTime},endTime=#{endTime},stateUpdateTime=#{stateUpdateTime},demand=#{demand},recruitNum=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3}WHERE id=#{id})")
     void updateTeamById(
             @Param("name")String name,

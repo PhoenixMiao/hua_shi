@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.Request.CreatTeamRequest;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
-import com.phoenix.huashi.controller.Request.UpdateTeamByIdRequest;
+import com.phoenix.huashi.controller.request.CreatTeamRequest;
+import com.phoenix.huashi.controller.request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.UpdateTeamByIdRequest;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
@@ -15,11 +15,8 @@ import com.phoenix.huashi.enums.MemberTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
-import java.text.ParseException;
 
-import java.text.SimpleDateFormat;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 import com.phoenix.huashi.util.TimeUtil;
 @Service
@@ -38,7 +35,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public Page<BriefRecruitProject> getBriefRecruitProjectList(@NotNull @RequestBody GetBriefListRequest request) {
+    public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefListRequest request) {
         if(request == null) return null;
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
