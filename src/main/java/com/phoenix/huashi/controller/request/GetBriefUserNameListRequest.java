@@ -1,5 +1,4 @@
-package com.phoenix.huashi.controller.Request;
-
+package com.phoenix.huashi.controller.request;
 import com.phoenix.huashi.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -11,16 +10,16 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 @Builder
-@ApiModel("GetBriefListRequest 获取简要信息列表")
-public class GetBriefListRequest {
+@NoArgsConstructor
+@AllArgsConstructor
+@ApiModel("GetBriefUserNameListRequest 根据姓名获取用户姓名、创赛号列表")
+public class GetBriefUserNameListRequest {
     @NotNull
     @ApiModelProperty("分页参数")
     PageParam pageParam;
 
 
-    @ApiModelProperty("对象类型")
-    String type;
+    @ApiModelProperty("姓名")
+    String name;
 }

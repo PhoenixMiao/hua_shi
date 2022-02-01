@@ -37,8 +37,11 @@ public interface UserMapper extends MyMapper<User> {
                         @Param("attachment")String attachment,
                         @Param("id")Long id);
 
-@Select("SELECT name,chuangNum FROM user WHERE name=#{name}")
-List<BriefUserName> searchBriefUserNameListByName(@Param("name")String name);
+    @Select("SELECT name,chuangNum FROM user WHERE name=#{name}")
+    List<BriefUserName> searchBriefUserNameListByName(@Param("name")String name);
+
+    @Select("SELECT * FROM user WHERE chuangNum=#{chuangNum}")
+    User getUserByChuangNum(@Param("chuangNum")String chuangNum);
 
 }
 

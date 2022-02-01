@@ -70,10 +70,13 @@ public class RecruitProject implements Serializable {
 
     @ApiModelProperty("项目结束时间")
     private String endTime;
+
     @ApiModelProperty("负责人姓名")
     private String captainName;
-    @ApiModelProperty("立项院校")
+
+    @ApiModelProperty("立项学院")
     private String institute;
+
     @ApiModelProperty("需招募人数")
     private Long recruitNum;
 }

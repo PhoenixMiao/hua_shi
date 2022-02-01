@@ -28,7 +28,7 @@ public class DisplayProject implements Serializable {
     private String name;
 
     @ApiModelProperty("项目负责人")
-    private Long principal;
+    private Long userId;
 
     @ApiModelProperty("指导老师姓名")
     private String teacherName;

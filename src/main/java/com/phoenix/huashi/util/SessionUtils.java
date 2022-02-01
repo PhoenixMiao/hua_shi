@@ -3,7 +3,6 @@ package com.phoenix.huashi.util;
 import com.phoenix.huashi.common.CommonConstants;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.entity.User;
-import com.phoenix.huashi.util.RedisUtils;
 import com.phoenix.huashi.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

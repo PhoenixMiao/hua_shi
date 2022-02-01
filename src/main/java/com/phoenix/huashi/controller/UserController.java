@@ -1,14 +1,11 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.Request.GetBriefListRequest;
-import com.phoenix.huashi.controller.Request.GetBriefUserNameListRequest;
-import com.phoenix.huashi.controller.Request.UpdateUserByIdRequest;
+import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
+import com.phoenix.huashi.controller.request.UpdateUserByIdRequest;
 import com.phoenix.huashi.controller.response.GetUserByIdResponse;
 import com.phoenix.huashi.dto.SessionData;
-import com.phoenix.huashi.dto.notification.BriefNotification;
 import com.phoenix.huashi.dto.user.BriefUserName;
-import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.UserService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
