@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.request.CreatTeamRequest;
-import com.phoenix.huashi.controller.request.GetBriefListRequest;
-import com.phoenix.huashi.controller.request.UpdateTeamByIdRequest;
+import com.phoenix.huashi.controller.request.CreateProjectRequest;
+import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
+import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
@@ -14,9 +14,7 @@ import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
-import javax.validation.constraints.NotNull;
 import java.util.List;
 import com.phoenix.huashi.util.TimeUtil;
 @Service
@@ -29,13 +27,12 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
     @Override
     public RecruitProject getRecruitProjectById(Long id) {
- RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(id);
+        RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(id);
         return recruitProject;
-
     }
 
     @Override
-    public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefListRequest request) {
+    public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request) {
         if(request == null) return null;
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
@@ -44,16 +41,17 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public void creatTeam(CreatTeamRequest creatTeamRequest,Long userId) {
+    public void createProject(CreateProjectRequest creatTeamRequest) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
         Integer status=0;
-        recruitProjectMapper.creatTeam(creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(),  creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), creatTeamRequest.getRecruitTime(), creatTeamRequest.getStartTime(), creatTeamRequest.getEndTime(), stateUpdateTime, creatTeamRequest.getDemand(), status,creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3());
+        recruitProjectMapper.creatProject(creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(),  creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), creatTeamRequest.getRecruitTime(), creatTeamRequest.getStartTime(), creatTeamRequest.getEndTime(), stateUpdateTime, creatTeamRequest.getDemand(), status,creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3());
     }
 
     @Override
-    public void updateTeamById(UpdateTeamByIdRequest updateTeamByIdRequest, Long id) {
+    public void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
-        if (updateTeamByIdRequest.getType().equals(MemberTypeEnum.CAPTAIN.getName())) {
-            recruitProjectMapper.updateTeamById(updateTeamByIdRequest.getName(), updateTeamByIdRequest.getCaptainName(), updateTeamByIdRequest.getInstitute(), updateTeamByIdRequest.getIntroduction(), updateTeamByIdRequest.getBriefDemand(), updateTeamByIdRequest.getTeacherName(), updateTeamByIdRequest.getTeacherApartment(), updateTeamByIdRequest.getTeacherRank(), updateTeamByIdRequest.getPlanStartTime(), updateTeamByIdRequest.getPlanEndTime(), updateTeamByIdRequest.getRecruitTime(), updateTeamByIdRequest.getStartTime(), updateTeamByIdRequest.getEndTime(), stateUpdateTime, updateTeamByIdRequest.getDemand(), updateTeamByIdRequest.getStatus(), updateTeamByIdRequest.getRecruitNum(), id, updateTeamByIdRequest.getTag1(), updateTeamByIdRequest.getTag2(), updateTeamByIdRequest.getTag3());
+        if (updateProjectByIdRequest.getType().equals(MemberTypeEnum.CAPTAIN.getName())) {
+            recruitProjectMapper.updateProjectById(updateProjectByIdRequest.getName(), updateProjectByIdRequest.getCaptainName(), updateProjectByIdRequest.getInstitute(), updateProjectByIdRequest.getIntroduction(), updateProjectByIdRequest.getBriefDemand(), updateProjectByIdRequest.getTeacherName(), updateProjectByIdRequest.getTeacherApartment(), updateProjectByIdRequest.getTeacherRank(), updateProjectByIdRequest.getPlanStartTime(), updateProjectByIdRequest.getPlanEndTime(), updateProjectByIdRequest.getRecruitTime(), updateProjectByIdRequest.getStartTime(), updateProjectByIdRequest.getEndTime(), stateUpdateTime, updateProjectByIdRequest.getDemand(), updateProjectByIdRequest.getStatus(), updateProjectByIdRequest.getRecruitNum(),  updateProjectByIdRequest.getTag1(), updateProjectByIdRequest.getTag2(), updateProjectByIdRequest.getTag3(),updateProjectByIdRequest.getProjectId());
         }
-    }}
+    }
+}

@@ -19,7 +19,7 @@ public class MyController {
     @GetMapping("/get")
     @Deprecated
     public Object get(){
-        sessionUtils.getUserId();
+        sessionUtils.getUserChuangNum();
         SessionData sessionData = sessionUtils.getSessionData();
         return null;
     }

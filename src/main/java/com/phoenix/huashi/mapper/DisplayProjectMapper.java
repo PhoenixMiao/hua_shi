@@ -10,23 +10,26 @@ import java.util.List;
 
 @Repository
 public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
-    @Select("SELECT * FROM displayProject WHERE id=#{id}")
+    @Select("SELECT * FROM display_project WHERE id=#{id}")
     DisplayProject getDisplayProjectById(@Param("id")Long id);
 
-    @Select("SELECT id,name,principal,type,status FROM displayProject ")
-    List<BriefDisplayProject> getBriefDisplayProjectList();
+    @Select("SELECT * FROM display_project ")
+    List<DisplayProject> getBriefDisplayProjectList();
 
-    @Select("SELECT likes FROM displayProject WHERE id=#{id}")
+    @Select("SELECT * FROM display_project WHERE type=#{type}")
+    List<DisplayProject> getBriefDisplayProjectListByType(@Param("type")String type);
+
+    @Select("SELECT likes FROM display_project WHERE id=#{id}")
     Long getLikes(@Param("id")Long id);
 
-    @Update("UPDATE displayProject SET likes=#{likes} WHERE id=#{id};")
+    @Select("SELECT collections FROM display_project WHERE id=#{id}")
+    Long getCollections(@Param("id")Long id);
+
+    @Update("UPDATE display_project SET likes=#{likes} WHERE id=#{id};")
     void giveLike(@Param("likes")Long likes,@Param("id")Long id);
 
-    @Select("SELECT * FROM displayProject WHERE name=#{name};")
-    List<DisplayProject> searchDisplayProjectByName(@Param("name")String name);
-
-    @Select("SELECT * FROM displayProject WHERE institute=#{institute};")
-    List<DisplayProject> searchDisplayProjectByInstitute(@Param("institute")String institute);
+    @Update("UPDATE display_project SET collections=#{collections} WHERE id=#{id};")
+    void collect(@Param("collections")Long collections,@Param("id")Long id);
 
 
 }

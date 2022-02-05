@@ -14,19 +14,19 @@ import java.io.Serializable;
 @Builder
 @ApiModel("BriefDisplayProject 展示项目简要信息")
 public class BriefDisplayProject implements Serializable{
-    @ApiModelProperty("Id")
+    @ApiModelProperty("项目id")
     private Long id;
 
     @ApiModelProperty("项目名称")
     private String name;
 
-    @ApiModelProperty("项目负责人")
-    private Long principal;
+    @ApiModelProperty("项目负责人姓名")
+    private String principalName;
 
     @ApiModelProperty("项目类型")
     private String type;
 
-    @ApiModelProperty("状态")
-    private Integer status;
+    @ApiModelProperty("立项学院")
+    private String institution;
 
 }

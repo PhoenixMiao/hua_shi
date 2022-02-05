@@ -4,15 +4,20 @@ import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
+import com.phoenix.huashi.controller.request.GetListRequest;
+import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
+import com.phoenix.huashi.controller.response.GetUserResponse;
+import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.common.CommonConstants;
 import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.config.YmlConfig;
-import com.phoenix.huashi.controller.request.UpdateUserByIdRequest;
-import com.phoenix.huashi.controller.response.GetUserByIdResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.WxSession;
+import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
+import com.phoenix.huashi.mapper.MemberMapper;
+import com.phoenix.huashi.mapper.RecruitProjectMapper;
 import com.phoenix.huashi.mapper.UserMapper;
 import com.phoenix.huashi.service.UserService;
 import com.phoenix.huashi.util.*;
@@ -33,14 +38,37 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private YmlConfig ymlConfig;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
+    @Autowired
+    private RecruitProjectMapper recruitProjectMapper;
+
     @Override
-    public GetUserByIdResponse getUserById(Long id){
-        GetUserByIdResponse getUserByIdResponse = userMapper.getUserById(id);
-        return getUserByIdResponse;
+    public User getUserByChuangNum(String userChuangNum){
+        User user=userMapper.getUserByChuangNum(userChuangNum);
+        return user;
     }
+
+
     @Override
-    public void updateUserById(UpdateUserByIdRequest updateUserByIdRequest,Long id){
-        userMapper.updateUserById(updateUserByIdRequest.getNickname(),updateUserByIdRequest.getGender(),updateUserByIdRequest.getPortrait(),updateUserByIdRequest.getName(),updateUserByIdRequest.getTelephone(),updateUserByIdRequest.getSchool(),updateUserByIdRequest.getDepartment(),updateUserByIdRequest.getMajor(),updateUserByIdRequest.getGrade(),updateUserByIdRequest.getQQ(),updateUserByIdRequest.getWechatNum(),updateUserByIdRequest.getResume(),updateUserByIdRequest.getAttachment(),id);
+    public Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum){
+        List<Long> projectIdList=memberMapper.getTeamByChuangNum(userChuangNum);
+        PageParam pageParam = request.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
+        List<BriefProjectInformation> briefProjectInformationList=new LinkedList<>();
+        for(Long projectId:projectIdList)
+        {
+            RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(projectId);
+            BriefProjectInformation briefProjectInformation=new BriefProjectInformation(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getCaptain_name(),recruitProject.getInstitute(),recruitProject.getStatus());
+            briefProjectInformationList.add(briefProjectInformation);
+        }
+        return new Page(new PageInfo<>(briefProjectInformationList));
+    }
+
+    @Override
+    public void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum){
+        userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getGender(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getName(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getSchool(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(),userChuangNum);
     }
 
     @Override

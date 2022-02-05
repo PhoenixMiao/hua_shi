@@ -1,10 +1,10 @@
 package com.phoenix.huashi.enums;
 
-public enum CommodityTypeEnum {
+public enum MessageTypeEnum {
 
-    ACADEMICCOMPITITION("ACADEMICCOMPITITION","学科竞赛"),
-    INNOVATIONCOMPETITION("INNOVATIONCOMPETITION","创新创业训练计划"),
-    ALL("ALL","全部类型")
+    INVITATION("INVITATION","邀请"),
+    APPLICATION("APPLICATION","申请"),
+
     ;
 
 
@@ -12,7 +12,7 @@ public enum CommodityTypeEnum {
 
     private String description;
 
-    CommodityTypeEnum(String name, String description) {
+    MessageTypeEnum(String name, String description) {
         this.name = name;
         this.description = description;
     }

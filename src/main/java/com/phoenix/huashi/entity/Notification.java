@@ -26,7 +26,7 @@ public class Notification implements Serializable {
     private String source;
 
     @ApiModelProperty("发布日期")
-    private String publishDate;
+    private String publish_date;
 
     @ApiModelProperty("内容")
     private String content;

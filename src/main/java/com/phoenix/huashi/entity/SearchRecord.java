@@ -19,8 +19,8 @@ public class SearchRecord implements Serializable {
     @ApiModelProperty("id")
     private Long id;
 
-    @ApiModelProperty("用户id")
-    private Long user_id;
+    @ApiModelProperty("用户创赛号")
+    private String user_chuang_num;
 
     @ApiModelProperty("搜索内容")
     private String contents;

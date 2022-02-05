@@ -74,7 +74,7 @@ public class SearchServiceImpl implements SearchService {
             example.and(contentsCriteria);
 
             SearchRecord searchRecord = SearchRecord.builder()
-                    .user_id(sessionUtils.getUserId())
+                    .user_chuang_num(sessionUtils.getUserChuangNum())
                     .contents(searchRequest.getContents())
                     .create_time(TimeUtil.getCurrentTimestamp())
                     .build();
@@ -89,7 +89,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (Notification ele : notificationList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getTitle(),ele.getType(), ele.getSource(), ele.getPublishDate()));
+            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getTitle(),ele.getType(), ele.getSource(), ele.getPublish_date()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
@@ -118,7 +118,7 @@ public class SearchServiceImpl implements SearchService {
             example.and(contentsCriteria);
 
             SearchRecord searchRecord = SearchRecord.builder()
-                    .user_id(sessionUtils.getUserId())
+                    .user_chuang_num(sessionUtils.getUserChuangNum())
                     .contents(searchRequest.getContents())
                     .create_time(TimeUtil.getCurrentTimestamp())
                     .build();
@@ -133,7 +133,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (DisplayProject ele : displayProjectList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserById(ele.getUserId()).getName(), ele.getInstitute()));
+            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserByChuangNum(ele.getPrincipalChuangNum()).getName(), ele.getInstitute()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
@@ -158,7 +158,7 @@ public class SearchServiceImpl implements SearchService {
             example.and(contentsCriteria);
 
             SearchRecord searchRecord = SearchRecord.builder()
-                    .user_id(sessionUtils.getUserId())
+                    .user_chuang_num(sessionUtils.getUserChuangNum())
                     .contents(searchRequest.getContents())
                     .create_time(TimeUtil.getCurrentTimestamp())
                     .build();
@@ -173,7 +173,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getName(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getDepartment()));
+            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getName(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getDepartment()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 

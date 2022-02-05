@@ -24,28 +24,28 @@ public class RecruitProject implements Serializable {
     private Integer status;
 
     @ApiModelProperty("负责人创赛号")
-    private String captainChuangNum;
+    private String captain_chuang_num;
 
     @ApiModelProperty("要求简述")
-    private String briefDemand;
+    private String brief_demand;
 
     @ApiModelProperty("要求详情")
     private String demand;
 
     @ApiModelProperty("指导老师姓名")
-    private String teacherName;
+    private String teacher_name;
 
     @ApiModelProperty("指导老师院系")
-    private String teacherApartment;
+    private String teacher_apartment;
 
     @ApiModelProperty("指导老师职称")
-    private String teacherRank;
+    private String teacher_rank;
 
     @ApiModelProperty("预计起始日期")
-    private String planStartTime;
+    private String plan_start_time;
 
     @ApiModelProperty("预计截止日期")
-    private String planEndTime;
+    private String plan_end_time;
 
     @ApiModelProperty("项目介绍")
     private String introduction;
@@ -60,23 +60,23 @@ public class RecruitProject implements Serializable {
     private String tag3;
 
     @ApiModelProperty("状态更新时间")
-    private String stateUpdateTime;
+    private String state_update_time;
 
     @ApiModelProperty("开始招募时间")
-    private String recruitTime;
+    private String recruit_time;
 
     @ApiModelProperty("项目开始进行时间")
-    private String startTime;
+    private String start_time;
 
     @ApiModelProperty("项目结束时间")
-    private String endTime;
+    private String end_time;
 
     @ApiModelProperty("负责人姓名")
-    private String captainName;
+    private String captain_name;
 
     @ApiModelProperty("立项学院")
     private String institute;
 
     @ApiModelProperty("需招募人数")
-    private Long recruitNum;
+    private Long recruit_num;
 }
