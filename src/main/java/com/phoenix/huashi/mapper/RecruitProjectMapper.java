@@ -14,6 +14,9 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
     @Select("SELECT * FROM recruit_project WHERE id=#{id}")
     RecruitProject getRecruitProjectById(@Param("id")Long id);
 
+    @Select("SELECT captain_chuang_num FROM recruit_project WHERE id=#{id}")
+    String getCaptianChuangNumByProjectId(@Param("id")Long id);
+
     @Select("SELECT id,name,tag1,tag2,tag3,brief_demand,status FROM recruit_project ")
     List<BriefRecruitProject> getAllBriefRList();
 

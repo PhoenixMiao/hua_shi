@@ -29,7 +29,7 @@ public class BriefRecruitProject {
     private String tag3;
 
     @ApiModelProperty("要求简述")
-    private String briefDemand;
+    private String brief_demand;
 
     @ApiModelProperty("状态")
     private Integer status;
