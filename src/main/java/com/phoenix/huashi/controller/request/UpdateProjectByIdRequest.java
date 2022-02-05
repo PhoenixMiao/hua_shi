@@ -9,19 +9,20 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@ApiModel("CreatTeamRequest 创建队伍")
-public class CreatTeamRequest {
+@ApiModel("UpdateProjectByIdRequest 更新项目团队信息")
+public class UpdateProjectByIdRequest {
+    @NotNull
+    @ApiModelProperty("项目id")
+    private Long projectId;
     @NotNull
     @ApiModelProperty("项目名称")
     private String name;
     @NotNull
-    @ApiModelProperty("负责人创赛号")
-    private String captainChuangNum;
-
-
+    @ApiModelProperty("状态")
+    private Integer status;
     @NotNull
     @ApiModelProperty("要求简述")
     private String briefDemand;
@@ -56,20 +57,25 @@ public class CreatTeamRequest {
     @ApiModelProperty("标签三")
     private String tag3;
 
-
-
+    @NotNull
     @ApiModelProperty("开始招募时间")
     private String recruitTime;
-
+    @NotNull
     @ApiModelProperty("项目开始进行时间")
     private String startTime;
-
+    @NotNull
     @ApiModelProperty("项目结束时间")
     private String endTime;
+    @NotNull
     @ApiModelProperty("负责人姓名")
     private String captainName;
+    @NotNull
     @ApiModelProperty("立项院校")
     private String institute;
+    @NotNull
     @ApiModelProperty("需招募人数")
     private Long recruitNum;
+    @NotNull
+    @ApiModelProperty("对象类型")
+    String type;
 }

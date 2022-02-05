@@ -27,23 +27,26 @@ public class DisplayProject implements Serializable {
     @ApiModelProperty("项目名称")
     private String name;
 
-    @ApiModelProperty("项目负责人")
-    private Long userId;
+    @ApiModelProperty("项目负责人创赛号")
+    private String principalChuangNum;
+
+    @ApiModelProperty("项目负责人姓名")
+    private String principal_name;
 
     @ApiModelProperty("指导老师姓名")
-    private String teacherName;
+    private String teacher_name;
 
     @ApiModelProperty("指导老师院系")
-    private String teacherApartment;
+    private String teacher_apartment;
 
     @ApiModelProperty("指导老师职称")
-    private String teacherRank;
+    private String teacher_rank;
 
     @ApiModelProperty("指导老师研究方向")
-    private String teacherStudy;
+    private String teacher_study;
 
     @ApiModelProperty("项目上传时间")
-    private String uploadTime;
+    private String upload_time;
 
     @ApiModelProperty("项目简介")
     private String introduction;
@@ -73,8 +76,5 @@ public class DisplayProject implements Serializable {
     private String deadline;
 
     @ApiModelProperty("人数上限")
-    private Long personLimit;
-
-    @ApiModelProperty("状态")
-    private Integer status;
+    private Long person_limit;
 }

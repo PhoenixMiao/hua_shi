@@ -14,16 +14,18 @@ import java.io.Serializable;
 @Builder
 @ApiModel("BriefCollection 展示收藏夹简要信息")
 public class BriefCollection {
+    @ApiModelProperty("项目id")
+    private Long projectId;
 
     @ApiModelProperty("项目名称")
     private String name;
 
-    @ApiModelProperty("项目负责人")
-    private Long principal;
+    @ApiModelProperty("项目负责人姓名")
+    private String principal;
 
     @ApiModelProperty("项目类型")
     private String type;
 
-    @ApiModelProperty("状态")
-    private Integer status;
+    @ApiModelProperty("立项学院")
+    private String department;
 }

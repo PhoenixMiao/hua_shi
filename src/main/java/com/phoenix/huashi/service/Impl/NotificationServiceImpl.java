@@ -4,7 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.request.GetBriefListRequest;
+import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.dto.notification.BriefNotification;
 import com.phoenix.huashi.entity.Notification;
 import com.phoenix.huashi.mapper.NotificationMapper;
@@ -26,12 +26,11 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public Notification getNotificationById (Long id){
         Notification notification = notificationMapper.getNotificationById(id);
-
         return notification;
     }
 
     @Override
-    public Page<BriefNotification> getBriefNotificationList(@NotNull @RequestBody GetBriefListRequest request)
+    public Page<BriefNotification> getBriefNotificationList(@NotNull @RequestBody GetBriefProjectListRequest request)
     { if(request == null) return null;
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());

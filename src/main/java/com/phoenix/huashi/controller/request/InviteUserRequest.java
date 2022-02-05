@@ -14,13 +14,13 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("GetBriefListRequest 获取简要信息列表")
-public class GetBriefListRequest {
+@ApiModel("InviteUserRequest 邀请用户加入项目请求")
+public class InviteUserRequest {
+
+    @ApiModelProperty("用户创赛号")
+    private String userChuangNum;
+
     @NotNull
-    @ApiModelProperty("分页参数")
-    PageParam pageParam;
-
-
-    @ApiModelProperty("对象类型")
-    String type;
+    @ApiModelProperty("项目Id")
+    private Long projectId;
 }

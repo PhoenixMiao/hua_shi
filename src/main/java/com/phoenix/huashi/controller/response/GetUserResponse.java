@@ -1,4 +1,4 @@
-package com.phoenix.huashi.controller.request;
+package com.phoenix.huashi.controller.response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -10,8 +10,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@ApiModel("UpdateUserByIdRequest 更新用户信息")
-public class UpdateUserByIdRequest {
+@ApiModel("GetUserResponse 获取用户信息")
+public class GetUserResponse {
+
     @ApiModelProperty("昵称")
     private String nickname;
     @ApiModelProperty("性别")
@@ -38,4 +39,5 @@ public class UpdateUserByIdRequest {
     private String resume;
     @ApiModelProperty("简历附件")
     private String attachment;
+
 }

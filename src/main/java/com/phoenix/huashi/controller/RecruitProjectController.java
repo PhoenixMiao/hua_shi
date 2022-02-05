@@ -1,8 +1,8 @@
 package com.phoenix.huashi.controller;
 import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.request.GetBriefListRequest;
-import com.phoenix.huashi.controller.request.UpdateTeamByIdRequest;
-import com.phoenix.huashi.controller.request.CreatTeamRequest;
+import com.phoenix.huashi.controller.request.CreateProjectRequest;
+import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
+import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
 
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
@@ -27,6 +27,7 @@ public class RecruitProjectController {
 
     @Autowired
     private SessionUtils sessionUtils;
+
     @GetMapping("/info/{id}")
     @ApiOperation(value = "查看项目简介", response = RecruitProject.class)
     public Object getRecruitProjectById(@PathVariable("id") Long id) {
@@ -35,23 +36,23 @@ public class RecruitProjectController {
 
     @PostMapping("/list")
     @ApiOperation(value = "获取招募项目简要信息列表", response = BriefRecruitProject.class)
-    public Object getBriefRecruitProjectList(@NotNull@Valid @RequestBody GetBriefListRequest request) {
+    public Object getBriefRecruitProjectList(@NotNull@Valid @RequestBody GetBriefProjectListRequest request) {
         return recruitService.getBriefRecruitProjectList(request);
     }
+
     @Auth
-    @PostMapping("/info/{id}")
+    @PostMapping("/update/{id}")
     @ApiOperation(value = "修改当前项目团队信息",response = String.class)
-    public Object updateTeamById(@NotNull @Valid @RequestBody UpdateTeamByIdRequest updateTeamByIdRequest){
-        Long id = sessionUtils.getUserId();
-        recruitService.updateTeamById(updateTeamByIdRequest,id);
+    public Object updateTeamById(@NotNull @Valid @RequestBody UpdateProjectByIdRequest updateProjectByIdRequest){
+        recruitService.updateProjectById(updateProjectByIdRequest);
         return "操作成功";
     }
-    @Auth
+
+//    @Auth
     @PostMapping("/create")
-    @ApiOperation(value = "创建团队",response = String.class)
-    public Object creatTeam(@NotNull @Valid @RequestBody CreatTeamRequest creatTeamRequest){
-        Long userId = sessionUtils.getUserId();
-        recruitService.creatTeam(creatTeamRequest,userId);
+    @ApiOperation(value = "创建项目",response = String.class)
+    public Object creatTeam(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest){
+        recruitService.createProject(creatTeamRequest);
         return "操作成功";
     }
 

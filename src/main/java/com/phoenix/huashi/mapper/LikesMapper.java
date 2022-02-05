@@ -17,7 +17,7 @@ public interface LikesMapper extends MyMapper<Likes> {
     @Insert("INSERT INTO likes VALUE(null,#{projectId},#{userId},#{likeTime})")
     void addToLikes(
             @Param("projectId")Long projectId,
-            @Param ("userId")Long userId,
+            @Param ("userId")String  userChuangNum,
             @Param("likeTime")String likeTime);
 
 
