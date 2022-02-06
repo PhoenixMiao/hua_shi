@@ -76,6 +76,6 @@ public class UpdateProjectByIdRequest {
     @ApiModelProperty("需招募人数")
     private Long recruitNum;
     @NotNull
-    @ApiModelProperty("对象类型")
-    String type;
+    @ApiModelProperty("类型")
+    private String type;
 }

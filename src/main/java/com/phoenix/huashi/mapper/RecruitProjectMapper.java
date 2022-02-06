@@ -46,7 +46,7 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
 
     );
 
-    @Update("UPDATE recruit_project SET name=#{name},captain_name=#{captainName},institute=#{institute},introduction=#{introduction},brief_demand=#{briefDemand},teacher_name=#{teacherName},teacher_apartment=#{teacherApartment},teacher_rank=#{teacherRank},plan_start_time=#{planStartTime},plan_end_time=#{planEndTime},recruit_time=#{recruitTime},start_time=#{startTime},end_time=#{endTime},state_update_time=#{stateUpdateTime},demand=#{demand},recruit_num=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3}WHERE id=#{id})")
+    @Update("UPDATE recruit_project SET name=#{name},captain_name=#{captainName},institute=#{institute},introduction=#{introduction},brief_demand=#{briefDemand},teacher_name=#{teacherName},teacher_apartment=#{teacherApartment},teacher_rank=#{teacherRank},plan_start_time=#{planStartTime},plan_end_time=#{planEndTime},recruit_time=#{recruitTime},start_time=#{startTime},end_time=#{endTime},state_update_time=#{stateUpdateTime},demand=#{demand},recruit_num=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3} WHERE id=#{id}")
     void updateProjectById(
             @Param("name")String name,
             @Param("captainName")String captainName,
