@@ -36,15 +36,14 @@ public class NotificationServiceImpl implements NotificationService {
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
 
         if(request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())){
-            List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.INNOVATIONCOMPETITION.getName());
+            List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
             return new Page(new PageInfo<>(briefNotificationList));
-        }else if(request.getType().equals(CommodityTypeEnum.ACADEMICCOMPITITION.getName())) {
-            List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.ACADEMICCOMPITITION.getName());
+        }else if(request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
+            List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
             return new Page(new PageInfo<>(briefNotificationList));
         }
 
-        return null;
-
+        return  null;
 }}
 
 

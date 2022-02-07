@@ -65,7 +65,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         return likes;
     }
 
-//    @Scheduled(cron = "0 0 0 * * ?")
+    //    @Scheduled(cron = "0 0 0 * * ?")
 //    @Scheduled(cron = "0 0 0 */1 * ?")
     public void likes2Mysql() {
         Long likes;
@@ -111,8 +111,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         }
-        else if(request.getType()==CommodityTypeEnum.ACADEMICCOMPITITION.getName()){
-            List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPITITION.getDescription());
+        else if(request.getType()==CommodityTypeEnum.ACADEMICCOMPETITION.getName()){
+            List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
             for(DisplayProject project:displayProjects){
                 BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);

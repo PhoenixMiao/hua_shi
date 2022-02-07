@@ -25,7 +25,7 @@ public class BriefNotification implements Serializable {
     private String source;
 
     @ApiModelProperty("发布日期")
-    private String publishDate;
+    private String publish_date;
 
 
 

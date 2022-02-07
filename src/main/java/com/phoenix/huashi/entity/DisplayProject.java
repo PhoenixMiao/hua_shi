@@ -76,5 +76,6 @@ public class DisplayProject implements Serializable {
     private String deadline;
 
     @ApiModelProperty("人数上限")
-    private Long person_limit;
-}
+    private Long person_limit;}
+
+
