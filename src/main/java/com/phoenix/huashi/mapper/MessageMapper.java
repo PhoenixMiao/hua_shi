@@ -6,6 +6,7 @@ import com.phoenix.huashi.enums.MessageTypeEnum;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -36,4 +37,20 @@ public interface MessageMapper {
 
     @Select("SELECT * FROM message WHERE type=#{type} AND memberChuangNum=#{memberChuangNum} AND projectId=#{projectId}")
     Message hasInvited(@Param("type") String type,@Param("projectId") Long projectId,@Param("memberChuangNum") String memberChuangNum);
+
+    @Update("UPDATE message SET isRead=1,statusUpdateTime=#{statusUpdateTime} WHERE projectPrincipalChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum}")
+    void updateIsRead(
+            @Param("ChuangNum") String ChuangNum,
+              @Param("statusUpdateTime")String statusUpdateTime
+    );
+    @Update("UPDATE message SET status=#{status},reason=#{reason},statusUpdateTime=#{statusUpdateTime} WHERE projectPrincipalChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum}")
+    void updateStatus(
+            @Param("status") String status,
+            @Param("reason") String reason,
+            @Param("statusUpdateTime")String statusUpdateTime,
+            @Param("memberChuangNum")String memberChuangNum
+    );
+    @Select("SELECT  * FROM message WHERE id=#{id}")
+    Message getMessage(@Param("id") Long id);
 }
+

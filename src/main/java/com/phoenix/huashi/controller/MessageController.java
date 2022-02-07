@@ -3,6 +3,8 @@ package com.phoenix.huashi.controller;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
+import com.phoenix.huashi.entity.DisplayProject;
+import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.service.MessageService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
@@ -47,5 +49,11 @@ public class MessageController {
     public Object projectInvitation(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         return messageService.getMessageList(request,"zy");
+    }
+    @GetMapping("/{id}")
+    @ApiOperation(value = "查看消息详情", response = Object.class)
+    public Object getMessage(@PathVariable("id") Long id) {
+        String userChuangNum = sessionUtils.getUserChuangNum();
+        return messageService.getMessage(id,"zy");
     }
 }

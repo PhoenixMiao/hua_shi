@@ -2,6 +2,7 @@ package com.phoenix.huashi.mapper;
 
 import com.phoenix.huashi.MyMapper;
 import com.phoenix.huashi.controller.response.GetUserResponse;
+import com.phoenix.huashi.dto.user.BriefUser;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.entity.User;
 import org.apache.ibatis.annotations.*;
@@ -43,7 +44,8 @@ public interface UserMapper extends MyMapper<User> {
 
     @Select("SELECT nickname FROM user WHERE chuangNum=#{chuangNum}")
     String getNicknameByChuangNum(@Param("chuangNum")String chuangNum);
-
+    @Select("SELECT name,major,grade,telephone,QQ,resume FROM user WHERE chuangNum=#{chuangNum}")
+    BriefUser getUserInformationByChuangNum(@Param("chuangNum")String chuangNum);
 }
 
 

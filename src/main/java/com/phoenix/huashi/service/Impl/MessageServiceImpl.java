@@ -7,8 +7,9 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
 import com.phoenix.huashi.dto.Message.BriefMessage;
-import com.phoenix.huashi.dto.collection.BriefCollection;
 import com.phoenix.huashi.entity.Message;
+import com.phoenix.huashi.entity.RecruitProject;
+import com.phoenix.huashi.entity.User;
 import com.phoenix.huashi.enums.MessageTypeEnum;
 import com.phoenix.huashi.mapper.MessageMapper;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
@@ -21,6 +22,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class MessageServiceImpl implements MessageService {
@@ -98,5 +100,30 @@ public class MessageServiceImpl implements MessageService {
             briefMessageList.add(briefMessage);
         }
         return  new Page(new PageInfo<>(briefMessageList));
+    }
+
+    @Override
+    public Object getMessage(Long id, String userChuangNum) {
+        messageMapper.updateIsRead(userChuangNum,timeUtil.getCurrentTimestamp());
+        Message message=messageMapper.getMessage(id);
+        String status=message.getStatus();
+        String type=message.getType();
+        String reason=message.getReason();
+        switch (status) {
+            case "1":
+                return userMapper.getUserInformationByChuangNum(message.getMemberChuangNum());
+            case "0":
+                if (Objects.equals(type, MessageTypeEnum.APPLICATION.getDescription())) {
+                    return userMapper.getUserInformationByChuangNum(message.getMemberChuangNum());
+                }
+                if (Objects.equals(type, MessageTypeEnum.INVITATION.getDescription())) {
+                    return recruitProjectMapper.getRecruitProjectById(message.getProjectId());
+
+                }
+                break;
+            case "-1":
+                return reason;
+        }
+        return null;
     }
 }
