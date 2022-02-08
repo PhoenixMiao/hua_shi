@@ -9,4 +9,5 @@ public interface MessageService {
     void applyForProject(String userChuangNum,Long projectId);
     void projectInvitation(InviteUserRequest request,String captainChuangNum);
     Page<BriefMessage> getMessageList(GetMessageListReuqest request,String userChuangNum);
+    Object getMessage(Long id, String userChuangNum);
 }
