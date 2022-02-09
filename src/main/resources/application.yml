@@ -13,21 +13,19 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://1.15.30.214:3306/huashi?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://124.222.112.118:3306/huashi?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
     username: root
     password: abc123400197
 
   jackson:
     time-zone: GMT+8
 
-
   redis:
     database: 0
-    host: 49.234.220.2
+    host: 124.222.112.118
     port: 6379
-    password: abc123400197
+    password: Lishuai0923
     timeout: 1000
-
 
 
 

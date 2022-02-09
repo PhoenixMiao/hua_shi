@@ -45,12 +45,6 @@ public class DisplayProjectController {
         return displayProjectService.getBriefDisplayProjectList(request);
     }
 
-    @Auth
-    @GetMapping("/like/{projectId}")
-    @ApiOperation(value = "点赞",response = String.class)
-    public Object giveLike(@NotBlank @PathVariable("projectId") Long projectId){
-        likeService.like(projectId,sessionUtils.getUserChuangNum());
-        return "操作成功";
-    }
+
 
 }

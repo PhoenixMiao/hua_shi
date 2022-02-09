@@ -11,7 +11,9 @@ import com.phoenix.huashi.dto.Message.BriefMessage;
 import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
+import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.enums.MessageTypeEnum;
+import com.phoenix.huashi.mapper.MemberMapper;
 import com.phoenix.huashi.mapper.MessageMapper;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
 import com.phoenix.huashi.mapper.UserMapper;
@@ -36,13 +38,15 @@ public class MessageServiceImpl implements MessageService {
     private RecruitProjectMapper recruitProjectMapper;
     @Autowired
     private UserMapper userMapper;
+    @Autowired
+    private MemberMapper memberMapper;
 
     @Override
     public void applyForProject(String userChuangNum,Long projectId)
     {
         String captainChuangNum=recruitProjectMapper.getCaptianChuangNumByProjectId(projectId);
         Message message=messageMapper.hasApplied(MessageTypeEnum.APPLICATION.getDescription(),projectId,userChuangNum);
-        if(message!=null)
+        if(message!=null&&message.getStatus().equals(0))
         {
         messageMapper.setStatusUpdateTime(message.getId(),timeUtil.getCurrentTimestamp());
         return ;
@@ -50,16 +54,27 @@ public class MessageServiceImpl implements MessageService {
         messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(),projectId,userChuangNum,userMapper.getNicknameByChuangNum(userChuangNum),0,timeUtil.getCurrentTimestamp(),null,0,captainChuangNum,userMapper.getNicknameByChuangNum(captainChuangNum));
     }
     @Override
-    public  void replyMessage(ReplyMessageRequest request)
+    public  String replyMessage(ReplyMessageRequest request)
     {
         System.out.println(request.getId());
         if(request.getStatus().equals("REFUSE")) {
             messageMapper.updateStatus("-1",request.getReason(),timeUtil.getCurrentTimestamp(),1,request.getId());
+            return "已拒绝";
         }
         else if(request.getStatus().equals("ACCEPT")){
+            Message message=messageMapper.getMessage(request.getId());
+            RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(message.getProjectId());
+            if(recruitProject.getMember_num().equals(recruitProject.getRecruit_num())){
+                messageMapper.updateStatus("-1","人数已满",timeUtil.getCurrentTimestamp(),1,request.getId());
+                recruitProjectMapper.updateProjectStatusById(message.getProjectId(),1);
+                return "人数已满";
+            }
             messageMapper.updateStatus("1",null,timeUtil.getCurrentTimestamp(),1,request.getId());
+            memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(),message.getMemberChuangNum());
+            recruitProjectMapper.updateMemberNumberById(message.getProjectId(),recruitProject.getMember_num()+1);
+            return"已接受";
         }
-
+        return null;
     }
     @Override
     public void projectInvitation(InviteUserRequest request,String captainChuangNum)

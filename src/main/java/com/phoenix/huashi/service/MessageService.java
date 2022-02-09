@@ -11,5 +11,5 @@ public interface MessageService {
     void projectInvitation(InviteUserRequest request,String captainChuangNum);
     Page<BriefMessage> getBriefMessageList(GetMessageListReuqest request,String userChuangNum);
     Object getMessage(Long id, String userChuangNum);
-    void replyMessage(ReplyMessageRequest request);
+    String replyMessage(ReplyMessageRequest request);
 }

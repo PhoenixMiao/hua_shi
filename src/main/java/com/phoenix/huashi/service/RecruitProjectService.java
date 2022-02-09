@@ -11,4 +11,5 @@ public interface RecruitProjectService {
     Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request);
     void createProject(CreateProjectRequest creatTeamRequest);
     void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest);
+//    void applyForDisplayProject(Long projectId);
 }
