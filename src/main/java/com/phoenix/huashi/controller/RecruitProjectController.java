@@ -40,7 +40,7 @@ public class RecruitProjectController {
         return recruitService.getBriefRecruitProjectList(request);
     }
 
-   @Auth
+  // @Auth
     @PostMapping("/update/{id}")
     @ApiOperation(value = "修改当前项目团队信息",response = String.class)
     public Object updateTeamById(@NotNull @Valid @RequestBody UpdateProjectByIdRequest updateProjectByIdRequest){
