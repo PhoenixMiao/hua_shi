@@ -19,6 +19,9 @@ public class BriefMessage {
     @ApiModelProperty("Id")
     private Long id;
 
+    @ApiModelProperty("type")
+    private String type;
+
     @ApiModelProperty("相关项目id")
     private Long projectId;
 

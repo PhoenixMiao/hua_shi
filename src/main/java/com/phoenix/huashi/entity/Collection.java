@@ -20,7 +20,7 @@ public class Collection  implements Serializable{
     private Long id;
 
     @ApiModelProperty("展示项目id")
-    private Long recruitProjectId;
+    private Long ProjectId;
 
     @ApiModelProperty("用户创赛号")
     private String chuangNum;

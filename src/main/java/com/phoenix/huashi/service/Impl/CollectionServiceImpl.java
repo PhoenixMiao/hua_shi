@@ -50,8 +50,8 @@ public class CollectionServiceImpl implements CollectionService {
         return collections;
     }
 
-
-    private Long getCollections(Long projectId){
+    @Override
+    public Long getCollectionNumber(Long projectId){
         Long collections = getCollectionsFromRedis(projectId);
         if(collections != null)return collections;
         collections =displayProjectMapper.getCollections(projectId);
@@ -68,7 +68,7 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     public void addToCollection(Long projectId,String userChuangNum)
     {
-        Long collections = getCollections(projectId);
+        Long collections = getCollectionNumber(projectId);
         redisUtils.set(COLLECTION_KEY(projectId),collections + 1);
         String createTime = timeUtil.getCurrentTimestamp();
         collectionMapper.addToCollection(userChuangNum,projectId, createTime);
@@ -77,8 +77,8 @@ public class CollectionServiceImpl implements CollectionService {
     @Override
     public void cancelCollection(Long id) {
         Collection collection=collectionMapper.getCollectionById(id);
-        Long projectId=collection.getRecruitProjectId();
-        Long collections = getCollections(projectId);
+        Long projectId=collection.getProjectId();
+        Long collections = getCollectionNumber(projectId);
         if(collections != null){
             redisUtils.set(COLLECTION_KEY(projectId),collections -1);
         }else {
@@ -94,7 +94,7 @@ public class CollectionServiceImpl implements CollectionService {
         List<Collection> collectionList = collectionMapper.getCollectionList(userChuangNum);
         List<BriefCollection> briefCollectionList = new ArrayList<>();
         for (Collection e : collectionList) {
-            DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(e.getRecruitProjectId());
+            DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(e.getProjectId());
             BriefCollection briefCollection = new BriefCollection(displayProject.getId(),displayProject.getName(), displayProject.getPrincipal_name(), displayProject.getType(), displayProject.getInstitute());
             briefCollectionList.add(briefCollection);
         }

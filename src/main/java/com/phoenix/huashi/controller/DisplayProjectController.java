@@ -7,6 +7,7 @@ import com.phoenix.huashi.entity.DisplayProject;
 
 import com.phoenix.huashi.service.DisplayProjectService;
 
+import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,6 +30,9 @@ public class DisplayProjectController {
     @Autowired
     private SessionUtils sessionUtils;
 
+    @Autowired
+    private LikeService likeService;
+
     @GetMapping("/{id}")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
     public Object getDisplayProjectById(@PathVariable("id") Long displayProjectId) {
@@ -45,7 +49,7 @@ public class DisplayProjectController {
     @GetMapping("/like/{projectId}")
     @ApiOperation(value = "点赞",response = String.class)
     public Object giveLike(@NotBlank @PathVariable("projectId") Long projectId){
-        displayProjectService.giveLike(projectId,sessionUtils.getUserChuangNum());
+        likeService.like(projectId,sessionUtils.getUserChuangNum());
         return "操作成功";
     }
 
