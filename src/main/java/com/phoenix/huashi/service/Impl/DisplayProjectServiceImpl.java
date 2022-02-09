@@ -55,21 +55,21 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         List<BriefDisplayProject> briefDisplayProjectList= new ArrayList<>();
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
-        if(request.getType()== CommodityTypeEnum.ALL.getName()){
+        if(request.getType().equals(CommodityTypeEnum.ALL.getName()) ){
             List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectList();
             for(DisplayProject project:displayProjects){
                 BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         }
-        else if(request.getType()==CommodityTypeEnum.ACADEMICCOMPETITION.getName()){
+        else if(request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())){
             List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
             for(DisplayProject project:displayProjects){
                 BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         }
-        else if(request.getType()==CommodityTypeEnum.INNOVATIONCOMPETITION.getName()){
+        else if(request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())){
             List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
             for(DisplayProject project:displayProjects){
                 BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());

@@ -43,7 +43,7 @@ public class NotificationServiceImpl implements NotificationService {
             return new Page(new PageInfo<>(briefNotificationList));
         }
 
-        return  null;
+        return null;
 }}
 
 

@@ -53,11 +53,11 @@ public class MessageServiceImpl implements MessageService {
     public  void replyMessage(ReplyMessageRequest request)
     {
         System.out.println(request.getId());
-        if(request.getStatus()=="REFUSE") {
-            messageMapper.updateStatus(-1,request.getReason(),timeUtil.getCurrentTimestamp(),1,request.getId());
+        if(request.getStatus().equals("REFUSE")) {
+            messageMapper.updateStatus("-1",request.getReason(),timeUtil.getCurrentTimestamp(),1,request.getId());
         }
-        else if(request.getStatus()=="ACCEPT"){
-            messageMapper.updateStatus(1,null,timeUtil.getCurrentTimestamp(),1,request.getId());
+        else if(request.getStatus().equals("ACCEPT")){
+            messageMapper.updateStatus("1",null,timeUtil.getCurrentTimestamp(),1,request.getId());
         }
 
     }
