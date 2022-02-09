@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
@@ -28,36 +29,36 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
-    // @Auth
+     @Auth
     @GetMapping("/apply/{projectId}")
     @ApiOperation(value = "申请加入项目", response = String.class)
     public Object applyForProject(@PathVariable("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.applyForProject("zy",projectId);
+        messageService.applyForProject(userChuangNum,projectId);
         return "申请成功";
     }
-    // @Auth
+    @Auth
     @PostMapping("/invite")
     @ApiOperation(value = "邀请别人加入项目", response = String.class)
     public Object projectInvitation(@NotNull @Valid @RequestBody InviteUserRequest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.projectInvitation(request,"zy");
+        messageService.projectInvitation(request,userChuangNum);
         return "邀请成功";
     }
-    // @Auth
+    @Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取消息列表", response = String.class)
     public Object getBriefMessageList(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getBriefMessageList(request,"zy");
+        return messageService.getBriefMessageList(request,userChuangNum);
     }
     @GetMapping("/{id}")
     @ApiOperation(value = "查看消息详情", response = Object.class)
     public Object getMessage(@PathVariable("id") Long id) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getMessage(id,"zy");
+        return messageService.getMessage(id,userChuangNum);
     }
-    // @Auth
+    @Auth
     @PostMapping("/reply")
     @ApiOperation(value = "处理消息", response = String.class)
     public Object replyMessage(@NotNull @Valid @RequestBody ReplyMessageRequest request) {

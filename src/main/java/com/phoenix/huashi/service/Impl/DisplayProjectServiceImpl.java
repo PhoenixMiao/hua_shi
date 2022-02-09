@@ -14,6 +14,7 @@ import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.enums.CommodityTypeEnum;
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
+import com.phoenix.huashi.service.CollectionService;
 import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.RedisUtils;
@@ -41,10 +42,18 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Autowired
     private TimeUtil timeUtil;
 
+    @Autowired
+    private LikeService likeService;
+
+    @Autowired
+    private CollectionService collectionService;
+
 
     @Override
     public DisplayProject getDisplayProjectById(Long id){
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(id);
+        displayProject.setLikes(likeService.getLikeNumber(id));
+        displayProject.setCollections(collectionService.getCollectionNumber(id));
         return displayProject;
     }
 

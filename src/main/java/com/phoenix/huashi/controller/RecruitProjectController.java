@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 @Validated
 public class RecruitProjectController {
     @Autowired
-    private RecruitProjectService recruitService;
+    private RecruitProjectService recruitProjectService;
 
     @Autowired
     private SessionUtils sessionUtils;
@@ -31,29 +31,37 @@ public class RecruitProjectController {
     @GetMapping("/info/{id}")
     @ApiOperation(value = "查看项目简介", response = RecruitProject.class)
     public Object getRecruitProjectById(@PathVariable("id") Long id) {
-        return recruitService.getRecruitProjectById(id);
+        return recruitProjectService.getRecruitProjectById(id);
     }
 
     @PostMapping("/list")
     @ApiOperation(value = "获取招募项目简要信息列表", response = BriefRecruitProject.class)
     public Object getBriefRecruitProjectList(@NotNull@Valid @RequestBody GetBriefProjectListRequest request) {
-        return recruitService.getBriefRecruitProjectList(request);
+        return recruitProjectService.getBriefRecruitProjectList(request);
     }
 
-  // @Auth
+    @Auth
     @PostMapping("/update/{id}")
     @ApiOperation(value = "修改当前项目团队信息",response = String.class)
     public Object updateTeamById(@NotNull @Valid @RequestBody UpdateProjectByIdRequest updateProjectByIdRequest){
-        recruitService.updateProjectById(updateProjectByIdRequest);
+        recruitProjectService.updateProjectById(updateProjectByIdRequest);
+        return "操作成功";
+    }
+
+    @Auth
+    @PostMapping("/create")
+    @ApiOperation(value = "创建项目",response = String.class)
+    public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest){
+        recruitProjectService.createProject(creatTeamRequest);
         return "操作成功";
     }
 
 //    @Auth
-    @PostMapping("/create")
-    @ApiOperation(value = "创建项目",response = String.class)
-    public Object creatTeam(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest){
-        recruitService.createProject(creatTeamRequest);
-        return "操作成功";
-    }
+//    @GetMapping("/display/{projectId}")
+//    @ApiOperation(value = "申请成为展示项目",response = String.class)
+//    public Object applyForDisplayProject(@PathVariable("projectId") Long projectId){
+//        recruitProjectService.applyForDisplayProject(projectId);
+//        return "操作成功";
+//    }
 
 }

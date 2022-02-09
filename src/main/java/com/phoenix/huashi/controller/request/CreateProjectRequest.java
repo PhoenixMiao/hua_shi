@@ -70,4 +70,6 @@ public class CreateProjectRequest {
     private String institute;
     @ApiModelProperty("需招募人数")
     private Long recruitNum;
+    @ApiModelProperty("已有人数")
+    private Long memberNum;
 }
