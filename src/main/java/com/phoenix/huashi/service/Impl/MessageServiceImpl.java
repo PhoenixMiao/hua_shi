@@ -6,6 +6,7 @@ import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
+import com.phoenix.huashi.controller.request.ReplyMessageRequest;
 import com.phoenix.huashi.dto.Message.BriefMessage;
 import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.entity.RecruitProject;
@@ -41,65 +42,85 @@ public class MessageServiceImpl implements MessageService {
     {
         String captainChuangNum=recruitProjectMapper.getCaptianChuangNumByProjectId(projectId);
         Message message=messageMapper.hasApplied(MessageTypeEnum.APPLICATION.getDescription(),projectId,userChuangNum);
-        if(message!=null)return ;
+        if(message!=null)
+        {
+        messageMapper.setStatusUpdateTime(message.getId(),timeUtil.getCurrentTimestamp());
+        return ;
+        }
         messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(),projectId,userChuangNum,userMapper.getNicknameByChuangNum(userChuangNum),0,timeUtil.getCurrentTimestamp(),null,0,captainChuangNum,userMapper.getNicknameByChuangNum(captainChuangNum));
+    }
+    @Override
+    public  void replyMessage(ReplyMessageRequest request)
+    {
+        System.out.println(request.getId());
+        if(request.getStatus()=="REFUSE") {
+            messageMapper.updateStatus(-1,request.getReason(),timeUtil.getCurrentTimestamp(),1,request.getId());
+        }
+        else if(request.getStatus()=="ACCEPT"){
+            messageMapper.updateStatus(1,null,timeUtil.getCurrentTimestamp(),1,request.getId());
+        }
+
     }
     @Override
     public void projectInvitation(InviteUserRequest request,String captainChuangNum)
     {
         String memberChuangNum=request.getUserChuangNum();
         Message message=messageMapper.hasInvited(MessageTypeEnum.INVITATION.getDescription(), request.getProjectId(),memberChuangNum);
-        if(message!=null)return ;
+        if(message!=null)
+        {
+            messageMapper.setStatusUpdateTime(message.getId(),timeUtil.getCurrentTimestamp());
+            return ;
+        }
         messageMapper.joinProject(MessageTypeEnum.INVITATION.getDescription(), request.getProjectId(), memberChuangNum,userMapper.getNicknameByChuangNum(memberChuangNum), 0,timeUtil.getCurrentTimestamp(),null,0,captainChuangNum,userMapper.getNicknameByChuangNum(captainChuangNum));
     }
     @Override
-    public Page<BriefMessage> getMessageList(GetMessageListReuqest request, String userChuangNum)
+    public Page<BriefMessage> getBriefMessageList(GetMessageListReuqest request, String userChuangNum)
     {
 
-        List<Message> messageList=new ArrayList<>();
-        HashSet set = new HashSet(messageList);
-        messageList.clear();
-        messageList.addAll(set);
+        if(request == null) return null;
+
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
-        if(request.getType()=="ALL")
+        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),"statusUpdateTime DESC");
+
+        if(request.getType().equals("ALL"))
         {
-            messageList=messageMapper.getBriefMessageList(userChuangNum);
+            List<BriefMessage> briefMessageList =messageMapper.getBriefMessageList(userChuangNum);
+            return new Page(new PageInfo<>(briefMessageList));
         }
-        else if(request.getType()=="SEND")
+        else if(request.getType().equals("SEND"))
         {
-            messageList=messageMapper.getBriefMessageSentByMeList(userChuangNum,MessageTypeEnum.INVITATION.getDescription(),MessageTypeEnum.APPLICATION.getDescription());
+            List<BriefMessage> briefMessageList=messageMapper.getBriefMessageSentByMeList(userChuangNum,MessageTypeEnum.INVITATION.getDescription(),MessageTypeEnum.APPLICATION.getDescription());
+            return new Page(new PageInfo<>(briefMessageList));
         }
-        else if(request.getType()=="RECIEVE")
+        else if(request.getType().equals("RECIEVE"))
         {
-            messageList=messageMapper.getBriefMessageSentByMeList(userChuangNum,MessageTypeEnum.INVITATION.getDescription(),MessageTypeEnum.APPLICATION.getDescription());
+            List<BriefMessage> briefMessageList=messageMapper.getBriefMessageSentToMeList(userChuangNum,MessageTypeEnum.INVITATION.getDescription(),MessageTypeEnum.APPLICATION.getDescription());
+            return new Page(new PageInfo<>(briefMessageList));
         }
-        else if(request.getType()=="INVITATION")
+        else if(request.getType().equals("INVITATION"))
         {
-            List<Message> allMessageList=messageMapper.getBriefMessageList(userChuangNum);
-            for(Message message:allMessageList){
-                if(message.getType()==MessageTypeEnum.INVITATION.getDescription()){
-                    messageList.add(message);
+            List<BriefMessage> messageList=messageMapper.getBriefMessageList(userChuangNum);
+            List<BriefMessage> briefMessageList = new ArrayList<>();
+            for(BriefMessage message:messageList){
+                if(message.getType().equals(MessageTypeEnum.INVITATION.getDescription())){
+                    briefMessageList.add(message);
                 }
             }
+            return new Page(new PageInfo<>(briefMessageList));
         }
-        else if(request.getType()=="APPLICATION")
+        else if(request.getType().equals("APPLICATION"))
         {
-            List<Message> allMessageList=messageMapper.getBriefMessageList(userChuangNum);
-            for(Message message:allMessageList){
-                if(message.getType()==MessageTypeEnum.APPLICATION.getDescription()){
-                    messageList.add(message);
+            List<BriefMessage>  messageList=messageMapper.getBriefMessageList(userChuangNum);
+            List<BriefMessage> briefMessageList = new ArrayList<>();
+            for(BriefMessage message:messageList){
+                if(message.getType().equals(MessageTypeEnum.APPLICATION.getDescription())){
+                    briefMessageList.add(message);
                 }
             }
+            return new Page(new PageInfo<>(briefMessageList));
         }
 
-        List<BriefMessage> briefMessageList = new ArrayList<>();
-        for(Message message:messageList)
-        {
-            BriefMessage briefMessage=new BriefMessage(message.getId(),message.getProjectId(),message.getMemberChuangNum(),message.getMemberNickname(),message.getStatus(),message.getIsRead(),message.getProjectPrincipalChuangNum(),message.getProjectPrincipalNickname());
-            briefMessageList.add(briefMessage);
-        }
-        return  new Page(new PageInfo<>(briefMessageList));
+        return null;
     }
 
     @Override

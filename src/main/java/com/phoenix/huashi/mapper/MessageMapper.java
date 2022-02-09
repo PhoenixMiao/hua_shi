@@ -1,5 +1,6 @@
 package com.phoenix.huashi.mapper;
 
+import com.phoenix.huashi.dto.Message.BriefMessage;
 import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.enums.MessageTypeEnum;
@@ -26,11 +27,14 @@ public interface MessageMapper {
             @Param("projectPrincipalChuangNum")String projectPrincipalChuangNum,
             @Param("projectPrincipalNickname")String projectPrincipalNickname);
 
-    @Select("SELECT  * FROM message WHERE projectPrincipalChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum}")
-    List<Message> getBriefMessageList(@Param("ChuangNum") String ChuangNum);
+    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectPrincipalChuangNum,projectPrinciPalNickname FROM message WHERE projectPrincipalChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum} ")
+    List<BriefMessage> getBriefMessageList(@Param("ChuangNum") String ChuangNum);
 
-    @Select("SELECT * FROM message WHERE (projectPrincipalChuangNum=#{ChuangNum} AND type=#{invite}) OR (memberChuangNum=#{ChuangNum} AND type={apply}) ")
-    List<Message> getBriefMessageSentByMeList(@Param("ChuangNum") String ChuangNum,@Param("invite") String invite,@Param("apply") String apply);
+    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectPrincipalChuangNum,projectPrinciPalNickname FROM message WHERE (projectPrincipalChuangNum=#{ChuangNum} AND type=#{invite}) OR (memberChuangNum=#{ChuangNum} AND type=#{apply})")
+    List<BriefMessage> getBriefMessageSentByMeList(@Param("ChuangNum") String ChuangNum,@Param("invite") String invite,@Param("apply") String apply);
+
+    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectPrincipalChuangNum,projectPrinciPalNickname FROM message WHERE (projectPrincipalChuangNum=#{ChuangNum} AND type=#{apply}) OR (memberChuangNum=#{ChuangNum} AND type=#{invite}) ")
+    List<BriefMessage> getBriefMessageSentToMeList(@Param("ChuangNum") String ChuangNum,@Param("invite") String invite,@Param("apply") String apply);
 
     @Select("SELECT * FROM message WHERE type=#{type} AND projectId=#{projectId} AND memberChuangNum=#{memberChuangNum} ")
     Message hasApplied(@Param("type") String type,@Param("projectId") Long projectId,@Param("memberChuangNum") String memberChuangNum);
@@ -43,14 +47,20 @@ public interface MessageMapper {
             @Param("ChuangNum") String ChuangNum,
               @Param("statusUpdateTime")String statusUpdateTime
     );
-    @Update("UPDATE message SET status=#{status},reason=#{reason},statusUpdateTime=#{statusUpdateTime} WHERE projectPrincipalChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum}")
+    @Update("UPDATE message SET status=#{status},reason=#{reason},statusUpdateTime=#{statusUpdateTime},isRead=#{isRead} WHERE id=#{id} ")
     void updateStatus(
-            @Param("status") String status,
+            @Param("status") Integer status,
             @Param("reason") String reason,
             @Param("statusUpdateTime")String statusUpdateTime,
-            @Param("memberChuangNum")String memberChuangNum
+            @Param("isRead")Integer isRead,
+            @Param("id")Long id
     );
     @Select("SELECT  * FROM message WHERE id=#{id}")
     Message getMessage(@Param("id") Long id);
+    @Update("UPDATE message SET statusUpdateTime=#{statusUpdateTime} WHERE id=#{id}")
+    void setStatusUpdateTime(
+            @Param("id") Long id,
+            @Param("statusUpdateTime")String statusUpdateTime
+    );
 }
 

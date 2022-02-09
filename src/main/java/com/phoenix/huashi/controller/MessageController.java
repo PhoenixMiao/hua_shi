@@ -3,6 +3,7 @@ package com.phoenix.huashi.controller;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
+import com.phoenix.huashi.controller.request.ReplyMessageRequest;
 import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.service.MessageService;
@@ -46,14 +47,21 @@ public class MessageController {
     // @Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取消息列表", response = String.class)
-    public Object projectInvitation(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
+    public Object getBriefMessageList(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getMessageList(request,"zy");
+        return messageService.getBriefMessageList(request,"zy");
     }
     @GetMapping("/{id}")
     @ApiOperation(value = "查看消息详情", response = Object.class)
     public Object getMessage(@PathVariable("id") Long id) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         return messageService.getMessage(id,"zy");
+    }
+    // @Auth
+    @PostMapping("/reply")
+    @ApiOperation(value = "处理消息", response = String.class)
+    public Object replyMessage(@NotNull @Valid @RequestBody ReplyMessageRequest request) {
+        messageService.replyMessage(request);
+        return "操作成功";
     }
 }

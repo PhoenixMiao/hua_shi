@@ -7,4 +7,5 @@ public interface CollectionService {
     void addToCollection(Long recruitProjectId, String userChuangNum);
     void cancelCollection(Long id);
     Page<BriefCollection> getBriefCollectionList(GetListRequest getListRequest, String userChuangNum);
+    Long getCollectionNumber(Long projectId);
 }

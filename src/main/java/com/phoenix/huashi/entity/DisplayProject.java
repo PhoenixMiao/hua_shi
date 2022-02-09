@@ -69,6 +69,9 @@ public class DisplayProject implements Serializable {
     @ApiModelProperty("点赞数")
     private Long likes;
 
+    @ApiModelProperty("收藏数")
+    private Long collections;
+
     @ApiModelProperty("论文成果")
     private String paper;
 

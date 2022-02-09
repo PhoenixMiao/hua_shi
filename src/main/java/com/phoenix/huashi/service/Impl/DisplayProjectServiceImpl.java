@@ -15,6 +15,7 @@ import com.phoenix.huashi.enums.CommodityTypeEnum;
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
 import com.phoenix.huashi.service.DisplayProjectService;
+import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.RedisUtils;
 import com.phoenix.huashi.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,56 +41,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Autowired
     private TimeUtil timeUtil;
 
-    private static String LIKE_KEY(Long id){
-        return "redisdemo:likes:" + id;
-    }
-
-    private Long getLikesFromRedis(Long id){
-        Long likes;
-        try{
-            likes = (Long) redisUtil.get(LIKE_KEY(id));
-        }catch (Exception e){
-            e.printStackTrace();
-            return null;
-        }
-        return likes;
-    }
-
-
-    @Override
-    public Long getLike(Long projectId){
-        Long likes = getLikesFromRedis(projectId);
-        if(likes != null)return likes;
-        likes = Optional.ofNullable(displayProjectMapper.getLikes(projectId)).orElse(0L);
-        redisUtil.set(LIKE_KEY(projectId),likes);
-        return likes;
-    }
-
-    //    @Scheduled(cron = "0 0 0 * * ?")
-//    @Scheduled(cron = "0 0 0 */1 * ?")
-    public void likes2Mysql() {
-        Long likes;
-        try{
-            likes = (Long)redisUtil.get("redisdemo:likes:1");
-            if(likes != null){
-                displayProjectMapper.giveLike(likes,1L);
-            }
-        }catch (Exception e){
-        }
-    }
-
-    @Override
-    public void giveLike(Long projectId,String userChuangNum)
-    {
-        Long likes = getLikesFromRedis(projectId);
-        if(likes != null){
-            redisUtil.set(LIKE_KEY(projectId),likes + 1);
-        }else {
-            likes = Optional.ofNullable(displayProjectMapper.getLikes(projectId)).orElse(0L);
-            redisUtil.set(LIKE_KEY(projectId), likes + 1);
-        }
-        likesMapper.addToLikes(projectId,userChuangNum,timeUtil.getCurrentTimestamp());
-    }
 
     @Override
     public DisplayProject getDisplayProjectById(Long id){
