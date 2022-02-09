@@ -49,7 +49,7 @@ public interface MessageMapper {
     );
     @Update("UPDATE message SET status=#{status},reason=#{reason},statusUpdateTime=#{statusUpdateTime},isRead=#{isRead} WHERE id=#{id} ")
     void updateStatus(
-            @Param("status") Integer status,
+            @Param("status") String status,
             @Param("reason") String reason,
             @Param("statusUpdateTime")String statusUpdateTime,
             @Param("isRead")Integer isRead,

@@ -15,7 +15,7 @@ public class UpdateUserByChuangNumRequest {
     @ApiModelProperty("昵称")
     private String nickname;
     @ApiModelProperty("性别")
-    private int gender;
+    private Integer gender;
     @ApiModelProperty("电话号码")
     private String telephone;
     @ApiModelProperty("真实姓名")

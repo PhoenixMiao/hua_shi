@@ -36,7 +36,7 @@ public class CollectionController {
         return "收藏成功";
     }
 
-    @Auth
+   // @Auth
     @GetMapping("/cancel/{id}")
     @ApiOperation(value = "取消收藏",response = String.class)
     public Object cancelCollection(@PathVariable("id")Long id){
