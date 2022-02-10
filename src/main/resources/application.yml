@@ -2,14 +2,13 @@ server:
   port: 8081
   tomcat:
     uri-encoding: UTF-8
-  domain: https://www.ecnuers.cn
 
 spring:
-#  http:
-#    encoding:
-#      charset: UTF-8
-#      force: true
-#      enabled: true
+  http:
+    encoding:
+      charset: UTF-8
+      force: true
+      enabled: true
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
