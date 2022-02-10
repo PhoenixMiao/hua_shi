@@ -42,7 +42,10 @@ public class NotificationServiceImpl implements NotificationService {
             List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
             return new Page(new PageInfo<>(briefNotificationList));
         }
-
+        else if(request.getType().equals(CommodityTypeEnum.ALL.getName())) {
+            List<BriefNotification> briefNotificationList = notificationMapper.getAllBriefNotificationList();
+            return new Page(new PageInfo<>(briefNotificationList));
+        }
         return null;
 }}
 
