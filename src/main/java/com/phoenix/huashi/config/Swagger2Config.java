@@ -39,7 +39,7 @@ public class Swagger2Config {
         return new ApiInfoBuilder()
                 .title(TITLE)
                 .description(DESCRIPTION)
-                //.termsOfServiceUrl("http://localhost:8080/swagger-ui.html")//数据源
+                //.termsOfServiceUrl("http://124.222.112.118:8081/swagger-ui.html")//数据源
                 .version("1.0")
                 .build();
     }

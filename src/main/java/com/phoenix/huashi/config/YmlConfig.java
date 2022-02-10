@@ -12,8 +12,8 @@ import org.springframework.stereotype.Component;
 @Data
 public class YmlConfig {
 
-    @Value("${server.domain}")
-    private String domain;
+//    @Value("${server.domain}")
+//    private String domain;
 
     @Value("${server.port}")
     private String port;
