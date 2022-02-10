@@ -17,4 +17,6 @@ public interface NotificationMapper extends  MyMapper<Notification>{
      List<BriefNotification> getBriefNotificationList(@Param("type") String type);
 
 
+    @Select("SELECT id,title,source,publish_date FROM notification ")
+    List<BriefNotification> getALLBriefNotificationList();
 }
