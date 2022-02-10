@@ -45,7 +45,7 @@ public class UserController {
 
     }
 
-    //@Auth
+    @Auth
     @GetMapping("/info/{userChuangNum}")
     @ApiOperation(value = "查看用户信息",response = GetUserResponse.class)
     public Object getUserById(@PathVariable("userChuangNum")String userChuangNum){
@@ -54,7 +54,7 @@ public class UserController {
     }
 
 
-   // @Auth
+    @Auth
     @PostMapping("/update")
     @ApiOperation(value = "更新当前用户信息",response = String.class)
     public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest){
@@ -62,13 +62,13 @@ public class UserController {
         userService.updateUserByChuangNum(updateUserByChuangNumRequest,userChuangNum);
         return "操作成功";
     }
-    //@Auth
+   @Auth
     @PostMapping("/userNameList")
     @ApiOperation(value = "根据姓名获取用户姓名创赛号列表", response = BriefUserName.class)
     public Object getBriefUserNameListByName(@NotNull@Valid @RequestBody GetBriefUserNameListRequest request) {
         return userService.searchBriefUserNameListByName(request);
     }
-    //@Auth
+    @Auth
     @PostMapping("/team")
     @ApiOperation(value = "查看我的组队", response = BriefProjectInformation.class)
     public Object getBriefTeamList(@NotNull@Valid @RequestBody GetListRequest request) {

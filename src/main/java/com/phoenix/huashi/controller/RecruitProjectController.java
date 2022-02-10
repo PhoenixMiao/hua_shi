@@ -40,7 +40,7 @@ public class RecruitProjectController {
         return recruitProjectService.getBriefRecruitProjectList(request);
     }
 
-   // @Auth
+   @Auth
     @PostMapping("/update/{id}")
     @ApiOperation(value = "修改当前项目团队信息",response = String.class)
     public Object updateTeamById(@NotNull @Valid @RequestBody UpdateProjectByIdRequest updateProjectByIdRequest){
@@ -48,7 +48,7 @@ public class RecruitProjectController {
         return "操作成功";
     }
 
-   // @Auth
+    @Auth
     @PostMapping("/create")
     @ApiOperation(value = "创建项目",response = String.class)
     public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest){
