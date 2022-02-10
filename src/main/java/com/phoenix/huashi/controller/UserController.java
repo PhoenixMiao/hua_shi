@@ -62,7 +62,7 @@ public class UserController {
         userService.updateUserByChuangNum(updateUserByChuangNumRequest,userChuangNum);
         return "操作成功";
     }
-    @Auth
+   @Auth
     @PostMapping("/userNameList")
     @ApiOperation(value = "根据姓名获取用户姓名创赛号列表", response = BriefUserName.class)
     public Object getBriefUserNameListByName(@NotNull@Valid @RequestBody GetBriefUserNameListRequest request) {

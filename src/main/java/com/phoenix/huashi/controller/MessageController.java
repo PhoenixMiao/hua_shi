@@ -58,7 +58,7 @@ public class MessageController {
         String userChuangNum = sessionUtils.getUserChuangNum();
         return messageService.getMessage(id,userChuangNum);
     }
-    @Auth
+   @Auth
     @PostMapping("/reply")
     @ApiOperation(value = "处理消息", response = String.class)
     public Object replyMessage(@NotNull @Valid @RequestBody ReplyMessageRequest request) {

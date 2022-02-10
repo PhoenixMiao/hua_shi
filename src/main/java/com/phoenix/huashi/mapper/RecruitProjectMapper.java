@@ -44,7 +44,7 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
             @Param("tag1")String tag1,
             @Param("tag2")String tag2,
             @Param("tag3")String tag3,
-            @Param("membreNum")Long memberNum
+            @Param("memberNum")Long memberNum
 
     );
 
