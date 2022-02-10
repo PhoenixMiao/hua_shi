@@ -23,7 +23,7 @@ public class LikeController {
     private LikeService likeService;
     @Autowired
     private SessionUtils sessionUtils;
-    @Auth
+   // @Auth
     @GetMapping("/{projectId}")
     @ApiOperation(value = "点赞",response = String.class)
     public Object giveLike( @PathVariable("projectId") Long projectId){

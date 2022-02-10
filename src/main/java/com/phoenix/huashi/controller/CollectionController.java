@@ -27,7 +27,7 @@ public class CollectionController {
 
     @Autowired
     private RedisUtils redisUtils;
-    @Auth
+    //@Auth
     @GetMapping("/{projectId}")
     @ApiOperation(value = "收藏项目",response = String.class)
     public Object addToCollection(@NotNull @PathVariable("projectId") Long projectId){
@@ -36,7 +36,7 @@ public class CollectionController {
         return "收藏成功";
     }
 
-    @Auth
+    //@Auth
     @GetMapping("/cancel/{id}")
     @ApiOperation(value = "取消收藏",response = String.class)
     public Object cancelCollection(@PathVariable("id")Long id){
@@ -44,7 +44,7 @@ public class CollectionController {
         return "操作成功";
     }
 
-    @Auth
+    //@Auth
     @PostMapping("/list")
     @ApiOperation(value = "查看收藏夹",response = BriefCollection.class)
     public Object getBriefCollectionList(@NotNull @Valid @RequestBody GetListRequest getListRequest){

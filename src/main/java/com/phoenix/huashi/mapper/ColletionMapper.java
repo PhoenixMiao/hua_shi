@@ -12,10 +12,10 @@ import java.util.List;
 
 @Repository
 public interface ColletionMapper extends MyMapper<Collection> {
-        @Insert("INSERT INTO collection VALUE(null,#{recruitProjectId},#{chuangNum},#{collectTime})")
+        @Insert("INSERT INTO collection VALUE(null,#{projectId},#{chuangNum},#{collectTime})")
         void addToCollection(
                 @Param("chuangNum") String chuangNum,
-                @Param("recruitProjectId") Long recruitProjectId,
+                @Param("projectId") Long projectId,
                 @Param("collectTime") String collectTime);
 
         @Delete("DELETE FROM collection WHERE id=#{id};")
