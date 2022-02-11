@@ -12,13 +12,17 @@ import com.phoenix.huashi.entity.User;
 
 public interface UserService {
     User getUserByChuangNum(String userChuangNum);
+
     void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum);
+
     Page<BriefUserName> searchBriefUserNameListByName(GetBriefUserNameListRequest searchBriefUserNameListRequest);
-    Page<BriefProjectInformation> getBriefTeamList(GetListRequest request,String userChuangNum);
+
+    Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum);
 
 
     /**
      * 登录
+     *
      * @param code
      * @return
      */
