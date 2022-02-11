@@ -21,7 +21,7 @@ public class BriefDisplayProject implements Serializable{
     private String name;
 
     @ApiModelProperty("项目负责人姓名")
-    private String principal_name;
+    private String principalName;
 
     @ApiModelProperty("项目类型")
     private String type;

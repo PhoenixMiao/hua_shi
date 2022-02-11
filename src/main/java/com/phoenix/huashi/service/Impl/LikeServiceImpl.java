@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class LikeServiceImpl implements LikeService{
+public class LikeServiceImpl implements LikeService {
     @Autowired
     private RedisUtils redisUtils;
     @Autowired
@@ -24,15 +24,15 @@ public class LikeServiceImpl implements LikeService{
     @Autowired
     private LikesMapper likesMapper;
 
-    private static String LIKE_KEY(Long id){
-        return  id.toString();
+    private static String LIKE_KEY(Long id) {
+        return id.toString();
     }
 
-    private Long getLikesFromRedis(Long id){
+    private Long getLikesFromRedis(Long id) {
         Long likes;
-        try{
+        try {
             likes = (Long) redisUtils.get(LIKE_KEY(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -41,11 +41,11 @@ public class LikeServiceImpl implements LikeService{
 
 
     @Override
-    public Long getLikeNumber(Long projectId){
+    public Long getLikeNumber(Long projectId) {
         Long likes = getLikesFromRedis(projectId);
-        if(likes != null)return likes;
+        if (likes != null) return likes;
         likes = Optional.ofNullable(displayProjectMapper.getLikes(projectId)).orElse(0L);
-        redisUtils.set(LIKE_KEY(projectId),likes);
+        redisUtils.set(LIKE_KEY(projectId), likes);
         return likes;
     }
 
@@ -53,31 +53,30 @@ public class LikeServiceImpl implements LikeService{
 //    @Scheduled(cron = "0 0 0 */1 * ?")
     public void likes2Mysql() {
         Long likes;
-        try{
-            likes = (Long)redisUtils.get("redisdemo:likes:1");
-            if(likes != null){
-                displayProjectMapper.giveLike(likes,1L);
+        try {
+            likes = (Long) redisUtils.get("redisdemo:likes:1");
+            if (likes != null) {
+                displayProjectMapper.giveLike(likes, 1L);
             }
-        }catch (Exception e){
+        } catch (Exception e) {
         }
     }
 
 
     @Override
-    public void like(Long projectId,String userChuangNum)
-    {
+    public void like(Long projectId, String userChuangNum) {
         Long likes = getLikeNumber(projectId);
-        redisUtils.set(LIKE_KEY(projectId),likes + 1);
+        redisUtils.set(LIKE_KEY(projectId), likes + 1);
         String createTime = timeUtil.getCurrentTimestamp();
-        likesMapper.addToLikes(projectId,userChuangNum, createTime);
+        likesMapper.addToLikes(projectId, userChuangNum, createTime);
     }
 
     @Override
     public void cancelLike(Long id) {
-        Likes like=likesMapper.getLikeById(id);
-        Long projectId=like.getProjectId();
+        Likes like = likesMapper.getLikeById(id);
+        Long projectId = like.getProjectId();
         Long likes = getLikeNumber(projectId);
-        redisUtils.set(LIKE_KEY(projectId), likes -1);
+        redisUtils.set(LIKE_KEY(projectId), likes - 1);
         likesMapper.cancelLike(id);
     }
 }

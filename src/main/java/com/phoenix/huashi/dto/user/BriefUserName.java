@@ -1,10 +1,12 @@
 package com.phoenix.huashi.dto.user;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
 

@@ -7,15 +7,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("Message 消息")
 
-public class Message  implements Serializable{
+public class Message implements Serializable {
     @Id
     @ApiModelProperty("Id")
     private Long id;
@@ -33,7 +35,7 @@ public class Message  implements Serializable{
     private String memberNickname;
 
     @ApiModelProperty("状态")
-    private String status;
+    private Integer status;
 
     @ApiModelProperty("状态更新时间")
     private String statusUpdateTime;
@@ -42,11 +44,11 @@ public class Message  implements Serializable{
     private String reason;
 
     @ApiModelProperty("是否已读")
-    private String isRead;
+    private Integer isRead;
 
     @ApiModelProperty("项目负责人创赛号")
-    private String projectPrincipalChuangNum;
+    private String projectCaptainChuangNum;
 
     @ApiModelProperty("项目负责人昵称")
-    private String projectPrincipalNickname;
+    private String projectCaptainNickname;
 }

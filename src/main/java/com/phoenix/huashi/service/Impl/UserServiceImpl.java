@@ -1,4 +1,5 @@
 package com.phoenix.huashi.service.Impl;
+
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
@@ -45,36 +46,35 @@ public class UserServiceImpl implements UserService {
     private RecruitProjectMapper recruitProjectMapper;
 
     @Override
-    public User getUserByChuangNum(String userChuangNum){
-        User user=userMapper.getUserByChuangNum(userChuangNum);
+    public User getUserByChuangNum(String userChuangNum) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
         return user;
     }
 
 
     @Override
-    public Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum){
-        List<Long> projectIdList=memberMapper.getTeamByChuangNum(userChuangNum);
+    public Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum) {
+        List<Long> projectIdList = memberMapper.getTeamByChuangNum(userChuangNum);
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
-        List<BriefProjectInformation> briefProjectInformationList=new LinkedList<>();
-        for(Long projectId:projectIdList)
-        {
-            RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(projectId);
-            BriefProjectInformation briefProjectInformation=new BriefProjectInformation(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getCaptain_name(),recruitProject.getInstitute(),recruitProject.getStatus());
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();
+        for (Long projectId : projectIdList) {
+            RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(projectId);
+            BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), recruitProject.getInstitute(), recruitProject.getStatus());
             briefProjectInformationList.add(briefProjectInformation);
         }
         return new Page(new PageInfo<>(briefProjectInformationList));
     }
 
     @Override
-    public void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum){
-        userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getGender(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getName(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getSchool(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(),userChuangNum);
+    public void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum) {
+        userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getGender(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getName(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getSchool(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(), userChuangNum);
     }
 
     @Override
     public Page<BriefUserName> searchBriefUserNameListByName(GetBriefUserNameListRequest searchBriefUserNameListRequest) {
         PageParam pageParam = searchBriefUserNameListRequest.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchBriefUserNameListRequest.getName());
         return new Page(new PageInfo<>(briefUserNameList));
     }
@@ -84,13 +84,13 @@ public class UserServiceImpl implements UserService {
     public SessionData login(String code) {
 
         //shadow test
-        if(CommonConstants.SHADOW_TEST.equals(code)){
+        if (CommonConstants.SHADOW_TEST.equals(code)) {
             sessionUtils.setSessionId(CommonConstants.SHADOW_TEST);
             return new SessionData();
         }
 
         WxSession wxSession = Optional.ofNullable(
-                getWxSessionByCode(code))
+                        getWxSessionByCode(code))
                 .orElse(new WxSession());
 
         checkWxSession(wxSession);
@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
                 .build();
         user = userMapper.selectOne(user);
 
-        if(user != null){
+        if (user != null) {
             sessionUtils.setSessionId(user.getSessionId());
             return new SessionData(user);
         }
@@ -118,13 +118,13 @@ public class UserServiceImpl implements UserService {
 
         Long userId = userMapper.newUser(user);
 
-        userMapper.updateChuangNum("hs"+String.format("%08d", userId),userId);
+        userMapper.updateChuangNum("hs" + String.format("%08d", userId), userId);
 
         return new SessionData(user);
     }
 
 
-    private WxSession getWxSessionByCode(String code){
+    private WxSession getWxSessionByCode(String code) {
         Map<String, String> requestUrlParam = new HashMap<>();
         //小程序appId
         requestUrlParam.put("appid", ymlConfig.getAppId());
@@ -143,15 +143,14 @@ public class UserServiceImpl implements UserService {
         return JsonUtil.toObject(result, WxSession.class);
     }
 
-    private void checkWxSession(WxSession wxSession){
-        if(wxSession.getErrcode() != null) {
+    private void checkWxSession(WxSession wxSession) {
+        if (wxSession.getErrcode() != null) {
             AssertUtil.isFalse(-1 == wxSession.getErrcode(), CommonErrorCode.WX_LOGIN_BUSY, wxSession.getErrmsg());
             AssertUtil.isFalse(40029 == wxSession.getErrcode(), CommonErrorCode.WX_LOGIN_INVALID_CODE, wxSession.getErrmsg());
             AssertUtil.isFalse(45011 == wxSession.getErrcode(), CommonErrorCode.WX_LOGIN_FREQUENCY_REFUSED, wxSession.getErrmsg());
-            AssertUtil.isTrue(wxSession.getErrcode() == 0, CommonErrorCode.WX_LOGIN_UNKNOWN_ERROR,wxSession.getErrmsg());
+            AssertUtil.isTrue(wxSession.getErrcode() == 0, CommonErrorCode.WX_LOGIN_UNKNOWN_ERROR, wxSession.getErrmsg());
         }
     }
-
 
 
 }

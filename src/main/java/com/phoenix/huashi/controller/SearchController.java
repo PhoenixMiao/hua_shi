@@ -26,8 +26,8 @@ public class SearchController {
     private SearchService searchService;
 
     @PostMapping("/condition")
-    @ApiOperation(value = "根据条件筛选信息",response = SearchResponse.class)
-    public Object search(@NotNull @Valid @RequestBody SearchRequest searchRequest){
+    @ApiOperation(value = "根据条件筛选信息", response = SearchResponse.class)
+    public Object search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {
         return searchService.search(searchRequest);
     }
 }

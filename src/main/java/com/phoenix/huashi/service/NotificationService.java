@@ -9,5 +9,6 @@ import com.phoenix.huashi.entity.Notification;
 public interface NotificationService {
 
     Notification getNotificationById(Long id);
+
     Page<BriefNotification> getBriefNotificationList(GetBriefProjectListRequest request);
 }

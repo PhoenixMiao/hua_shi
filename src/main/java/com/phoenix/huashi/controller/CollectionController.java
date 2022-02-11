@@ -1,4 +1,5 @@
 package com.phoenix.huashi.controller;
+
 import com.phoenix.huashi.controller.request.GetListRequest;
 import com.phoenix.huashi.dto.collection.BriefCollection;
 import com.phoenix.huashi.service.CollectionService;
@@ -14,6 +15,7 @@ import com.phoenix.huashi.annotation.Auth;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
 @Api("收藏相关操作")
 @RestController
 @RequestMapping("/collection")
@@ -27,29 +29,30 @@ public class CollectionController {
 
     @Autowired
     private RedisUtils redisUtils;
+
     @Auth
     @GetMapping("/{projectId}")
-    @ApiOperation(value = "收藏项目",response = String.class)
-    public Object addToCollection(@NotNull @PathVariable("projectId") Long projectId){
+    @ApiOperation(value = "收藏项目", response = String.class)
+    public Object addToCollection(@NotNull @PathVariable("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        collectionService.addToCollection(projectId,userChuangNum);
+        collectionService.addToCollection(projectId, userChuangNum);
         return "收藏成功";
     }
 
     @Auth
     @GetMapping("/cancel/{id}")
-    @ApiOperation(value = "取消收藏",response = String.class)
-    public Object cancelCollection(@PathVariable("id")Long id){
+    @ApiOperation(value = "取消收藏", response = String.class)
+    public Object cancelCollection(@PathVariable("id") Long id) {
         collectionService.cancelCollection(id);
         return "操作成功";
     }
 
     @Auth
     @PostMapping("/list")
-    @ApiOperation(value = "查看收藏夹",response = BriefCollection.class)
-    public Object getBriefCollectionList(@NotNull @Valid @RequestBody GetListRequest getListRequest){
+    @ApiOperation(value = "查看收藏夹", response = BriefCollection.class)
+    public Object getBriefCollectionList(@NotNull @Valid @RequestBody GetListRequest getListRequest) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return collectionService.getBriefCollectionList(getListRequest,userChuangNum);
+        return collectionService.getBriefCollectionList(getListRequest, userChuangNum);
     }
 
 }

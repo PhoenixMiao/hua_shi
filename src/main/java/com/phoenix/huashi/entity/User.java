@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -39,7 +40,7 @@ public class User implements Serializable {
     private String createTime;
 
     @ApiModelProperty("昵称")
-    private String  nickname;
+    private String nickname;
 
     @ApiModelProperty("真实姓名")
     private String name;

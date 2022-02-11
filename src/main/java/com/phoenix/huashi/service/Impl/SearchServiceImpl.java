@@ -55,7 +55,7 @@ public class SearchServiceImpl implements SearchService {
 
         if (!StringUtils.isEmpty(searchRequest.getName())) {
             Example.Criteria nameCriteria = example.createCriteria();
-            nameCriteria.orLike("title", "%"+searchRequest.getName()+"%");
+            nameCriteria.orLike("title", "%" + searchRequest.getName() + "%");
             example.and(nameCriteria);
         }
 
@@ -67,7 +67,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (Notification ele : notificationList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getTitle(),ele.getType(), ele.getSource(), ele.getPublish_date()));
+            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getTitle(), ele.getType(), ele.getSource(), ele.getPublishDate()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
@@ -84,22 +84,22 @@ public class SearchServiceImpl implements SearchService {
 
         if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
             Example.Criteria departmentCriteria = example.createCriteria();
-            departmentCriteria.orLike("institute", "%"+searchRequest.getDepartment()+"%");
-            departmentCriteria.orLike("major", "%"+searchRequest.getDepartment()+"%");
+            departmentCriteria.orLike("institute", "%" + searchRequest.getDepartment() + "%");
+            departmentCriteria.orLike("major", "%" + searchRequest.getDepartment() + "%");
             example.and(departmentCriteria);
         }
 
         if (!StringUtils.isEmpty(searchRequest.getName())) {
             Example.Criteria nameCriteria = example.createCriteria();
-            nameCriteria.orLike("name", "%"+searchRequest.getName()+"%");
+            nameCriteria.orLike("name", "%" + searchRequest.getName() + "%");
             example.and(nameCriteria);
         }
 
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
             List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
             Example.Criteria captainCriteria = example.createCriteria();
-            for(BriefUserName ele:briefUserNameList)
-                captainCriteria.orEqualTo("principalChuangNum",ele.getChuangNum());
+            for (BriefUserName ele : briefUserNameList)
+                captainCriteria.orEqualTo("principalChuangNum", ele.getChuangNum());
             example.and(captainCriteria);
         }
 
@@ -111,7 +111,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (DisplayProject ele : displayProjectList) {
-            searchResponseArrayList.add(new SearchResponse(2, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserByChuangNum(ele.getPrincipalChuangNum()).getName(), ele.getInstitute()));
+            searchResponseArrayList.add(new SearchResponse(2, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getName(), ele.getInstitute()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
@@ -120,33 +120,33 @@ public class SearchServiceImpl implements SearchService {
     private Page<SearchResponse> searchRecruitProject(SearchRequest searchRequest) {
         Example example = new Example(RecruitProject.class);
         Example.Criteria statusCriteria = example.createCriteria();
-        statusCriteria.andEqualTo("status",0);
+        statusCriteria.andEqualTo("status", 0);
 
         if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
             Example.Criteria departmentCriteria = example.createCriteria();
-            departmentCriteria.orLike("institute", "%"+searchRequest.getDepartment()+"%");
+            departmentCriteria.orLike("institute", "%" + searchRequest.getDepartment() + "%");
             example.and(departmentCriteria);
         }
 
         if (!StringUtils.isEmpty(searchRequest.getName())) {
             Example.Criteria nameCriteria = example.createCriteria();
-            nameCriteria.orLike("name", "%"+searchRequest.getName()+"%");
+            nameCriteria.orLike("name", "%" + searchRequest.getName() + "%");
             example.and(nameCriteria);
         }
 
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
             List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
             Example.Criteria captainCriteria = example.createCriteria();
-            for(BriefUserName ele:briefUserNameList)
-                captainCriteria.orEqualTo("captain_Chuang_Num",ele.getChuangNum());
+            for (BriefUserName ele : briefUserNameList)
+                captainCriteria.orEqualTo("captain_Chuang_Num", ele.getChuangNum());
             example.and(captainCriteria);
         }
 
         if (!StringUtils.isEmpty(searchRequest.getTag())) {
             Example.Criteria tagCriteria = example.createCriteria();
-            tagCriteria.orLike("tag1", "%"+searchRequest.getTag()+"%");
-            tagCriteria.orLike("tag2", "%"+searchRequest.getTag()+"%");
-            tagCriteria.orLike("tag3", "%"+searchRequest.getTag()+"%");
+            tagCriteria.orLike("tag1", "%" + searchRequest.getTag() + "%");
+            tagCriteria.orLike("tag2", "%" + searchRequest.getTag() + "%");
+            tagCriteria.orLike("tag3", "%" + searchRequest.getTag() + "%");
             example.and(tagCriteria);
         }
 
@@ -158,7 +158,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new SearchResponse(3, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getName(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getDepartment()));
+            searchResponseArrayList.add(new SearchResponse(3, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getName(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getDepartment()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 

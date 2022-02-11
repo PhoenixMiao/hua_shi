@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -26,7 +27,7 @@ public class Notification implements Serializable {
     private String source;
 
     @ApiModelProperty("发布日期")
-    private String publish_date;
+    private String publishDate;
 
     @ApiModelProperty("内容")
     private String content;

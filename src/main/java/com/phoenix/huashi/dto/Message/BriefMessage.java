@@ -32,10 +32,10 @@ public class BriefMessage {
     private String memberNickname;
 
     @ApiModelProperty("状态")
-    private String status;
+    private Integer status;
 
     @ApiModelProperty("是否已读")
-    private String isRead;
+    private Integer isRead;
 
     @ApiModelProperty("项目负责人创赛号")
     private String projectPrincipalChuangNum;

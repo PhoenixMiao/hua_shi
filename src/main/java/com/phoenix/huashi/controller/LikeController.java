@@ -23,16 +23,18 @@ public class LikeController {
     private LikeService likeService;
     @Autowired
     private SessionUtils sessionUtils;
-   @Auth
+
+    @Auth
     @GetMapping("/{projectId}")
-    @ApiOperation(value = "点赞",response = String.class)
-    public Object giveLike( @PathVariable("projectId") Long projectId){
-        likeService.like(projectId,sessionUtils.getUserChuangNum());
+    @ApiOperation(value = "点赞", response = String.class)
+    public Object giveLike(@PathVariable("projectId") Long projectId) {
+        likeService.like(projectId, sessionUtils.getUserChuangNum());
         return "操作成功";
     }
+
     @GetMapping("/cancel/{id}")
-    @ApiOperation(value = "取消点赞",response = String.class)
-    public Object cancelLike(@PathVariable("id")Long id){
+    @ApiOperation(value = "取消点赞", response = String.class)
+    public Object cancelLike(@PathVariable("id") Long id) {
         likeService.cancelLike(id);
         return "操作成功";
     }

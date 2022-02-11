@@ -1,4 +1,5 @@
 package com.phoenix.huashi.mapper;
+
 import com.phoenix.huashi.MyMapper;
 
 import com.phoenix.huashi.entity.Collection;
@@ -17,13 +18,15 @@ public interface LikesMapper extends MyMapper<Likes> {
 
     @Insert("INSERT INTO likes VALUE(null,#{projectId},#{userId},#{likeTime})")
     void addToLikes(
-            @Param("projectId")Long projectId,
-            @Param ("userId")String  userChuangNum,
-            @Param("likeTime")String likeTime);
+            @Param("projectId") Long projectId,
+            @Param("userId") String userChuangNum,
+            @Param("likeTime") String likeTime);
+
     @Select("SELECT * FROM likes WHERE id = #{id}")
-    Likes getLikeById(@Param("id")Long id);
+    Likes getLikeById(@Param("id") Long id);
+
     @Delete("DELETE FROM likes WHERE id=#{id};")
-    void cancelLike(@Param("id")Long id);
+    void cancelLike(@Param("id") Long id);
 
 
 }

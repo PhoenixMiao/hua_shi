@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -14,7 +15,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @Builder
 @ApiModel("Collection 收藏")
-public class Collection  implements Serializable{
+public class Collection implements Serializable {
     @Id
     @ApiModelProperty("id")
     private Long id;
@@ -25,8 +26,6 @@ public class Collection  implements Serializable{
     @ApiModelProperty("用户创赛号")
     private String chuangNum;
 
-    @ApiModelProperty("用户Id")
-    private Long userId;
 
     @ApiModelProperty("收藏时间")
     private String collectTime;

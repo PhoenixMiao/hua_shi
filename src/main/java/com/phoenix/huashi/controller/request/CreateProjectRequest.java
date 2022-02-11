@@ -1,4 +1,5 @@
 package com.phoenix.huashi.controller.request;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,6 @@ public class CreateProjectRequest {
 
     @ApiModelProperty("标签三")
     private String tag3;
-
 
 
     @ApiModelProperty("开始招募时间")
