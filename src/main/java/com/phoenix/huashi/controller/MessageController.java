@@ -10,6 +10,7 @@ import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.service.MessageService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +32,10 @@ public class MessageController {
     private MessageService messageService;
 
     @Auth
-    @GetMapping("/apply/{projectId}")
+    @GetMapping("/apply")
     @ApiOperation(value = "申请加入项目", response = String.class)
-    public Object applyForProject(@PathVariable("projectId") Long projectId) {
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object applyForProject(@NotNull @RequestParam("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         messageService.applyForProject(userChuangNum, projectId);
         return "申请成功";
@@ -57,9 +59,10 @@ public class MessageController {
     }
 
     @Auth
-    @GetMapping("/{id}")
+    @GetMapping("")
     @ApiOperation(value = "查看消息详情", response = Object.class)
-    public Object getMessage(@PathVariable("id") Long id) {
+    @ApiImplicitParam(name="messageId",value="消息id",required = true,paramType = "query",dataType = "Long")
+    public Object getMessage(@NotNull @RequestParam("messageId") Long id) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         return messageService.getMessage(id, userChuangNum);
     }

@@ -7,15 +7,25 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.CreateProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
+import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
+import com.phoenix.huashi.controller.response.GetRecruitProjectResponse;
+import com.phoenix.huashi.dto.Message.BriefMessage;
+import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
+import com.phoenix.huashi.dto.user.RecruitProjectMember;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.RecruitProject;
+import com.phoenix.huashi.entity.User;
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
+import com.phoenix.huashi.mapper.MemberMapper;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
+import com.phoenix.huashi.mapper.UserMapper;
 import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.phoenix.huashi.util.TimeUtil;
@@ -25,15 +35,33 @@ import com.phoenix.huashi.util.TimeUtil;
 public class RecruitProjectServiceImpl implements RecruitProjectService {
     @Autowired
     private RecruitProjectMapper recruitProjectMapper;
+
     @Autowired
     private TimeUtil timeUtil;
+
     @Autowired
     private DisplayProjectMapper displayProjectMapper;
 
+    @Autowired
+    private MemberMapper memberMapper;
+
+    @Autowired
+    private UserMapper userMapper;
+
     @Override
-    public RecruitProject getRecruitProjectById(Long id) {
+    public GetRecruitProjectResponse getRecruitProjectById(Long id) {
+
+        List<BriefMember> briefMemberList=memberMapper.getMembersByProjectId(id,0);
+        List<RecruitProjectMember> recruitProjectMembers=new ArrayList<>();
+        for(BriefMember briefMember:briefMemberList)
+        {
+            User user=userMapper.getUserByChuangNum(briefMember.getChuangNum());
+            RecruitProjectMember recruitProjectMember=new RecruitProjectMember(briefMember.getChuangNum(),user.getName(),user.getTelephone(),user.getQQ(),user.getWechatNum(),user.getMajor(),briefMember.getWork());
+            recruitProjectMembers.add(recruitProjectMember);
+        }
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(id);
-        return recruitProject;
+        GetRecruitProjectResponse getRecruitProjectResponse=new GetRecruitProjectResponse(recruitProject,recruitProjectMembers);
+        return getRecruitProjectResponse;
     }
 
     @Override
@@ -46,17 +74,19 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public void createProject(CreateProjectRequest creatTeamRequest) {
+    public Long createProject(CreateProjectRequest creatTeamRequest) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
         Integer status = 0;
-        recruitProjectMapper.creatProject(creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), creatTeamRequest.getRecruitTime(), creatTeamRequest.getStartTime(), creatTeamRequest.getEndTime(), stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L);
+        RecruitProject recruitProject=new RecruitProject(null,creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(),null, creatTeamRequest.getEndTime(), stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L);
+        recruitProjectMapper.newRecruitProject(recruitProject);
+        return recruitProject.getId();
     }
 
-//    @Override
-//    public void applyForDisplayProject(Long projectId){
-//        RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(projectId);
-//        displayProjectMapper.
-//    }
+    @Override
+    public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
+        displayProjectMapper.newDisplayProject(request);
+        recruitProjectMapper.deleteRecruitProject(request.getId());
+    }
 
     @Override
     public void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest) {

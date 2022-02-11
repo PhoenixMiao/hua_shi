@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface ColletionMapper extends MyMapper<Collection> {
-    @Insert("INSERT INTO collection VALUE(null,#{projectId},#{chuangNum},#{collectTime})")
+    @Insert("INSERT INTO collection(id,projectId,chuangNum,collectTime) VALUE(null,#{projectId},#{chuangNum},#{collectTime})")
     void addToCollection(
             @Param("chuangNum") String chuangNum,
             @Param("projectId") Long projectId,

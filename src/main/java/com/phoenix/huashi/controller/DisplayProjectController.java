@@ -11,6 +11,7 @@ import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -34,9 +35,10 @@ public class DisplayProjectController {
     @Autowired
     private LikeService likeService;
 
-    @GetMapping("/{id}")
+    @GetMapping("")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
-    public Object getDisplayProjectById(@PathVariable("id") Long displayProjectId) {
+    @ApiImplicitParam(name="projectId",value="展示项目id",required = true,paramType = "query",dataType = "Long")
+    public Object getDisplayProjectById(@NotNull @RequestParam("projectId") Long displayProjectId) {
         return displayProjectService.getDisplayProjectById(displayProjectId);
     }
 

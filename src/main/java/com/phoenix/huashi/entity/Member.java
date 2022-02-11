@@ -1,5 +1,6 @@
 package com.phoenix.huashi.entity;
 
+import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -23,11 +24,15 @@ public class Member implements Serializable {
     @ApiModelProperty("类别")
     private String type;
 
-    @ApiModelProperty("招募项目id")
-    private Long recruitProjectId;
+    @ApiModelProperty("项目类型")
+    private Integer projectType;
+
+    @ApiModelProperty("项目id")
+    private Long projectId;
 
     @ApiModelProperty("创赛号")
     private String chuangNum;
 
-
+    @ApiModelProperty("分工")
+    private String work;
 }

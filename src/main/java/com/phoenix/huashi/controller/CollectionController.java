@@ -7,6 +7,7 @@ import com.phoenix.huashi.service.CollectionService;
 import com.phoenix.huashi.util.RedisUtils;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -31,18 +32,20 @@ public class CollectionController {
     private RedisUtils redisUtils;
 
     @Auth
-    @GetMapping("/{projectId}")
+    @GetMapping("")
     @ApiOperation(value = "收藏项目", response = String.class)
-    public Object addToCollection(@NotNull @PathVariable("projectId") Long projectId) {
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object addToCollection(@NotNull @RequestParam("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         collectionService.addToCollection(projectId, userChuangNum);
         return "收藏成功";
     }
 
     @Auth
-    @GetMapping("/cancel/{id}")
+    @GetMapping("/cancel")
     @ApiOperation(value = "取消收藏", response = String.class)
-    public Object cancelCollection(@PathVariable("id") Long id) {
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object cancelCollection(@NotNull @RequestParam("projectId") Long id) {
         collectionService.cancelCollection(id);
         return "操作成功";
     }
