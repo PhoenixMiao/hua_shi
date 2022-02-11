@@ -3,19 +3,16 @@ package com.phoenix.huashi.service.Impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.controller.response.SearchResponse;
-import com.phoenix.huashi.dto.notification.BriefNotification;
+import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Notification;
 import com.phoenix.huashi.entity.RecruitProject;
-import com.phoenix.huashi.entity.SearchRecord;
 import com.phoenix.huashi.mapper.*;
 import com.phoenix.huashi.service.SearchService;
 import com.phoenix.huashi.util.SessionUtils;
 import com.phoenix.huashi.util.TimeUtil;
-import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +20,6 @@ import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class SearchServiceImpl implements SearchService {
@@ -43,9 +39,6 @@ public class SearchServiceImpl implements SearchService {
     @Autowired
     private UserMapper userMapper;
 
-    @Autowired
-    private SearchRecordMapper searchRecordMapper;
-
     //https://blog.csdn.net/luluyo/article/details/81708833
     @Override
     public Page<SearchResponse> search(SearchRequest searchRequest) {
@@ -60,25 +53,10 @@ public class SearchServiceImpl implements SearchService {
         Example example = new Example(Notification.class);
         //example.selectProperties("id","title","source","publishDate");
 
-        if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
-            Example.Criteria departmentCriteria = example.createCriteria();
-            departmentCriteria.orLike("source", "%"+searchRequest.getDepartment()+"%");
-            departmentCriteria.orLike("title", "%"+searchRequest.getDepartment()+"%");
-            example.and(departmentCriteria);
-        }
-
-        if (!StringUtils.isEmpty(searchRequest.getContents())) {
-            Example.Criteria contentsCriteria = example.createCriteria();
-            contentsCriteria.orLike("title", "%"+searchRequest.getContents()+"%");
-            contentsCriteria.orLike("content", "%"+searchRequest.getContents()+"%");
-            example.and(contentsCriteria);
-
-            SearchRecord searchRecord = SearchRecord.builder()
-                    .user_chuang_num(sessionUtils.getUserChuangNum())
-                    .contents(searchRequest.getContents())
-                    .create_time(TimeUtil.getCurrentTimestamp())
-                    .build();
-            searchRecordMapper.insert(searchRecord);
+        if (!StringUtils.isEmpty(searchRequest.getName())) {
+            Example.Criteria nameCriteria = example.createCriteria();
+            nameCriteria.orLike("title", "%"+searchRequest.getName()+"%");
+            example.and(nameCriteria);
         }
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
@@ -111,18 +89,18 @@ public class SearchServiceImpl implements SearchService {
             example.and(departmentCriteria);
         }
 
-        if (!StringUtils.isEmpty(searchRequest.getContents())) {
-            Example.Criteria contentsCriteria = example.createCriteria();
-            contentsCriteria.orLike("name", "%"+searchRequest.getContents()+"%");
-            contentsCriteria.orLike("introduction", "%"+searchRequest.getContents()+"%");
-            example.and(contentsCriteria);
+        if (!StringUtils.isEmpty(searchRequest.getName())) {
+            Example.Criteria nameCriteria = example.createCriteria();
+            nameCriteria.orLike("name", "%"+searchRequest.getName()+"%");
+            example.and(nameCriteria);
+        }
 
-            SearchRecord searchRecord = SearchRecord.builder()
-                    .user_chuang_num(sessionUtils.getUserChuangNum())
-                    .contents(searchRequest.getContents())
-                    .create_time(TimeUtil.getCurrentTimestamp())
-                    .build();
-            searchRecordMapper.insert(searchRecord);
+        if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
+            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
+            Example.Criteria captainCriteria = example.createCriteria();
+            for(BriefUserName ele:briefUserNameList)
+                captainCriteria.orEqualTo("principalChuangNum",ele.getChuangNum());
+            example.and(captainCriteria);
         }
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
@@ -133,7 +111,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (DisplayProject ele : displayProjectList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserByChuangNum(ele.getPrincipalChuangNum()).getName(), ele.getInstitute()));
+            searchResponseArrayList.add(new SearchResponse(2, ele.getId(), ele.getName(), ele.getType(), userMapper.getUserByChuangNum(ele.getPrincipalChuangNum()).getName(), ele.getInstitute()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
@@ -147,22 +125,29 @@ public class SearchServiceImpl implements SearchService {
         if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
             Example.Criteria departmentCriteria = example.createCriteria();
             departmentCriteria.orLike("institute", "%"+searchRequest.getDepartment()+"%");
-            //departmentCriteria.orLike("major", "%"+searchRequest.getDepartment()+"%");
             example.and(departmentCriteria);
         }
 
-        if (!StringUtils.isEmpty(searchRequest.getContents())) {
-            Example.Criteria contentsCriteria = example.createCriteria();
-            contentsCriteria.orLike("name", "%"+searchRequest.getContents()+"%");
-            contentsCriteria.orLike("introduction", "%"+searchRequest.getContents()+"%");
-            example.and(contentsCriteria);
+        if (!StringUtils.isEmpty(searchRequest.getName())) {
+            Example.Criteria nameCriteria = example.createCriteria();
+            nameCriteria.orLike("name", "%"+searchRequest.getName()+"%");
+            example.and(nameCriteria);
+        }
 
-            SearchRecord searchRecord = SearchRecord.builder()
-                    .user_chuang_num(sessionUtils.getUserChuangNum())
-                    .contents(searchRequest.getContents())
-                    .create_time(TimeUtil.getCurrentTimestamp())
-                    .build();
-            searchRecordMapper.insert(searchRecord);
+        if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
+            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
+            Example.Criteria captainCriteria = example.createCriteria();
+            for(BriefUserName ele:briefUserNameList)
+                captainCriteria.orEqualTo("captain_Chuang_Num",ele.getChuangNum());
+            example.and(captainCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getTag())) {
+            Example.Criteria tagCriteria = example.createCriteria();
+            tagCriteria.orLike("tag1", "%"+searchRequest.getTag()+"%");
+            tagCriteria.orLike("tag2", "%"+searchRequest.getTag()+"%");
+            tagCriteria.orLike("tag3", "%"+searchRequest.getTag()+"%");
+            example.and(tagCriteria);
         }
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
@@ -173,7 +158,7 @@ public class SearchServiceImpl implements SearchService {
 
         ArrayList<SearchResponse> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new SearchResponse(1, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getName(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getDepartment()));
+            searchResponseArrayList.add(new SearchResponse(3, ele.getId(), ele.getName(), ele.getTag1(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getName(), userMapper.getUserByChuangNum(ele.getCaptain_chuang_num()).getDepartment()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
