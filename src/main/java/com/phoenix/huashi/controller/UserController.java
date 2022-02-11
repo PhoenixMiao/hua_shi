@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
 @Api("用户相关操作")
 @RestController
 @RequestMapping("/user")
@@ -35,11 +36,10 @@ public class UserController {
     private SessionUtils sessionUtils;
 
 
-
     @GetMapping("/login/{code}")
-    @ApiOperation(value = "登录",response = SessionData.class)
+    @ApiOperation(value = "登录", response = SessionData.class)
     @ApiImplicitParam(name = "code", value = "code", required = true, paramType = "path")
-    public Object login(@NotBlank @PathVariable("code") String code){
+    public Object login(@NotBlank @PathVariable("code") String code) {
 
         return userService.login(code);
 
@@ -47,8 +47,8 @@ public class UserController {
 
     @Auth
     @GetMapping("/info/{userChuangNum}")
-    @ApiOperation(value = "查看用户信息",response = GetUserResponse.class)
-    public Object getUserById(@PathVariable("userChuangNum")String userChuangNum){
+    @ApiOperation(value = "查看用户信息", response = GetUserResponse.class)
+    public Object getUserById(@PathVariable("userChuangNum") String userChuangNum) {
         User user = userService.getUserByChuangNum(userChuangNum);
         return user;
     }
@@ -56,24 +56,26 @@ public class UserController {
 
     @Auth
     @PostMapping("/update")
-    @ApiOperation(value = "更新当前用户信息",response = String.class)
-    public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest){
+    @ApiOperation(value = "更新当前用户信息", response = String.class)
+    public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        userService.updateUserByChuangNum(updateUserByChuangNumRequest,userChuangNum);
+        userService.updateUserByChuangNum(updateUserByChuangNumRequest, userChuangNum);
         return "操作成功";
     }
-   @Auth
+
+    @Auth
     @PostMapping("/userNameList")
     @ApiOperation(value = "根据姓名获取用户姓名创赛号列表", response = BriefUserName.class)
-    public Object getBriefUserNameListByName(@NotNull@Valid @RequestBody GetBriefUserNameListRequest request) {
+    public Object getBriefUserNameListByName(@NotNull @Valid @RequestBody GetBriefUserNameListRequest request) {
         return userService.searchBriefUserNameListByName(request);
     }
+
     @Auth
     @PostMapping("/team")
     @ApiOperation(value = "查看我的组队", response = BriefProjectInformation.class)
-    public Object getBriefTeamList(@NotNull@Valid @RequestBody GetListRequest request) {
+    public Object getBriefTeamList(@NotNull @Valid @RequestBody GetListRequest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return userService.getBriefTeamList(request,userChuangNum);
+        return userService.getBriefTeamList(request, userChuangNum);
     }
 
 }

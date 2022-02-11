@@ -24,29 +24,29 @@ public class NotificationServiceImpl implements NotificationService {
 
 
     @Override
-    public Notification getNotificationById (Long id){
+    public Notification getNotificationById(Long id) {
         Notification notification = notificationMapper.getNotificationById(id);
         return notification;
     }
 
     @Override
-    public Page<BriefNotification> getBriefNotificationList(@NotNull @RequestBody GetBriefProjectListRequest request)
-    { if(request == null) return null;
+    public Page<BriefNotification> getBriefNotificationList(@NotNull @RequestBody GetBriefProjectListRequest request) {
+        if (request == null) return null;
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
 
-        if(request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())){
+        if (request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
             return new Page(new PageInfo<>(briefNotificationList));
-        }else if(request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
+        } else if (request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
             return new Page(new PageInfo<>(briefNotificationList));
-        }
-        else if(request.getType().equals(CommodityTypeEnum.ALL.getName())) {
+        } else if (request.getType().equals(CommodityTypeEnum.ALL.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getALLBriefNotificationList();
             return new Page(new PageInfo<>(briefNotificationList));
         }
         return null;
-}}
+    }
+}
 
 

@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 /**
  * session缓存实体
+ *
  * @author yan on 2020-02-27
  */
 @Data
@@ -62,7 +63,7 @@ public class SessionData implements Serializable {
     @ApiModelProperty("resume")
     private String attachment;
 
-    public SessionData(User user){
+    public SessionData(User user) {
         AssertUtil.notNull(user, CommonErrorCode.USER_NOT_EXIST);
 //        if(user == null){
 //            create_time = TimeUtil.getCurrentTimestamp();

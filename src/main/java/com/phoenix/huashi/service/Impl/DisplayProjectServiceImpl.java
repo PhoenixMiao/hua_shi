@@ -50,7 +50,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
 
     @Override
-    public DisplayProject getDisplayProjectById(Long id){
+    public DisplayProject getDisplayProjectById(Long id) {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(id);
         displayProject.setLikes(likeService.getLikeNumber(id));
         displayProject.setCollections(collectionService.getCollectionNumber(id));
@@ -58,30 +58,27 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefProjectListRequest request)
-    {
-        if(request == null) return null;
-        List<BriefDisplayProject> briefDisplayProjectList= new ArrayList<>();
+    public Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefProjectListRequest request) {
+        if (request == null) return null;
+        List<BriefDisplayProject> briefDisplayProjectList = new ArrayList<>();
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(),pageParam.getPageSize(),pageParam.getOrderBy());
-        if(request.getType().equals(CommodityTypeEnum.ALL.getName()) ){
-            List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectList();
-            for(DisplayProject project:displayProjects){
-                BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        if (request.getType().equals(CommodityTypeEnum.ALL.getName())) {
+            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectList();
+            for (DisplayProject project : displayProjects) {
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
-        }
-        else if(request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())){
-            List<DisplayProject> displayProjects=displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
-            for(DisplayProject project:displayProjects){
-                BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
+        } else if (request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
+            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
+            for (DisplayProject project : displayProjects) {
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
-        }
-        else if(request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())){
+        } else if (request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())) {
             List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
-            for(DisplayProject project:displayProjects){
-                BriefDisplayProject briefDisplayProject=new BriefDisplayProject(project.getId(),project.getName(),project.getPrincipal_name(),project.getType(),project.getInstitute());
+            for (DisplayProject project : displayProjects) {
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         }

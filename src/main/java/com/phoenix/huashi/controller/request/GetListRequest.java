@@ -1,4 +1,5 @@
 package com.phoenix.huashi.controller.request;
+
 import com.phoenix.huashi.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

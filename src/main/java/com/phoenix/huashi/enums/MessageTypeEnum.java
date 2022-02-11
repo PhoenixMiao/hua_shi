@@ -2,8 +2,8 @@ package com.phoenix.huashi.enums;
 
 public enum MessageTypeEnum {
 
-    INVITATION("INVITATION","邀请"),
-    APPLICATION("APPLICATION","申请"),
+    INVITATION("INVITATION", "邀请"),
+    APPLICATION("APPLICATION", "申请"),
 
     ;
 

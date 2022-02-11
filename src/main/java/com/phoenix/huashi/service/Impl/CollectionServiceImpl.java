@@ -35,15 +35,15 @@ public class CollectionServiceImpl implements CollectionService {
     @Autowired
     private RedisUtils redisUtils;
 
-    private static String COLLECTION_KEY(Long id){
+    private static String COLLECTION_KEY(Long id) {
         return id.toString();
     }
 
-    private Long getCollectionsFromRedis(Long id){
+    private Long getCollectionsFromRedis(Long id) {
         Long collections;
-        try{
+        try {
             collections = (Long) redisUtils.get(COLLECTION_KEY(id));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -51,39 +51,36 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public Long getCollectionNumber(Long projectId){
+    public Long getCollectionNumber(Long projectId) {
         Long collections = getCollectionsFromRedis(projectId);
-        if(collections != null)return collections;
-        collections =displayProjectMapper.getCollections(projectId);
-        if(collections==null)
-        {
-            collections=0L;
+        if (collections != null) return collections;
+        collections = displayProjectMapper.getCollections(projectId);
+        if (collections == null) {
+            collections = 0L;
         }
-        redisUtils.set(COLLECTION_KEY(projectId),collections);
+        redisUtils.set(COLLECTION_KEY(projectId), collections);
         return collections;
     }
 
 
-
     @Override
-    public void addToCollection(Long projectId,String userChuangNum)
-    {
+    public void addToCollection(Long projectId, String userChuangNum) {
         Long collections = getCollectionNumber(projectId);
-        redisUtils.set(COLLECTION_KEY(projectId),collections + 1);
+        redisUtils.set(COLLECTION_KEY(projectId), collections + 1);
         String createTime = timeUtil.getCurrentTimestamp();
-        collectionMapper.addToCollection(userChuangNum,projectId, createTime);
+        collectionMapper.addToCollection(userChuangNum, projectId, createTime);
     }
 
     @Override
     public void cancelCollection(Long id) {
-        Collection collection=collectionMapper.getCollectionById(id);
-        Long projectId=collection.getProjectId();
+        Collection collection = collectionMapper.getCollectionById(id);
+        Long projectId = collection.getProjectId();
         Long collections = getCollectionNumber(projectId);
-        if(collections != null){
-            redisUtils.set(COLLECTION_KEY(projectId),collections -1);
-        }else {
+        if (collections != null) {
+            redisUtils.set(COLLECTION_KEY(projectId), collections - 1);
+        } else {
             collections = Optional.ofNullable(displayProjectMapper.getCollections(projectId)).orElse(0L);
-            redisUtils.set(COLLECTION_KEY(projectId), collections -1);
+            redisUtils.set(COLLECTION_KEY(projectId), collections - 1);
         }
         collectionMapper.cancelCollection(id);
     }
@@ -95,7 +92,7 @@ public class CollectionServiceImpl implements CollectionService {
         List<BriefCollection> briefCollectionList = new ArrayList<>();
         for (Collection e : collectionList) {
             DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(e.getProjectId());
-            BriefCollection briefCollection = new BriefCollection(displayProject.getId(),displayProject.getName(), displayProject.getPrincipal_name(), displayProject.getType(), displayProject.getInstitute());
+            BriefCollection briefCollection = new BriefCollection(displayProject.getId(), displayProject.getName(), displayProject.getCaptainName(), displayProject.getType(), displayProject.getInstitute());
             briefCollectionList.add(briefCollection);
         }
         PageParam pageParam = getListRequest.getPageParam();

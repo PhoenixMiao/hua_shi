@@ -1,4 +1,5 @@
 package com.phoenix.huashi.controller.request;
+
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -16,5 +17,5 @@ import javax.validation.constraints.NotNull;
 public class AddToCollectionRequest {
     @NotNull
     @ApiModelProperty(" 展示项目id")
-     Long recruitProjectId;
+    Long recruitProjectId;
 }

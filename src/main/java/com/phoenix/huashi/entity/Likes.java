@@ -7,8 +7,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,8 +24,8 @@ public class Likes implements Serializable {
     @ApiModelProperty("项目id")
     private Long projectId;
 
-    @ApiModelProperty("用户Id")
-    private Long userId;
+    @ApiModelProperty("用户创赛号")
+    private String userChuangNum;
 
     @ApiModelProperty("点赞时间")
     private String likeTime;

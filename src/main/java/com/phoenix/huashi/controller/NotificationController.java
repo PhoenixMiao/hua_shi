@@ -26,7 +26,6 @@ public class NotificationController {
     private SessionUtils sessionUtils;
 
 
-
     @GetMapping("/{id}")
     @ApiOperation(value = "查看公告详情", response = Notification.class)
     public Object getNotificationById(@PathVariable("id") Long notificationId) {
@@ -35,6 +34,7 @@ public class NotificationController {
 
     @PostMapping("/list")
     @ApiOperation(value = "获取通知公告简要信息列表", response = BriefNotification.class)
-    public Object getBriefNotificationList(@NotNull@Valid @RequestBody GetBriefProjectListRequest request) {
+    public Object getBriefNotificationList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
         return notificationService.getBriefNotificationList(request);
-}}
+    }
+}

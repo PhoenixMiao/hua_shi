@@ -6,8 +6,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
 import javax.persistence.Id;
 import java.io.Serializable;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,25 +30,25 @@ public class DisplayProject implements Serializable {
     private String name;
 
     @ApiModelProperty("项目负责人创赛号")
-    private String principalChuangNum;
+    private String captainChuangNum;
 
     @ApiModelProperty("项目负责人姓名")
-    private String principal_name;
+    private String captainName;
 
     @ApiModelProperty("指导老师姓名")
-    private String teacher_name;
+    private String teacherName;
 
     @ApiModelProperty("指导老师院系")
-    private String teacher_apartment;
+    private String teacherApartment;
 
     @ApiModelProperty("指导老师职称")
-    private String teacher_rank;
+    private String teacherRank;
 
     @ApiModelProperty("指导老师研究方向")
-    private String teacher_study;
+    private String teacherStudy;
 
     @ApiModelProperty("项目上传时间")
-    private String upload_time;
+    private String uploadTime;
 
     @ApiModelProperty("项目简介")
     private String introduction;
@@ -79,6 +81,7 @@ public class DisplayProject implements Serializable {
     private String deadline;
 
     @ApiModelProperty("人数上限")
-    private Long person_limit;}
+    private Long personLimit;
+}
 
 

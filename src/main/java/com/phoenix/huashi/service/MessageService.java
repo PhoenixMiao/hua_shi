@@ -7,9 +7,13 @@ import com.phoenix.huashi.controller.request.ReplyMessageRequest;
 import com.phoenix.huashi.dto.Message.BriefMessage;
 
 public interface MessageService {
-    void applyForProject(String userChuangNum,Long projectId);
-    void projectInvitation(InviteUserRequest request,String captainChuangNum);
-    Page<BriefMessage> getBriefMessageList(GetMessageListReuqest request,String userChuangNum);
+    void applyForProject(String userChuangNum, Long projectId);
+
+    void projectInvitation(InviteUserRequest request, String captainChuangNum);
+
+    Page<BriefMessage> getBriefMessageList(GetMessageListReuqest request, String userChuangNum);
+
     Object getMessage(Long id, String userChuangNum);
+
     String replyMessage(ReplyMessageRequest request);
 }
