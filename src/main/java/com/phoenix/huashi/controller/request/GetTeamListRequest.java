@@ -20,6 +20,6 @@ public class GetTeamListRequest {
     @ApiModelProperty("分页参数")
     private PageParam pageParam;
 
-    @ApiModelProperty("队伍类型 0我加入的 1我负责的")
+    @ApiModelProperty("队伍类型 0我加入的 1我负责的 2全部")
     private Integer teamType;
 }

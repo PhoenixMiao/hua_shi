@@ -15,6 +15,9 @@ public interface MemberMapper {
     @Select("SELECT projectId FROM member WHERE chuangNum=#{chuangNum} AND type=#{type}")
     List<Long> getTeamByChuangNumAndMemberType(@Param("chuangNum") String chuangNum,@Param("type") String type);
 
+    @Select("SELECT projectId FROM member WHERE chuangNum=#{chuangNum}")
+    List<Long> getTeamByChuangNum(@Param("chuangNum") String chuangNum);
+
     @Insert("INSERT INTO member(id,type,projectType,projectId,chuangNum,work) VALUE(null,#{type},#{projectType},#{projectId},#{chuangNum},#{work})")
     void insertMember(
             @Param("projectId") Long projectId,
