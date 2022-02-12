@@ -13,6 +13,7 @@ import com.phoenix.huashi.dto.Message.BriefMessage;
 import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.dto.user.RecruitProjectMember;
+import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
@@ -84,7 +85,10 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
     @Override
     public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
-        displayProjectMapper.newDisplayProject(request);
+        DisplayProject displayProject=new DisplayProject(null,request.getYear(),request.getInstitute(),request.getName(),request.getCaptainChuangNum(),request.getCaptainName(),request.getTeacherName(),request.getTeacherApartment(),request.getTeacherRank(),request.getTeacherStudy(),request.getUploadTime(),request.getIntroduction(),
+                request.getType(),request.getMajor(),request.getNumber(),request.getAward(),request.getInnovation(),request.getLikes(),request.getCollections(),request.getPaper(), request.getDeadline(), request.getPersonLimit(),request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(),
+                request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor());
+        displayProjectMapper.insert(displayProject);
         recruitProjectMapper.deleteRecruitProject(request.getId());
     }
 

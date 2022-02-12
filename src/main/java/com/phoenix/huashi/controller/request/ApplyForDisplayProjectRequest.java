@@ -82,4 +82,50 @@ public class ApplyForDisplayProjectRequest {
 
     @ApiModelProperty("人数上限")
     private Long personLimit;
+
+    @ApiModelProperty("成员1姓名")
+    private Long memberOneName;
+
+    @ApiModelProperty("成员1年级")
+    private Long memberOneGrade;
+
+    @ApiModelProperty("成员1专业")
+    private Long memberOneMajor;
+
+    @ApiModelProperty("成员2姓名")
+    private Long memberTwoName;
+
+    @ApiModelProperty("成员2年级")
+    private Long memberTwoGrade;
+
+    @ApiModelProperty("成员2专业")
+    private Long memberTwoMajor;
+
+    @ApiModelProperty("成员3姓名")
+    private Long memberThreeName;
+
+    @ApiModelProperty("成员3年级")
+    private Long memberThreeGrade;
+
+    @ApiModelProperty("成员3专业")
+    private Long memberThreeMajor;
+
+    @ApiModelProperty("成员4姓名")
+    private Long memberFourName;
+
+    @ApiModelProperty("成员4年级")
+    private Long memberFourGrade;
+
+    @ApiModelProperty("成员4专业")
+    private Long memberFourMajor;
+
+    @ApiModelProperty("成员5姓名")
+    private Long memberFiveName;
+
+    @ApiModelProperty("成员5年级")
+    private Long memberFiveGrade;
+
+    @ApiModelProperty("成员5专业")
+    private Long memberFiveMajor;
+
 }

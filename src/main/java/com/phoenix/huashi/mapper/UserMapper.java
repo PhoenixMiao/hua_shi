@@ -16,6 +16,8 @@ public interface UserMapper extends MyMapper<User> {
     @Options(useGeneratedKeys = true, keyProperty = "id")
     Long newUser(User user);
 
+
+
     @Update("UPDATE user SET chuangNum=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);
 
