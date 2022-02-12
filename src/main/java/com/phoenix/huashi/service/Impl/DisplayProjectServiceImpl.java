@@ -63,19 +63,11 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
 
     @Override
-    public GetDisplayProjectResponse getDisplayProjectById(Long id) {
+    public DisplayProject getDisplayProjectById(Long id) {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(id);
         displayProject.setLikes(likeService.getLikeNumber(id));
         displayProject.setCollections(collectionService.getCollectionNumber(id));
-        List<DisplayProjectMember> displayProjectMemberList=new ArrayList<>();
-        List<BriefMember> briefMemberList=memberMapper.getMembersByProjectId(id,1);
-        for(BriefMember briefMember:briefMemberList){
-            User user=userMapper.getUserByChuangNum(briefMember.getChuangNum());
-            DisplayProjectMember displayProjectMember=new DisplayProjectMember(briefMember.getChuangNum(),user.getName(),user.getGrade(),user.getMajor());
-            displayProjectMemberList.add(displayProjectMember);
-        }
-        GetDisplayProjectResponse getDisplayProjectResponse=new GetDisplayProjectResponse(displayProject,displayProjectMemberList);
-        return getDisplayProjectResponse;
+        return displayProject;
     }
 
     @Override

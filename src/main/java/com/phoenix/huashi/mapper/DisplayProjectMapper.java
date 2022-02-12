@@ -33,31 +33,7 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     @Update("UPDATE displayProject SET collections=#{collections} WHERE id=#{id};")
     void collect(@Param("collections") Long collections, @Param("id") Long id);
 
-    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections) VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")
-    void addToDisplayProject(
-            @Param("year") String year,
-            @Param("projectId") Long projectId,
-            @Param("institute") String institute,
-            @Param("name") String name,
-            @Param("captainName") String captainName,
-            @Param("captainChuangNum") String captainChuangNum,
-            @Param("teacherName") String teacherName,
-            @Param("teacherApartment") String teacherApartment,
-            @Param("teacherRank") String teacherRank,
-            @Param("teacherStudy") String teacherStudy,
-            @Param("uploadTime") String uploadTime,
-            @Param("introduction") String introduction,
-            @Param("type") String type,
-            @Param("major") String major,
-            @Param("number") String number,
-            @Param("award") String award,
-            @Param("likes") Long likes,
-            @Param("paper") String paper,
-            @Param("deadline") String deadline,
-            @Param("personLimit") Long personLimit,
-            @Param("collections") Long collections
-            );
 
-    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections)  VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")
-    void newDisplayProject(ApplyForDisplayProjectRequest displayProject);
+//    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections)  VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")
+//    void newDisplayProject(ApplyForDisplayProjectRequest displayProject);
 }

@@ -9,7 +9,7 @@ import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 import com.phoenix.huashi.entity.DisplayProject;
 
 public interface DisplayProjectService {
-    GetDisplayProjectResponse getDisplayProjectById(Long id);
+    DisplayProject getDisplayProjectById(Long id);
 
     Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefProjectListRequest request);
 
