@@ -55,8 +55,6 @@ public class CreateProjectRequest {
     @ApiModelProperty("标签三")
     private String tag3;
 
-    @ApiModelProperty("项目结束时间")
-    private String endTime;
     @ApiModelProperty("负责人姓名")
     private String captainName;
     @ApiModelProperty("立项院校")

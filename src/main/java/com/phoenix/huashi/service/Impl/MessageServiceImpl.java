@@ -68,7 +68,7 @@ public class MessageServiceImpl implements MessageService {
             RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(message.getProjectId());
             if (recruitProject.getMemberNum().equals(recruitProject.getRecruitNum())) {
                 messageMapper.updateStatus(-1, "人数已满", timeUtil.getCurrentTimestamp(), 1, request.getId());
-                recruitProjectMapper.updateProjectStatusById(message.getProjectId(), 1);
+                recruitProjectMapper.updateProjectStatusById(message.getProjectId(), 1,timeUtil.getCurrentTimestamp());
                 recruitProjectMapper.setStartTime(message.getProjectId(),timeUtil.getCurrentTimestamp());
                 return "人数已满";
             }

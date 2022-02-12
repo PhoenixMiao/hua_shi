@@ -7,6 +7,7 @@ import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.mapper.MemberMapper;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
 import com.phoenix.huashi.service.MemberService;
+import com.phoenix.huashi.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ public class MemberServiceImpl implements MemberService {
     @Autowired
     private RecruitProjectMapper recruitProjectMapper;
 
+    @Autowired
+    private TimeUtil timeUtil;
+
     @Override
     public String addMember(AddMemberRequest reuqest)
     {
@@ -27,6 +31,9 @@ public class MemberServiceImpl implements MemberService {
         }
         memberMapper.insertMember(reuqest.getRecruitProjectId(), MemberTypeEnum.valueOf(reuqest.getType()).getDescription(),0,reuqest.getMemberChuangNum(),null);
         recruitProjectMapper.updateMemberNumberById(reuqest.getRecruitProjectId(),recruitProject.getMemberNum()+1);
+        if(recruitProject.getRecruitNum().equals(recruitProject.getMemberNum())){
+            recruitProjectMapper.updateProjectStatusById(reuqest.getRecruitProjectId(),1,timeUtil.getCurrentTimestamp());
+        }
         return "添加成功";
     }
 }

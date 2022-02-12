@@ -72,12 +72,12 @@ public class UserController {
         return userService.searchBriefUserNameListByName(request);
     }
 
-//    @Auth
+    @Auth
     @PostMapping("/team")
     @ApiOperation(value = "查看我的组队", response = BriefProjectInformation.class)
     public Object getBriefTeamList(@NotNull @Valid @RequestBody GetTeamListRequest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return userService.getBriefTeamList(request, "hs00000003");
+        return userService.getBriefTeamList(request, userChuangNum);
     }
 
 }
