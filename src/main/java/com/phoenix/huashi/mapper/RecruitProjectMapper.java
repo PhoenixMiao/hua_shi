@@ -85,10 +85,11 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
             @Param("memberNum") Long memberNum
     );
 
-    @Update("UPDATE recruitProject SET status=#{status} WHERE id=#{id}")
+    @Update("UPDATE recruitProject SET status=#{status},statusUpdateTime=#{statusUpdateTime} WHERE id=#{id}")
     void updateProjectStatusById(
             @Param("id") Long id,
-            @Param("status") Integer status
+            @Param("status") Integer status,
+            @Param("statusUpdateTime")String statusUpdateTime
     );
 
     @Update("UPDATE recruitProject SET startTime=#{startTime} WHERE id=#{id}")

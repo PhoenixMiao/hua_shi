@@ -77,7 +77,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     public Long createProject(CreateProjectRequest creatTeamRequest) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
         Integer status = 0;
-        RecruitProject recruitProject=new RecruitProject(null,creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(),null, creatTeamRequest.getEndTime(), stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L);
+        RecruitProject recruitProject=new RecruitProject(null,creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(),null, null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L);
         recruitProjectMapper.newRecruitProject(recruitProject);
         return recruitProject.getId();
     }
@@ -86,6 +86,11 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
         displayProjectMapper.newDisplayProject(request);
         recruitProjectMapper.deleteRecruitProject(request.getId());
+    }
+
+    @Override
+    public void finishTeamById(Long id){
+        recruitProjectMapper.updateProjectStatusById(id,-1,timeUtil.getCurrentTimestamp());
     }
 
     @Override

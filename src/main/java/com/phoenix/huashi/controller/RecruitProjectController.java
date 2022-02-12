@@ -60,6 +60,15 @@ public class RecruitProjectController {
         return recruitProjectService.createProject(creatTeamRequest);
     }
 
+  //  @Auth
+    @GetMapping("/finish")
+    @ApiOperation(value = "结束当前项目", response = String.class)
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object finishTeamById(@NotNull @RequestParam("projectId") Long id) {
+        recruitProjectService.finishTeamById(id);
+        return "操作成功";
+    }
+
     @Auth
     @PostMapping("/display")
     @ApiOperation(value = "申请成为展示项目",response = String.class)
