@@ -55,10 +55,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<BriefProjectInformation> getBriefTeamList(GetTeamListRequest request, String userChuangNum) {
-        String memberType="";
-        if(request.getTeamType().equals(0))memberType= MemberTypeEnum.MEMBER.getDescription();
-        else if(request.getTeamType().equals(1))memberType=MemberTypeEnum.CAPTAIN.getDescription();
-        List<Long> projectIdList =memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,memberType);
+        List<Long> projectIdList=new ArrayList<>();
+        if(request.getTeamType().equals(0))projectIdList=memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,MemberTypeEnum.MEMBER.getDescription());
+        else if(request.getTeamType().equals(1))projectIdList=memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,MemberTypeEnum.CAPTAIN.getDescription());
+        else if(request.getTeamType().equals(2))projectIdList=memberMapper.getTeamByChuangNum(userChuangNum);
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();
