@@ -31,8 +31,8 @@ spring:
 
 mini-app:
 # 开发
-  app-id: wx0babc1717ad5dee9
-  app-secret: 2cd5df837351e0b87a09e780c344eaa0
+  app-id: wx39b6f7d125bc4cfd
+  app-secret: c969cd277ac85634ce53863070484407
   # 正式
 #  app-id: wx9b6cdb9de691977c
 #  app-secret: 4d88bf895d02d4c4ed8732af0e4c176f
