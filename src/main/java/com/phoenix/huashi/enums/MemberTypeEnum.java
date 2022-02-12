@@ -2,8 +2,8 @@ package com.phoenix.huashi.enums;
 
 public enum MemberTypeEnum {
 
-    CAPTAIN("CAPTAIN", " 负责人"),
-    MEMBER("MEMBER", "队员"),
+    CAPTAIN("CAPTAIN", "负责人"),
+    MEMBER("MEMBER", "成员"),
 
     ;
 

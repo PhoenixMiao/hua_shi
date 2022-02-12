@@ -45,9 +45,14 @@ public class MessageServiceImpl implements MessageService {
     public void applyForProject(String userChuangNum, Long projectId) {
         String captainChuangNum = recruitProjectMapper.getCaptianChuangNumByProjectId(projectId);
         Message message = messageMapper.hasApplied(MessageTypeEnum.APPLICATION.getDescription(), projectId, userChuangNum);
-        if (message != null && message.getStatus().equals(0)) {
-            messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
-            return;
+        if (message != null ) {
+            if(message.getStatus().equals(0)){
+                messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
+                return;
+            }
+           if(message.getStatus().equals(1)){
+               return;
+           }
         }
         messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
     }
@@ -64,10 +69,11 @@ public class MessageServiceImpl implements MessageService {
             if (recruitProject.getMemberNum().equals(recruitProject.getRecruitNum())) {
                 messageMapper.updateStatus(-1, "人数已满", timeUtil.getCurrentTimestamp(), 1, request.getId());
                 recruitProjectMapper.updateProjectStatusById(message.getProjectId(), 1);
+                recruitProjectMapper.setStartTime(message.getProjectId(),timeUtil.getCurrentTimestamp());
                 return "人数已满";
             }
             messageMapper.updateStatus(1, null, timeUtil.getCurrentTimestamp(), 1, request.getId());
-            memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(), message.getMemberChuangNum());
+            memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(),0, message.getMemberChuangNum(),null);
             recruitProjectMapper.updateMemberNumberById(message.getProjectId(), recruitProject.getMemberNum() + 1);
             return "已接受";
         }

@@ -6,6 +6,7 @@ import com.phoenix.huashi.entity.Notification;
 import com.phoenix.huashi.service.NotificationService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -26,9 +27,10 @@ public class NotificationController {
     private SessionUtils sessionUtils;
 
 
-    @GetMapping("/{id}")
+    @GetMapping("")
     @ApiOperation(value = "查看公告详情", response = Notification.class)
-    public Object getNotificationById(@PathVariable("id") Long notificationId) {
+    @ApiImplicitParam(name="notificationId",value="公告id",required = true,paramType = "query",dataType = "Long")
+    public Object getNotificationById(@NotNull @RequestParam("notificationId") Long notificationId) {
         return notificationService.getNotificationById(notificationId);
     }
 

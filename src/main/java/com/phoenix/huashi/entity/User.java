@@ -78,4 +78,6 @@ public class User implements Serializable {
     @ApiModelProperty("简历附件")
     private String attachment;
 
+    @ApiModelProperty("学号")
+    private String studentNumber;
 }

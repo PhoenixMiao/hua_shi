@@ -5,12 +5,14 @@ import com.phoenix.huashi.controller.request.CreateProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
 
+import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 
 import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -30,9 +32,10 @@ public class RecruitProjectController {
     @Autowired
     private SessionUtils sessionUtils;
 
-    @GetMapping("/info/{id}")
+    @GetMapping("/info")
     @ApiOperation(value = "查看项目简介", response = RecruitProject.class)
-    public Object getRecruitProjectById(@PathVariable("id") Long id) {
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object getRecruitProjectById(@NotNull @RequestParam("projectId") Long id) {
         return recruitProjectService.getRecruitProjectById(id);
     }
 
@@ -43,7 +46,7 @@ public class RecruitProjectController {
     }
 
     @Auth
-    @PostMapping("/update/{id}")
+    @PostMapping("/update")
     @ApiOperation(value = "修改当前项目团队信息", response = String.class)
     public Object updateTeamById(@NotNull @Valid @RequestBody UpdateProjectByIdRequest updateProjectByIdRequest) {
         recruitProjectService.updateProjectById(updateProjectByIdRequest);
@@ -52,18 +55,17 @@ public class RecruitProjectController {
 
     @Auth
     @PostMapping("/create")
-    @ApiOperation(value = "创建项目", response = String.class)
+    @ApiOperation(value = "创建项目", response = Long.class)
     public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest) {
-        recruitProjectService.createProject(creatTeamRequest);
-        return "操作成功";
+        return recruitProjectService.createProject(creatTeamRequest);
     }
 
-//    @Auth
-//    @GetMapping("/display/{projectId}")
-//    @ApiOperation(value = "申请成为展示项目",response = String.class)
-//    public Object applyForDisplayProject(@PathVariable("projectId") Long projectId){
-//        recruitProjectService.applyForDisplayProject(projectId);
-//        return "操作成功";
-//    }
+    @Auth
+    @PostMapping("/display")
+    @ApiOperation(value = "申请成为展示项目",response = String.class)
+    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request){
+        recruitProjectService.applyForDisplayProject(request);
+        return "操作成功";
+    }
 
 }

@@ -3,6 +3,7 @@ package com.phoenix.huashi.controller;
 import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
 import com.phoenix.huashi.controller.request.GetListRequest;
+import com.phoenix.huashi.controller.request.GetTeamListRequest;
 import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
@@ -46,9 +47,10 @@ public class UserController {
     }
 
     @Auth
-    @GetMapping("/info/{userChuangNum}")
+    @GetMapping("/info")
     @ApiOperation(value = "查看用户信息", response = GetUserResponse.class)
-    public Object getUserById(@PathVariable("userChuangNum") String userChuangNum) {
+    @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
+    public Object getUserById(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
         User user = userService.getUserByChuangNum(userChuangNum);
         return user;
     }
@@ -70,12 +72,12 @@ public class UserController {
         return userService.searchBriefUserNameListByName(request);
     }
 
-    @Auth
+//    @Auth
     @PostMapping("/team")
     @ApiOperation(value = "查看我的组队", response = BriefProjectInformation.class)
-    public Object getBriefTeamList(@NotNull @Valid @RequestBody GetListRequest request) {
+    public Object getBriefTeamList(@NotNull @Valid @RequestBody GetTeamListRequest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return userService.getBriefTeamList(request, userChuangNum);
+        return userService.getBriefTeamList(request, "hs00000003");
     }
 
 }

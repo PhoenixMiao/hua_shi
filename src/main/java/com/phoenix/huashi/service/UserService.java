@@ -3,12 +3,15 @@ package com.phoenix.huashi.service;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
 import com.phoenix.huashi.controller.request.GetListRequest;
+import com.phoenix.huashi.controller.request.GetTeamListRequest;
 import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.entity.User;
+
+import java.util.List;
 
 public interface UserService {
     User getUserByChuangNum(String userChuangNum);
@@ -17,7 +20,7 @@ public interface UserService {
 
     Page<BriefUserName> searchBriefUserNameListByName(GetBriefUserNameListRequest searchBriefUserNameListRequest);
 
-    Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum);
+    Page<BriefProjectInformation> getBriefTeamList(GetTeamListRequest request, String userChuangNum);
 
 
     /**

@@ -6,6 +6,7 @@ import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
 import com.phoenix.huashi.controller.request.GetListRequest;
+import com.phoenix.huashi.controller.request.GetTeamListRequest;
 import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
@@ -17,6 +18,7 @@ import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.WxSession;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
+import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.mapper.MemberMapper;
 import com.phoenix.huashi.mapper.RecruitProjectMapper;
 import com.phoenix.huashi.mapper.UserMapper;
@@ -53,8 +55,11 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public Page<BriefProjectInformation> getBriefTeamList(GetListRequest request, String userChuangNum) {
-        List<Long> projectIdList = memberMapper.getTeamByChuangNum(userChuangNum);
+    public Page<BriefProjectInformation> getBriefTeamList(GetTeamListRequest request, String userChuangNum) {
+        String memberType="";
+        if(request.getTeamType().equals(0))memberType= MemberTypeEnum.MEMBER.getDescription();
+        else if(request.getTeamType().equals(1))memberType=MemberTypeEnum.CAPTAIN.getDescription();
+        List<Long> projectIdList =memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,memberType);
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();

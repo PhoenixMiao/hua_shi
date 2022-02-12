@@ -16,10 +16,10 @@ import java.util.List;
 public interface LikesMapper extends MyMapper<Likes> {
 
 
-    @Insert("INSERT INTO likes VALUE(null,#{projectId},#{userId},#{likeTime})")
+    @Insert("INSERT INTO likes(id,projectId,userChuangNum,likeTime) VALUE(null,#{projectId},#{userChuangNum},#{likeTime})")
     void addToLikes(
             @Param("projectId") Long projectId,
-            @Param("userId") String userChuangNum,
+            @Param("userChuangNum") String userChuangNum,
             @Param("likeTime") String likeTime);
 
     @Select("SELECT * FROM likes WHERE id = #{id}")

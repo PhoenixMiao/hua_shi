@@ -23,6 +23,7 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
     List<BriefRecruitProject> getAllBriefRList();
 
     @Insert("INSERT INTO recruitProject(name,captainChuangNum,captainName,institute,introduction,briefDemand,teacherName,teacherApartment,teacherRank,planStartTime,planEndTime,recruitTime,startTime,endTime,stateUpdateTime,demand,memberNum,recruitNum,status,tag1,tag2,tag3) VALUE(#{name},#{captainChuangNum},#{captainName},#{institute},#{introduction},#{briefDemand},#{teacherName},#{teacherApartment},#{teacherRank},#{planStartTime},#{planEndTime},#{recruitTime},#{startTime},#{endTime},#{stateUpdateTime},#{demand},#{memberNum},#{recruitNum},#{status},#{tag1},#{tag2},#{tag3})")
+    @Options(useGeneratedKeys = true,keyProperty = "id")
     void creatProject(
             @Param("name") String name,
             @Param("captainChuangNum") String captainChuangNum,
@@ -48,6 +49,10 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
             @Param("memberNum") Long memberNum
 
     );
+
+    @Insert("INSERT INTO recruitProject(name,captainChuangNum,captainName,institute,introduction,briefDemand,teacherName,teacherApartment,teacherRank,planStartTime,planEndTime,recruitTime,startTime,endTime,stateUpdateTime,demand,memberNum,recruitNum,status,tag1,tag2,tag3) VALUE(#{name},#{captainChuangNum},#{captainName},#{institute},#{introduction},#{briefDemand},#{teacherName},#{teacherApartment},#{teacherRank},#{planStartTime},#{planEndTime},#{recruitTime},#{startTime},#{endTime},#{stateUpdateTime},#{demand},#{memberNum},#{recruitNum},#{status},#{tag1},#{tag2},#{tag3})")
+    @Options(useGeneratedKeys = true,keyProperty = "id")
+    int newRecruitProject(RecruitProject recruitProject);
 
     @Update("UPDATE recruitProject SET name=#{name},captainName=#{captainName},institute=#{institute},introduction=#{introduction},briefDemand=#{briefDemand},teacherName=#{teacherName},teacherApartment=#{teacherApartment},teacherRank=#{teacherRank},planStartTime=#{planStartTime},planEndTime=#{planEndTime},recruitTime=#{recruitTime},startTime=#{startTime},endTime=#{endTime},stateUpdateTime=#{stateUpdateTime},demand=#{demand},recruitNum=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3} WHERE id=#{id}")
     void updateProjectById(
@@ -86,6 +91,11 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
             @Param("status") Integer status
     );
 
+    @Update("UPDATE recruitProject SET startTime=#{startTime} WHERE id=#{id}")
+    void setStartTime(@Param("id") Long id,@Param("startTime")String startTime);
+
+    @Delete("DELETE FROM recruitProject WHERE id=#{id}")
+    void deleteRecruitProject(@Param("id") Long id);
 
 }
 

@@ -55,13 +55,6 @@ public class CreateProjectRequest {
     @ApiModelProperty("标签三")
     private String tag3;
 
-
-    @ApiModelProperty("开始招募时间")
-    private String recruitTime;
-
-    @ApiModelProperty("项目开始进行时间")
-    private String startTime;
-
     @ApiModelProperty("项目结束时间")
     private String endTime;
     @ApiModelProperty("负责人姓名")
