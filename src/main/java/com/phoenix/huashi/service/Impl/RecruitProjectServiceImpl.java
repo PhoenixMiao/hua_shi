@@ -4,23 +4,14 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.request.CreateProjectRequest;
-import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
-import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
-import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetRecruitProjectResponse;
-import com.phoenix.huashi.dto.Message.BriefMessage;
 import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.dto.user.RecruitProjectMember;
-import com.phoenix.huashi.entity.DisplayProject;
-import com.phoenix.huashi.entity.Member;
-import com.phoenix.huashi.entity.RecruitProject;
-import com.phoenix.huashi.entity.User;
-import com.phoenix.huashi.mapper.DisplayProjectMapper;
-import com.phoenix.huashi.mapper.MemberMapper;
-import com.phoenix.huashi.mapper.RecruitProjectMapper;
-import com.phoenix.huashi.mapper.UserMapper;
+import com.phoenix.huashi.entity.*;
+import com.phoenix.huashi.enums.MessageTypeEnum;
+import com.phoenix.huashi.mapper.*;
 import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +39,9 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private MessageMapper messageMapper;
 
     @Override
     public GetRecruitProjectResponse getRecruitProjectById(Long id) {
@@ -96,6 +90,13 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     public void finishTeamById(Long id){
         recruitProjectMapper.updateProjectStatusById(id,-1,timeUtil.getCurrentTimestamp());
     }
+
+    @Override
+    public Integer getApplications(GetApplicationsRequest request) {
+       List<Message> messageList=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(), request.getId());
+       return messageList.size();
+    }
+
 
     @Override
     public void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest) {
