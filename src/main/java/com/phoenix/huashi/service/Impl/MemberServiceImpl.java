@@ -29,7 +29,7 @@ public class MemberServiceImpl implements MemberService {
         if(recruitProject.getRecruitNum()<=recruitProject.getMemberNum()){
             return "人员已满";
         }
-        memberMapper.insertMember(reuqest.getRecruitProjectId(), MemberTypeEnum.valueOf(reuqest.getType()).getDescription(),0,reuqest.getMemberChuangNum(),null);
+        memberMapper.insertMember(reuqest.getRecruitProjectId(), MemberTypeEnum.valueOf(reuqest.getType()).getDescription(),0,reuqest.getMemberChuangNum(),reuqest.getWork());
         recruitProjectMapper.updateMemberNumberById(reuqest.getRecruitProjectId(),recruitProject.getMemberNum()+1);
         if(recruitProject.getRecruitNum().equals(recruitProject.getMemberNum())){
             recruitProjectMapper.updateProjectStatusById(reuqest.getRecruitProjectId(),1,timeUtil.getCurrentTimestamp());
