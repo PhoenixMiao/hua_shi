@@ -26,4 +26,7 @@ public class AddMemberRequest {
     @NotNull
     @ApiModelProperty("成员类型 CAPTAIN队长 MEMBER队员")
     String type;
+
+    @ApiModelProperty("分工")
+    String work;
 }
