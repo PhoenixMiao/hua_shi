@@ -92,8 +92,8 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public Integer getApplications(GetApplicationsRequest request) {
-       List<Message> messageList=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(), request.getId());
+    public Integer getApplications(Long projectId) {
+       List<Message> messageList=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(),projectId);
        return messageList.size();
     }
 

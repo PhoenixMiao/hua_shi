@@ -18,5 +18,5 @@ public interface RecruitProjectService {
 
     void finishTeamById(Long id);
 
-    Integer getApplications(GetApplicationsRequest request);
+    Integer getApplications(Long projectId);
 }

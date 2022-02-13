@@ -74,10 +74,10 @@ public class RecruitProjectController {
         return "操作成功";
     }
 
-    @PostMapping("/applications")
+    @GetMapping("/applications")
     @ApiOperation(value = "获得简历数",response = Integer.class)
-    public Object getBriefApplicationList(@NotNull @Valid @RequestBody GetApplicationsRequest request){
-        return   recruitProjectService.getApplications(request);
-
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object getApplications(@NotNull @RequestParam("projectId") Long projectId){
+        return   recruitProjectService.getApplications(projectId);
     }
 }
