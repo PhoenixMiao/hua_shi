@@ -14,11 +14,9 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("GetApplicationListRequest 获取简要信息列表")
+@ApiModel("GetApplicationsRequest 获取简历数")
 public class GetApplicationsRequest {
-    @NotNull
-    @ApiModelProperty("分页参数")
-    PageParam pageParam;
+
 
     @NotNull
     @ApiModelProperty("项目id")
