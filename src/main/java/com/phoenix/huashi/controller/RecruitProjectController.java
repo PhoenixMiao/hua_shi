@@ -1,11 +1,8 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.request.CreateProjectRequest;
-import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
-import com.phoenix.huashi.controller.request.UpdateProjectByIdRequest;
+import com.phoenix.huashi.controller.request.*;
 
-import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 
@@ -77,4 +74,10 @@ public class RecruitProjectController {
         return "操作成功";
     }
 
+    @GetMapping("/applications")
+    @ApiOperation(value = "获得简历数",response = Integer.class)
+    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
+    public Object getApplications(@NotNull @RequestParam("projectId") Long projectId){
+        return   recruitProjectService.getApplications(projectId);
+    }
 }

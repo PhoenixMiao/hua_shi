@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller.request;
 
+import com.phoenix.huashi.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -13,9 +14,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("AddToCollection 收藏项目")
-public class AddToCollectionRequest {
+@ApiModel("GetApplicationsRequest 获取简历数")
+public class GetApplicationsRequest {
+
+
     @NotNull
-    @ApiModelProperty(" 展示项目id")
-    Long recruitProjectId;
+    @ApiModelProperty("项目id")
+    Long id;
+
 }

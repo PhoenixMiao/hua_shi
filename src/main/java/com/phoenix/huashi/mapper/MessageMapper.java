@@ -65,5 +65,7 @@ public interface MessageMapper {
             @Param("id") Long id,
             @Param("statusUpdateTime") String statusUpdateTime
     );
+    @Select("SELECT * FROM message WHERE type=#{type} AND projectId=#{projectId}  ")
+    List<Message> getApplication(@Param("type") String type, @Param("projectId") Long projectId);
 }
 
