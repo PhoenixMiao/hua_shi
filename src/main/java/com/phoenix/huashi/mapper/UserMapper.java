@@ -17,16 +17,13 @@ public interface UserMapper extends MyMapper<User> {
     Long newUser(User user);
 
 
-
     @Update("UPDATE user SET chuangNum=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);
 
 
-    @Update("UPDATE user SET nickname = #{nickname},gender = #{gender},portrait = #{portrait},school = #{school},telephone = #{telephone},department=#{department},name=#{name},major=#{major},grade=#{grade},QQ=#{QQ},wechatNum=#{wechatNum},resume=#{resume},attachment=#{attachment} WHERE chuangNum=#{chuangNum}")
+    @Update("UPDATE user SET nickname = #{nickname},portrait = #{portrait},school = #{school},telephone = #{telephone},department=#{department},major=#{major},grade=#{grade},QQ=#{QQ},wechatNum=#{wechatNum},resume=#{resume},attachment=#{attachment} WHERE chuangNum=#{chuangNum}")
     void updateUserByChuangNum(@Param("nickname") String nickname,
-                               @Param("gender") Integer gender,
                                @Param("portrait") String portrait,
-                               @Param("name") String name,
                                @Param("telephone") String telephone,
                                @Param("school") String school,
                                @Param("department") String department,
@@ -47,7 +44,7 @@ public interface UserMapper extends MyMapper<User> {
     @Select("SELECT nickname FROM user WHERE chuangNum=#{chuangNum}")
     String getNicknameByChuangNum(@Param("chuangNum") String chuangNum);
 
-    @Select("SELECT name,major,grade,telephone,QQ,resume FROM user WHERE chuangNum=#{chuangNum}")
+    @Select("SELECT name,major,grade,telephone,QQ,resume,studentNumber FROM user WHERE chuangNum=#{chuangNum}")
     BriefUser getUserInformationByChuangNum(@Param("chuangNum") String chuangNum);
 }
 

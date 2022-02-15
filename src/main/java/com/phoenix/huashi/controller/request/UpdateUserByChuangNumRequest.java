@@ -15,12 +15,8 @@ import lombok.NoArgsConstructor;
 public class UpdateUserByChuangNumRequest {
     @ApiModelProperty("昵称")
     private String nickname;
-    @ApiModelProperty("性别")
-    private Integer gender;
     @ApiModelProperty("电话号码")
     private String telephone;
-    @ApiModelProperty("真实姓名")
-    private String name;
     @ApiModelProperty("头像")
     private String portrait;
     @ApiModelProperty("学校")

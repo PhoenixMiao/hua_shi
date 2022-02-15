@@ -3,6 +3,7 @@ package com.phoenix.huashi.controller;
 import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.controller.request.*;
 
+import com.phoenix.huashi.dto.recruitproject.BriefApplication;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 
@@ -79,5 +80,13 @@ public class RecruitProjectController {
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
     public Object getApplications(@NotNull @RequestParam("projectId") Long projectId){
         return   recruitProjectService.getApplications(projectId);
+    }
+
+    @Auth
+    @PostMapping("/applications/list")
+    @ApiOperation(value = "申请简历列表",response = BriefApplication.class)
+    public Object getBriefApplicationList(@NotNull @Valid @RequestBody GetBriefApplicationListRequest request){
+        return  recruitProjectService.getBriefApplicationList(request);
+
     }
 }
