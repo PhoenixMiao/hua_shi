@@ -101,10 +101,7 @@ public class UserServiceImpl implements UserService {
 
         String sessionId = sessionUtils.generateSessionId();
 
-        User user = User.builder()
-                .openId(wxSession.getOpenId())
-                .build();
-        user = userMapper.selectOne(user);
+        User user = userMapper.getUserByOpenId(wxSession.getOpenId());
 
         if (user != null) {
             sessionUtils.setSessionId(user.getSessionId());
