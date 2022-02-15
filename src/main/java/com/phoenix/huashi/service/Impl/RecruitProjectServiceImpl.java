@@ -7,7 +7,9 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetRecruitProjectResponse;
 import com.phoenix.huashi.dto.member.BriefMember;
+import com.phoenix.huashi.dto.recruitproject.BriefApplication;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
+import com.phoenix.huashi.dto.user.BriefUser;
 import com.phoenix.huashi.dto.user.RecruitProjectMember;
 import com.phoenix.huashi.entity.*;
 import com.phoenix.huashi.enums.MessageTypeEnum;
@@ -95,6 +97,20 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     public Integer getApplications(Long projectId) {
        List<Message> messageList=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(),projectId);
        return messageList.size();
+    }
+
+    @Override
+    public Page<BriefApplication> getBriefApplicationList(GetBriefApplicationListRequest request) {
+        List<Message> message=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(), request.getId());
+        List<BriefApplication> briefApplications=new ArrayList<>();
+        for(Message messages:message){
+            BriefUser user=userMapper.getUserInformationByChuangNum(messages.getMemberChuangNum());
+            BriefApplication briefApplication=new BriefApplication(user.getName(), user.getMajor(), user.getGrade(), user.getTelephone(), user.getQQ(), messages.getIsRead(), messages.getStatusUpdateTime());
+            briefApplications.add(briefApplication);
+        }
+        PageParam pageParam = request.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        return new Page(new PageInfo<>(briefApplications));
     }
 
 

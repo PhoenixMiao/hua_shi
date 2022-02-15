@@ -50,7 +50,7 @@ public class UserController {
     @GetMapping("/info")
     @ApiOperation(value = "查看用户信息", response = GetUserResponse.class)
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
-    public Object getUserById(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
+    public Object getUserByChuangNum(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
         User user = userService.getUserByChuangNum(userChuangNum);
         return user;
     }

@@ -1,5 +1,4 @@
 package com.phoenix.huashi.controller.request;
-
 import com.phoenix.huashi.common.PageParam;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -14,12 +13,12 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@ApiModel("GetApplicationsRequest 获取简历数")
-public class GetApplicationsRequest {
-
-
+@ApiModel("GetBriefApplicationListRequest 获取简要简历列表")
+public class GetBriefApplicationListRequest {
     @NotNull
-    @ApiModelProperty("项目id")
-    Long id;
+    @ApiModelProperty("分页参数")
+    PageParam pageParam;
 
+    @ApiModelProperty("项目")
+    Long id ;
 }

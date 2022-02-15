@@ -3,6 +3,7 @@ package com.phoenix.huashi.service;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetRecruitProjectResponse;
+import com.phoenix.huashi.dto.recruitproject.BriefApplication;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 
 public interface RecruitProjectService {
@@ -19,4 +20,6 @@ public interface RecruitProjectService {
     void finishTeamById(Long id);
 
     Integer getApplications(Long projectId);
+
+    Page<BriefApplication> getBriefApplicationList(GetBriefApplicationListRequest request);
 }
