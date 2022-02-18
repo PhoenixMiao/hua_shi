@@ -22,4 +22,6 @@ public interface RecruitProjectService {
     Integer getApplications(Long projectId);
 
     Page<BriefApplication> getBriefApplicationList(GetBriefApplicationListRequest request);
+
+    Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest);
 }

@@ -12,23 +12,23 @@ import java.util.List;
 
 @Repository
 public interface MemberMapper {
-    @Select("SELECT projectId FROM member WHERE chuangNum=#{chuangNum} AND type=#{type}")
-    List<Long> getTeamByChuangNumAndMemberType(@Param("chuangNum") String chuangNum,@Param("type") String type);
+    @Select("SELECT project_id FROM member WHERE chuang_num=#{chuang_num} AND type=#{type}")
+    List<Long> getTeamByChuangNumAndMemberType(@Param("chuang_num") String chuangNum,@Param("type") String type);
 
-    @Select("SELECT projectId FROM member WHERE chuangNum=#{chuangNum}")
-    List<Long> getTeamByChuangNum(@Param("chuangNum") String chuangNum);
+    @Select("SELECT project_id FROM member WHERE chuang_num=#{chuang_num}")
+    List<Long> getTeamByChuangNum(@Param("chuang_num") String chuangNum);
 
-    @Insert("INSERT INTO member(id,type,projectType,projectId,chuangNum,work) VALUE(null,#{type},#{projectType},#{projectId},#{chuangNum},#{work})")
+    @Insert("INSERT INTO member(id,type,project_type,project_id,chuang_num,work) VALUE(null,#{type},#{project_type},#{project_id},#{chuang_num},#{work})")
     void insertMember(
-            @Param("projectId") Long projectId,
+            @Param("project_id") Long projectId,
             @Param("type") String type,
-            @Param("projectType") Integer projectType,
-            @Param("chuangNum") String chuangNum,
+            @Param("project_type") Integer projectType,
+            @Param("chuang_num") String chuangNum,
             @Param("work") String work);
 
-    @Select("SELECT chuangNum,work FROM member WHERE projectId=#{projectId} AND projectType=#{projectType}")
+    @Select("SELECT chuang_num,work FROM member WHERE project_id=#{project_id} AND project_type=#{project_type}")
     List<BriefMember> getMembersByProjectId(
-            @Param("projectId") Long projectId,
-            @Param("projectType") Integer projectType
+            @Param("project_id") Long projectId,
+            @Param("project_type") Integer projectType
     );
 }

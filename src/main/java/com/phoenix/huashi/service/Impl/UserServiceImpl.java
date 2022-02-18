@@ -34,6 +34,7 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
     @Autowired
     private SessionUtils sessionUtils;
 
@@ -114,6 +115,7 @@ public class UserServiceImpl implements UserService {
                 .openId(wxSession.getOpenId())
                 .unionId(wxSession.getUnionId())
                 .sessionKey(wxSession.getSessionKey())
+                .chuangNum("initializing")
                 .sessionId(sessionId)
                 .build();
 

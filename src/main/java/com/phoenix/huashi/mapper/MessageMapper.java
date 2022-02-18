@@ -14,41 +14,41 @@ import java.util.List;
 
 @Repository
 public interface MessageMapper {
-    @Insert("INSERT INTO message(type,projectId,memberChuangNum,memberNickname,status,statusUpdateTime,reason,isRead,projectCaptainChuangNum,projectCaptainNickname) VALUE(#{type},#{projectId},#{memberChuangNum},#{memberNickname},#{status},#{statusUpdateTime},#{reason},#{isRead},#{projectCaptainChuangNum},#{projectCaptainNickname})")
+    @Insert("INSERT INTO message(type,project_id,member_chuang_num,member_nickname,status,status_update_time,reason,is_read,project_captain_chuang_num,project_captain_nickname) VALUE(#{type},#{project_id},#{member_chuang_num},#{member_nickname},#{status},#{status_update_time},#{reason},#{is_read},#{project_captain_chuang_num},#{project_captain_nickname})")
     void joinProject(
             @Param("type") String type,
-            @Param("projectId") Long projectId,
-            @Param("memberChuangNum") String memberChuangNum,
-            @Param("memberNickname") String memberNickname,
+            @Param("project_id") Long projectId,
+            @Param("member_chuang_num") String memberChuangNum,
+            @Param("member_nickname") String memberNickname,
             @Param("status") Integer status,
-            @Param("statusUpdateTime") String statusUpdateTime,
+            @Param("status_update_time") String statusUpdateTime,
             @Param("reason") String reason,
-            @Param("isRead") Integer isRead,
-            @Param("projectCaptainChuangNum") String projectCaptainChuangNum,
-            @Param("projectCaptainNickname") String projectCaptainNickname);
+            @Param("is_read") Integer isRead,
+            @Param("project_captain_chuang_num") String projectCaptainChuangNum,
+            @Param("project_captain_nickname") String projectCaptainNickname);
 
-    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectCaptainChuangNum,projectCaptainNickname FROM message WHERE projectCaptainChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum} ")
-    List<BriefMessage> getBriefMessageList(@Param("ChuangNum") String ChuangNum);
+    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE project_captain_chuang_num=#{chuang_num} or member_chuang_num=#{chuang_num} ")
+    List<BriefMessage> getBriefMessageList(@Param("chuang_num") String ChuangNum);
 
-    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectCaptainChuangNum,projectCaptainNickname FROM message WHERE (projectCaptainChuangNum=#{ChuangNum} AND type=#{invite}) OR (memberChuangNum=#{ChuangNum} AND type=#{apply})")
-    List<BriefMessage> getBriefMessageSentByMeList(@Param("ChuangNum") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
+    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{invite}) OR (member_chuang_num=#{chuang_num} AND type=#{apply})")
+    List<BriefMessage> getBriefMessageSentByMeList(@Param("chuang_num") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
 
-    @Select("SELECT  id,type,projectId,memberChuangNum,memberNickname,status,isRead,projectCaptainChuangNum,projectCaptainNickname FROM message WHERE (projectCaptainChuangNum=#{ChuangNum} AND type=#{apply}) OR (memberChuangNum=#{ChuangNum} AND type=#{invite}) ")
+    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{apply}) OR (member_chuang_num=#{chuang_num} AND type=#{invite}) ")
     List<BriefMessage> getBriefMessageSentToMeList(@Param("ChuangNum") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
 
-    @Select("SELECT * FROM message WHERE type=#{type} AND projectId=#{projectId} AND memberChuangNum=#{memberChuangNum} ")
+    @Select("SELECT * FROM message WHERE type=#{type} AND project_id=#{projectId} AND member_chuang_num=#{memberChuangNum} ")
     Message hasApplied(@Param("type") String type, @Param("projectId") Long projectId, @Param("memberChuangNum") String memberChuangNum);
 
-    @Select("SELECT * FROM message WHERE type=#{type} AND memberChuangNum=#{memberChuangNum} AND projectId=#{projectId}")
+    @Select("SELECT * FROM message WHERE type=#{type} AND member_chuang_num=#{memberChuangNum} AND project_id=#{projectId}")
     Message hasInvited(@Param("type") String type, @Param("projectId") Long projectId, @Param("memberChuangNum") String memberChuangNum);
 
-    @Update("UPDATE message SET isRead=1,statusUpdateTime=#{statusUpdateTime} WHERE projectCaptainChuangNum=#{ChuangNum} or memberChuangNum=#{ChuangNum}")
+    @Update("UPDATE message SET is_read=1,status_update_time=#{statusUpdateTime} WHERE project_captain_chuang_num=#{ChuangNum} or member_chuang_num=#{ChuangNum}")
     void updateIsRead(
             @Param("ChuangNum") String ChuangNum,
             @Param("statusUpdateTime") String statusUpdateTime
     );
 
-    @Update("UPDATE message SET status=#{status},reason=#{reason},statusUpdateTime=#{statusUpdateTime},isRead=#{isRead} WHERE id=#{id} ")
+    @Update("UPDATE message SET status=#{status},reason=#{reason},status_update_time=#{statusUpdateTime},is_read=#{isRead} WHERE id=#{id} ")
     void updateStatus(
             @Param("status") Integer status,
             @Param("reason") String reason,
@@ -60,12 +60,13 @@ public interface MessageMapper {
     @Select("SELECT  * FROM message WHERE id=#{id}")
     Message getMessage(@Param("id") Long id);
 
-    @Update("UPDATE message SET statusUpdateTime=#{statusUpdateTime} WHERE id=#{id}")
+    @Update("UPDATE message SET status_update_time=#{statusUpdateTime} WHERE id=#{id}")
     void setStatusUpdateTime(
             @Param("id") Long id,
             @Param("statusUpdateTime") String statusUpdateTime
     );
-    @Select("SELECT * FROM message WHERE type=#{type} AND projectId=#{projectId}  ")
+
+    @Select("SELECT * FROM message WHERE type=#{type} AND project_id=#{projectId}  ")
     List<Message> getApplication(@Param("type") String type, @Param("projectId") Long projectId);
 }
 

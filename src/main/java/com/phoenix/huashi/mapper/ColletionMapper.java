@@ -13,17 +13,17 @@ import java.util.List;
 
 @Repository
 public interface ColletionMapper extends MyMapper<Collection> {
-    @Insert("INSERT INTO collection(id,projectId,chuangNum,collectTime) VALUE(null,#{projectId},#{chuangNum},#{collectTime})")
+    @Insert("INSERT INTO collection(id,project_id,chuang_num,collect_time) VALUE(null,#{project_id},#{chuang_num},#{collect_time})")
     void addToCollection(
-            @Param("chuangNum") String chuangNum,
-            @Param("projectId") Long projectId,
-            @Param("collectTime") String collectTime);
+            @Param("chuang_num") String chuangNum,
+            @Param("project_id") Long projectId,
+            @Param("collect_time") String collectTime);
 
     @Delete("DELETE FROM collection WHERE id=#{id};")
     void cancelCollection(@Param("id") Long id);
 
-    @Select("SELECT * FROM collection WHERE chuangNum = #{chuangNum}")
-    List<Collection> getCollectionList(@Param("chuangNum") String chuangNum);
+    @Select("SELECT * FROM collection WHERE chuang_num = #{chuang_num}")
+    List<Collection> getCollectionList(@Param("chuang_num") String chuangNum);
 
     @Select("SELECT * FROM collection WHERE id = #{id}")
     Collection getCollectionById(@Param("id") Long id);

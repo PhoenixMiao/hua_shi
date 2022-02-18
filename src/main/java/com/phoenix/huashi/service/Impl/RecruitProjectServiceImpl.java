@@ -10,12 +10,14 @@ import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.recruitproject.BriefApplication;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.dto.user.BriefUser;
+import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.dto.user.RecruitProjectMember;
 import com.phoenix.huashi.entity.*;
 import com.phoenix.huashi.enums.MessageTypeEnum;
 import com.phoenix.huashi.mapper.*;
 import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.enums.MemberTypeEnum;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.phoenix.huashi.util.TimeUtil;
+import tk.mybatis.mapper.entity.Example;
 
 @Service
 
@@ -111,6 +114,54 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         return new Page(new PageInfo<>(briefApplications));
+    }
+
+    @Override
+    public Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest) {
+        Example example = new Example(RecruitProject.class);
+        Example.Criteria statusCriteria = example.createCriteria();
+        statusCriteria.andEqualTo("status", 0);
+
+        if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
+            Example.Criteria departmentCriteria = example.createCriteria();
+            departmentCriteria.orLike("institute", "%" + searchRequest.getDepartment() + "%");
+            example.and(departmentCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getName())) {
+            Example.Criteria nameCriteria = example.createCriteria();
+            nameCriteria.orLike("name", "%" + searchRequest.getName() + "%");
+            example.and(nameCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
+            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
+            Example.Criteria captainCriteria = example.createCriteria();
+            for (BriefUserName ele : briefUserNameList)
+                captainCriteria.orEqualTo("captain_Chuang_Num", ele.getChuangNum());
+            example.and(captainCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getTag())) {
+            Example.Criteria tagCriteria = example.createCriteria();
+            tagCriteria.orLike("tag1", "%" + searchRequest.getTag() + "%");
+            tagCriteria.orLike("tag2", "%" + searchRequest.getTag() + "%");
+            tagCriteria.orLike("tag3", "%" + searchRequest.getTag() + "%");
+            example.and(tagCriteria);
+        }
+
+        PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
+                searchRequest.getPageParam().getPageSize(),
+                searchRequest.getPageParam().getOrderBy());
+        List<RecruitProject> recruitProjectList = recruitProjectMapper.selectByExample(example);
+        Page page = new Page(new PageInfo(recruitProjectList));
+
+        ArrayList<BriefRecruitProject> searchResponseArrayList = new ArrayList<>();
+        for (RecruitProject ele : recruitProjectList) {
+            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(),ele.getTag3(),ele.getBriefDemand(),ele.getStatus()));
+        }
+        return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
+
     }
 
 

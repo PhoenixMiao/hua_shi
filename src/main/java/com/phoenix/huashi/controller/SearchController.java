@@ -1,10 +1,10 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.controller.request.SearchRequest;
-import com.phoenix.huashi.controller.response.SearchResponse;
-import com.phoenix.huashi.service.SearchService;
+import com.phoenix.huashi.service.DisplayProjectService;
+import com.phoenix.huashi.service.NotificationService;
+import com.phoenix.huashi.service.RecruitProjectService;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -23,11 +23,20 @@ import javax.validation.constraints.NotNull;
 public class SearchController {
 
     @Autowired
-    private SearchService searchService;
+    private NotificationService notificationService;
+
+    @Autowired
+    private RecruitProjectService recruitProjectService;
+
+    @Autowired
+    private DisplayProjectService displayProjectService;
 
     @PostMapping("/condition")
-    @ApiOperation(value = "根据条件筛选信息", response = SearchResponse.class)
+    @ApiOperation(value = "根据条件筛选信息")
     public Object search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {
-        return searchService.search(searchRequest);
+        if(searchRequest.getType()==1) return notificationService.searchNotification(searchRequest);
+        if(searchRequest.getType()==2) return displayProjectService.searchDisplayProject(searchRequest);
+        if(searchRequest.getType()==3) return recruitProjectService.searchRecruitProject(searchRequest);
+        return "tag值必须为1或2或3";
     }
 }

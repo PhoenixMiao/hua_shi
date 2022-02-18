@@ -1,19 +1,14 @@
 package com.phoenix.huashi.dto.notification;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import javax.persistence.Id;
-import java.io.Serializable;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("BriefNotification 通知公告简要信息")
-public class BriefNotification implements Serializable {
+public class BriefNotification{
 
     @ApiModelProperty("Id")
     private Long id;
@@ -26,7 +21,5 @@ public class BriefNotification implements Serializable {
 
     @ApiModelProperty("发布日期")
     private String publishDate;
-
-
 
 }

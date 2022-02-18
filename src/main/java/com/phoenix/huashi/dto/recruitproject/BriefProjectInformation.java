@@ -2,17 +2,14 @@ package com.phoenix.huashi.dto.recruitproject;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("BriefProjectInformation 我的组队简要信息")
-public class BriefProjectInformation {
+public class BriefProjectInformation{
     @ApiModelProperty("Id")
     private Long id;
 
