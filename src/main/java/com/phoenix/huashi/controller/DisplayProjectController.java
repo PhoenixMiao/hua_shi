@@ -1,6 +1,7 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
@@ -46,6 +47,13 @@ public class DisplayProjectController {
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)
     public Object getBriefDisplayProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
         return displayProjectService.getBriefDisplayProjectList(request);
+    }
+
+    @Auth
+    @PostMapping("/add")
+    @ApiOperation(value = "增加展示项目",response = String.class)
+    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request){
+        return displayProjectService.addDisplayProject(request);
     }
 
 

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 
 import com.phoenix.huashi.controller.request.SearchRequest;
@@ -139,5 +140,45 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
+    }
+
+    @Override
+    public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
+        return (long)displayProjectMapper.insert(
+                DisplayProject
+                        .builder()
+                        .name(applyForDisplayProjectRequest.getName())
+                        .year(applyForDisplayProjectRequest.getYear())
+                        .type(applyForDisplayProjectRequest.getType())
+                        .number(applyForDisplayProjectRequest.getNumber())
+                        .uploadTime(TimeUtil.getCurrentTimestamp())
+                        .paper(applyForDisplayProjectRequest.getPaper())
+                        .teacherApartment(applyForDisplayProjectRequest.getTeacherApartment())
+                        .teacherName(applyForDisplayProjectRequest.getTeacherName())
+                        .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
+                        .award(applyForDisplayProjectRequest.getAward())
+                        .captainChuangNum(applyForDisplayProjectRequest.getCaptainChuangNum())
+                        .captainName(applyForDisplayProjectRequest.getCaptainName())
+                        .innovation(applyForDisplayProjectRequest.getInnovation())
+                        .institute(applyForDisplayProjectRequest.getInstitute())
+                        .major(applyForDisplayProjectRequest.getMajor())
+                        .introduction(applyForDisplayProjectRequest.getIntroduction())
+                        .memberFiveGrade(applyForDisplayProjectRequest.getMemberFiveGrade())
+                        .memberFiveName(applyForDisplayProjectRequest.getMemberFiveName())
+                        .memberFiveMajor(applyForDisplayProjectRequest.getMemberFiveMajor())
+                        .memberFourGrade(applyForDisplayProjectRequest.getMemberFourGrade())
+                        .memberFourName(applyForDisplayProjectRequest.getMemberFourName())
+                        .memberFourMajor(applyForDisplayProjectRequest.getMemberFourMajor())
+                        .memberOneGrade(applyForDisplayProjectRequest.getMemberOneGrade())
+                        .memberOneName(applyForDisplayProjectRequest.getMemberOneName())
+                        .memberOneMajor(applyForDisplayProjectRequest.getMemberOneMajor())
+                        .memberThreeGrade(applyForDisplayProjectRequest.getMemberThreeGrade())
+                        .memberThreeName(applyForDisplayProjectRequest.getMemberThreeName())
+                        .memberThreeMajor(applyForDisplayProjectRequest.getMemberThreeMajor())
+                        .memberTwoGrade(applyForDisplayProjectRequest.getMemberTwoGrade())
+                        .memberTwoName(applyForDisplayProjectRequest.getMemberTwoName())
+                        .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
+                        .build()
+        );
     }
 }

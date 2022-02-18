@@ -82,14 +82,14 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         return recruitProject.getId();
     }
 
-    @Override
-    public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
-        DisplayProject displayProject=new DisplayProject(null,request.getYear(),request.getInstitute(),request.getName(),request.getCaptainChuangNum(),request.getCaptainName(),request.getTeacherName(),request.getTeacherApartment(),request.getTeacherRank(),request.getTeacherStudy(),request.getUploadTime(),request.getIntroduction(),
-                request.getType(),request.getMajor(),request.getNumber(),request.getAward(),request.getInnovation(),request.getLikes(),request.getCollections(),request.getPaper(), request.getDeadline(), request.getPersonLimit(),request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(),
-                request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor());
-        displayProjectMapper.insert(displayProject);
-        recruitProjectMapper.deleteRecruitProject(request.getId());
-    }
+//    @Override
+//    public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
+//        DisplayProject displayProject=new DisplayProject(null,request.getYear(),request.getInstitute(),request.getName(),request.getCaptainChuangNum(),request.getCaptainName(),request.getTeacherName(),request.getTeacherApartment(),request.getTeacherRank(),request.getTeacherStudy(),request.getUploadTime(),request.getIntroduction(),
+//                request.getType(),request.getMajor(),request.getNumber(),request.getAward(),request.getInnovation(),request.getLikes(),request.getCollections(),request.getPaper(), request.getDeadline(), request.getPersonLimit(),request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(),
+//                request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor());
+//        displayProjectMapper.insert(displayProject);
+//        recruitProjectMapper.deleteRecruitProject(request.getId());
+//    }
 
     @Override
     public void finishTeamById(Long id){

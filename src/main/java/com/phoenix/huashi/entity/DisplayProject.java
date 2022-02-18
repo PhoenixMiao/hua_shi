@@ -77,13 +77,6 @@ public class DisplayProject implements Serializable {
     @ApiModelProperty("论文成果")
     private String paper;
 
-    @ApiModelProperty("截止日期")
-    private String deadline;
-
-    @ApiModelProperty("人数上限")
-    private Long personLimit;
-
-
     @ApiModelProperty("成员1姓名")
     private Long memberOneName;
 

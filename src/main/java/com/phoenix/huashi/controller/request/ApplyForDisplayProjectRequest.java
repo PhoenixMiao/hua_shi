@@ -16,9 +16,6 @@ import javax.persistence.Id;
 @AllArgsConstructor
 @ApiModel("ApplyForDisplayProjectRequest 申请成为展示项目")
 public class ApplyForDisplayProjectRequest {
-    @Id
-    @ApiModelProperty("项目id")
-    private Long id;
 
     @ApiModelProperty("立项年份")
     private String year;
@@ -47,9 +44,6 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("指导老师研究方向")
     private String teacherStudy;
 
-    @ApiModelProperty("项目上传时间")
-    private String uploadTime;
-
     @ApiModelProperty("项目简介")
     private String introduction;
 
@@ -68,20 +62,8 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("项目创新点")
     private String innovation;
 
-    @ApiModelProperty("点赞数")
-    private Long likes;
-
-    @ApiModelProperty("收藏数")
-    private Long collections;
-
     @ApiModelProperty("论文成果")
     private String paper;
-
-    @ApiModelProperty("截止日期")
-    private String deadline;
-
-    @ApiModelProperty("人数上限")
-    private Long personLimit;
 
     @ApiModelProperty("成员1姓名")
     private Long memberOneName;
