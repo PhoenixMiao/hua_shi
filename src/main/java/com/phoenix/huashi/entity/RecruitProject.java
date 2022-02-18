@@ -86,32 +86,4 @@ public class RecruitProject implements Serializable {
 
     @ApiModelProperty("已有人数")
     private Long memberNum;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
