@@ -4,12 +4,15 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 
+import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 import com.phoenix.huashi.dto.member.BriefMember;
+import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.dto.user.DisplayProjectMember;
 import com.phoenix.huashi.entity.DisplayProject;
 
@@ -26,9 +29,11 @@ import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.RedisUtils;
 import com.phoenix.huashi.util.TimeUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import tk.mybatis.mapper.entity.Example;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -96,5 +101,84 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
             }
         }
         return new Page(new PageInfo<>(briefDisplayProjectList));
+    }
+
+    @Override
+    public Page<BriefDisplayProject> searchDisplayProject(SearchRequest searchRequest) {
+        Example example = new Example(DisplayProject.class);
+
+        if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
+            Example.Criteria departmentCriteria = example.createCriteria();
+            departmentCriteria.orLike("institute", "%" + searchRequest.getDepartment() + "%");
+            departmentCriteria.orLike("major", "%" + searchRequest.getDepartment() + "%");
+            example.and(departmentCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getName())) {
+            Example.Criteria nameCriteria = example.createCriteria();
+            nameCriteria.orLike("name", "%" + searchRequest.getName() + "%");
+            example.and(nameCriteria);
+        }
+
+        if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
+            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
+            Example.Criteria captainCriteria = example.createCriteria();
+            for (BriefUserName ele : briefUserNameList)
+                captainCriteria.orEqualTo("principalChuangNum", ele.getChuangNum());
+            example.and(captainCriteria);
+        }
+
+        PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
+                searchRequest.getPageParam().getPageSize(),
+                searchRequest.getPageParam().getOrderBy());
+        List<DisplayProject> displayProjectList = displayProjectMapper.selectByExample(example);
+        Page page = new Page(new PageInfo(displayProjectList));
+
+        ArrayList<BriefDisplayProject> searchResponseArrayList = new ArrayList<>();
+        for (DisplayProject ele : displayProjectList) {
+            searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getName(), ele.getType(), ele.getInstitute()));
+        }
+        return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
+
+    }
+
+    @Override
+    public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
+        return (long)displayProjectMapper.insert(
+                DisplayProject
+                        .builder()
+                        .name(applyForDisplayProjectRequest.getName())
+                        .year(applyForDisplayProjectRequest.getYear())
+                        .type(applyForDisplayProjectRequest.getType())
+                        .number(applyForDisplayProjectRequest.getNumber())
+                        .uploadTime(TimeUtil.getCurrentTimestamp())
+                        .paper(applyForDisplayProjectRequest.getPaper())
+                        .teacherApartment(applyForDisplayProjectRequest.getTeacherApartment())
+                        .teacherName(applyForDisplayProjectRequest.getTeacherName())
+                        .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
+                        .award(applyForDisplayProjectRequest.getAward())
+                        .captainChuangNum(applyForDisplayProjectRequest.getCaptainChuangNum())
+                        .captainName(applyForDisplayProjectRequest.getCaptainName())
+                        .innovation(applyForDisplayProjectRequest.getInnovation())
+                        .institute(applyForDisplayProjectRequest.getInstitute())
+                        .major(applyForDisplayProjectRequest.getMajor())
+                        .introduction(applyForDisplayProjectRequest.getIntroduction())
+                        .memberFiveGrade(applyForDisplayProjectRequest.getMemberFiveGrade())
+                        .memberFiveName(applyForDisplayProjectRequest.getMemberFiveName())
+                        .memberFiveMajor(applyForDisplayProjectRequest.getMemberFiveMajor())
+                        .memberFourGrade(applyForDisplayProjectRequest.getMemberFourGrade())
+                        .memberFourName(applyForDisplayProjectRequest.getMemberFourName())
+                        .memberFourMajor(applyForDisplayProjectRequest.getMemberFourMajor())
+                        .memberOneGrade(applyForDisplayProjectRequest.getMemberOneGrade())
+                        .memberOneName(applyForDisplayProjectRequest.getMemberOneName())
+                        .memberOneMajor(applyForDisplayProjectRequest.getMemberOneMajor())
+                        .memberThreeGrade(applyForDisplayProjectRequest.getMemberThreeGrade())
+                        .memberThreeName(applyForDisplayProjectRequest.getMemberThreeName())
+                        .memberThreeMajor(applyForDisplayProjectRequest.getMemberThreeMajor())
+                        .memberTwoGrade(applyForDisplayProjectRequest.getMemberTwoGrade())
+                        .memberTwoName(applyForDisplayProjectRequest.getMemberTwoName())
+                        .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
+                        .build()
+        );
     }
 }

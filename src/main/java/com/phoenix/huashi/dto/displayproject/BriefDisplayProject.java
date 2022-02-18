@@ -1,19 +1,14 @@
 package com.phoenix.huashi.dto.displayproject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import javax.persistence.Id;
-import java.io.Serializable;
+import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @ApiModel("BriefDisplayProject 展示项目简要信息")
-public class BriefDisplayProject implements Serializable{
+public class BriefDisplayProject {
     @ApiModelProperty("项目id")
     private Long id;
 
