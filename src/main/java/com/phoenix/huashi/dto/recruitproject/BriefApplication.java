@@ -14,8 +14,12 @@ import java.io.Serializable;
 @Builder
 @ApiModel("BriefApplication 简历简要信息")
 public class BriefApplication {
+    @ApiModelProperty("用户创赛号")
+    private String memberChuangNum;
+
     @ApiModelProperty("真实姓名")
     private String name;
+
     @ApiModelProperty("专业")
     private String major;
 
