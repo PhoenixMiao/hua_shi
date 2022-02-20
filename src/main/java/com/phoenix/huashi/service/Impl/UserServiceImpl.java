@@ -117,6 +117,7 @@ public class UserServiceImpl implements UserService {
                 .sessionKey(wxSession.getSessionKey())
                 .chuangNum("initializing")
                 .sessionId(sessionId)
+                .nickname("华实创赛用户")
                 .build();
 
         Long userId = userMapper.newUser(user);
