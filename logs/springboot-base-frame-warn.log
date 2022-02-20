@@ -24,3 +24,5 @@ Caused by: java.lang.IllegalStateException: Multiple Dockets with the same group
 	at org.springframework.context.support.DefaultLifecycleProcessor.doStart(DefaultLifecycleProcessor.java:182)
 	... 14 common frames omitted
 2022-02-20 13:34:36.179 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-02-20 15:47:52.794 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-02-20 21:30:36.131 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.

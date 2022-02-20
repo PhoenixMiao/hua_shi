@@ -37,4 +37,7 @@ public class BriefApplication {
 
     @ApiModelProperty("状态更新时间")
     private String statusUpdateTime;
+
+    @ApiModelProperty("状态 0表示未处理 1/-1表示已处理")
+    private Integer status;
 }
