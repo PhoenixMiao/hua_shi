@@ -80,4 +80,13 @@ public class UserController {
         return userService.getBriefTeamList(request, userChuangNum);
     }
 
+    @Auth
+    @PostMapping("/logout")
+    @ApiOperation(value = "登出",response = String.class)
+    public Object logout(){
+        String userChuangNum = sessionUtils.getUserChuangNum();
+        sessionUtils.invalidate();
+        return userChuangNum;
+    }
+
 }

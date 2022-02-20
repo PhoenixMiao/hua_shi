@@ -21,16 +21,40 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class Swagger2Config {
 
     private static final String GROUP_NAME = "hua_shi";
-    private static final String BASE_PACKAGE = "com.phoenix.huashi.controller";
+    private static final String BASE_PACKAGE1 = "com.phoenix.huashi.controller";
+    private static final String BASE_PACKAGE2 = "com.phoenix.huashi.entity";
+    private static final String BASE_PACKAGE3 = "com.phoenix.huashi.dto";
     private static final String TITLE = "hua_shi API Documentation";
     private static final String DESCRIPTION = "华实创赛中心接口文档";
     @Bean
-    public Docket createTestApi() {
+    public Docket createControllerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .groupName(GROUP_NAME)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE))//设定扫描范围
+                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE1))//设定扫描范围
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    @Bean
+    public Docket createEntityApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName(GROUP_NAME)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE2))//设定扫描范围
+                .paths(PathSelectors.any())
+                .build();
+    }
+
+    @Bean
+    public Docket createDtoApi() {
+        return new Docket(DocumentationType.SWAGGER_2)
+                .groupName(GROUP_NAME)
+                .apiInfo(apiInfo())
+                .select()
+                .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE3))//设定扫描范围
                 .paths(PathSelectors.any())
                 .build();
     }

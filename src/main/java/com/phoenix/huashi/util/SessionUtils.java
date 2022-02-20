@@ -63,8 +63,6 @@ public class SessionUtils {
         return sessionId;
     }
 
-
-    //todo
     public void invalidate(){
         request.removeAttribute(CommonConstants.SESSION);
     }
