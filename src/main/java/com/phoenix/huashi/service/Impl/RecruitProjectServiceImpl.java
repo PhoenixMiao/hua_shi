@@ -104,11 +104,11 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
     @Override
     public Page<BriefApplication> getBriefApplicationList(GetBriefApplicationListRequest request) {
-        List<Message> message=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(), request.getId());
+        List<Message> messageList=messageMapper.getApplication(MessageTypeEnum.APPLICATION.getDescription(), request.getId());
         List<BriefApplication> briefApplications=new ArrayList<>();
-        for(Message messages:message){
-            BriefUser user=userMapper.getUserInformationByChuangNum(messages.getMemberChuangNum());
-            BriefApplication briefApplication=new BriefApplication(messages.getMemberChuangNum(),user.getName(), user.getMajor(), user.getGrade(), user.getTelephone(), user.getQQ(), messages.getIsRead(), messages.getStatusUpdateTime());
+        for(Message message:messageList){
+            BriefUser user=userMapper.getUserInformationByChuangNum(message.getMemberChuangNum());
+            BriefApplication briefApplication=new BriefApplication(message.getMemberChuangNum(),user.getName(), user.getMajor(), user.getGrade(), user.getTelephone(), user.getQQ(), message.getIsRead(), message.getStatusUpdateTime(),message.getStatus());
             briefApplications.add(briefApplication);
         }
         PageParam pageParam = request.getPageParam();
