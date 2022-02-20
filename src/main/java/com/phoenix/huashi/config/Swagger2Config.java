@@ -20,16 +20,18 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @ConditionalOnExpression("${dev.enable:true}")//当enable为true时才选择加载该配置类
 public class Swagger2Config {
 
-    private static final String GROUP_NAME = "hua_shi";
     private static final String BASE_PACKAGE1 = "com.phoenix.huashi.controller";
+    private static final String GROUP_NAME1 = "controller";
     private static final String BASE_PACKAGE2 = "com.phoenix.huashi.entity";
+    private static final String GROUP_NAME2 = "entity";
     private static final String BASE_PACKAGE3 = "com.phoenix.huashi.dto";
+    private static final String GROUP_NAME3 = "dto";
     private static final String TITLE = "hua_shi API Documentation";
     private static final String DESCRIPTION = "华实创赛中心接口文档";
     @Bean
     public Docket createControllerApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(GROUP_NAME)
+                .groupName(GROUP_NAME1)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE1))//设定扫描范围
@@ -40,7 +42,7 @@ public class Swagger2Config {
     @Bean
     public Docket createEntityApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(GROUP_NAME)
+                .groupName(GROUP_NAME2)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE2))//设定扫描范围
@@ -51,7 +53,7 @@ public class Swagger2Config {
     @Bean
     public Docket createDtoApi() {
         return new Docket(DocumentationType.SWAGGER_2)
-                .groupName(GROUP_NAME)
+                .groupName(GROUP_NAME3)
                 .apiInfo(apiInfo())
                 .select()
                 .apis(RequestHandlerSelectors.basePackage(BASE_PACKAGE3))//设定扫描范围
