@@ -89,4 +89,12 @@ public class UserController {
         return userChuangNum;
     }
 
+
+    @Auth
+    @GetMapping("/check")
+    @ApiOperation(value = "检查登录态")
+    public Object checkSession(){
+        return sessionUtils.getSessionData();
+    }
+
 }
