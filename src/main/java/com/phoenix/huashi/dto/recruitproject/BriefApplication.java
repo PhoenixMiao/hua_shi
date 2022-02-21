@@ -14,6 +14,10 @@ import java.io.Serializable;
 @Builder
 @ApiModel("BriefApplication 简历简要信息")
 public class BriefApplication {
+
+    @ApiModelProperty("消息id")
+    private Long messageId;
+
     @ApiModelProperty("用户创赛号")
     private String memberChuangNum;
 
