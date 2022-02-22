@@ -26,9 +26,6 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("项目名称")
     private String name;
 
-    @ApiModelProperty("项目负责人创赛号")
-    private String captainChuangNum;
-
     @ApiModelProperty("项目负责人姓名")
     private String captainName;
 

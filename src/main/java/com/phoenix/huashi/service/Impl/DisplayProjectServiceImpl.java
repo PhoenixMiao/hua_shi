@@ -122,7 +122,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
             Example.Criteria captainCriteria = example.createCriteria();
-            captainCriteria.orLike("captain_name", "%" + searchRequest.getCaptain() + "%");
+            captainCriteria.orLike("captainName", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
 
@@ -155,7 +155,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                         .teacherName(applyForDisplayProjectRequest.getTeacherName())
                         .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
                         .award(applyForDisplayProjectRequest.getAward())
-                        .captainChuangNum(applyForDisplayProjectRequest.getCaptainChuangNum())
                         .captainName(applyForDisplayProjectRequest.getCaptainName())
                         .innovation(applyForDisplayProjectRequest.getInnovation())
                         .institute(applyForDisplayProjectRequest.getInstitute())
