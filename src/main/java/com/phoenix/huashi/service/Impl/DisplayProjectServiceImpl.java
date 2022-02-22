@@ -121,10 +121,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         }
 
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
-            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
             Example.Criteria captainCriteria = example.createCriteria();
-            for (BriefUserName ele : briefUserNameList)
-                captainCriteria.orEqualTo("principalChuangNum", ele.getChuangNum());
+            captainCriteria.orLike("captain_name", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
 
