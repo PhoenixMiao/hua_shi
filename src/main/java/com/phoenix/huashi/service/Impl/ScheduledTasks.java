@@ -43,4 +43,5 @@ public class ScheduledTasks {
         }
         redisUtils.clear("collections*");
     }
+
 }
