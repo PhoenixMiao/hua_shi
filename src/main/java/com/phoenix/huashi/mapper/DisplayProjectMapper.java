@@ -28,10 +28,10 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     Long getCollections(@Param("id") Long id);
 
     @Update("UPDATE display_project SET likes=#{likes} WHERE id=#{id};")
-    void giveLike(@Param("likes") Long likes, @Param("id") Long id);
+    void setLikeNumber(@Param("likes") Long likes, @Param("id") Long id);
 
     @Update("UPDATE display_project SET collections=#{collections} WHERE id=#{id};")
-    void collect(@Param("collections") Long collections, @Param("id") Long id);
+    void setCollectionNumber(@Param("collections") Long collections, @Param("id") Long id);
 
 
 //    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections)  VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")

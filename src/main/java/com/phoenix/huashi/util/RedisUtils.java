@@ -180,6 +180,22 @@ public class RedisUtils {
         return redisTemplate.opsForHash().entries(key);
     }
 
+
+    /**
+     * 获取所有键值
+     **/
+    public Set<String> keys(String pattern) { return redisTemplate.keys(pattern); }
+
+    /**
+     * 删除所有键值对
+     **/
+    public void clear(String pattern) {
+        Set<String> allKey=keys(pattern);
+        for(String key:allKey){
+            redisTemplate.delete(key);
+        }
+    }
+
     /**
      * HashSet
      *

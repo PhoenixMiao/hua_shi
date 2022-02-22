@@ -25,7 +25,7 @@ public class LikeServiceImpl implements LikeService {
     private LikesMapper likesMapper;
 
     private static String LIKE_KEY(Long id) {
-        return id.toString();
+        return "likes"+id;
     }
 
     private Long getLikesFromRedis(Long id) {
@@ -49,18 +49,7 @@ public class LikeServiceImpl implements LikeService {
         return likes;
     }
 
-    //    @Scheduled(cron = "0 0 0 * * ?")
-//    @Scheduled(cron = "0 0 0 */1 * ?")
-    public void likes2Mysql() {
-        Long likes;
-        try {
-            likes = (Long) redisUtils.get("redisdemo:likes:1");
-            if (likes != null) {
-                displayProjectMapper.giveLike(likes, 1L);
-            }
-        } catch (Exception e) {
-        }
-    }
+
 
 
     @Override

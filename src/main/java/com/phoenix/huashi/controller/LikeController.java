@@ -32,6 +32,7 @@ public class LikeController {
         return "操作成功";
     }
 
+    @Auth
     @GetMapping("/cancel")
     @ApiOperation(value = "取消点赞", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")

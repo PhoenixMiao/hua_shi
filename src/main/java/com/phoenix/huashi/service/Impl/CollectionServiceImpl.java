@@ -36,7 +36,7 @@ public class CollectionServiceImpl implements CollectionService {
     private RedisUtils redisUtils;
 
     private static String COLLECTION_KEY(Long id) {
-        return id.toString();
+        return "collections"+id;
     }
 
     private Long getCollectionsFromRedis(Long id) {
