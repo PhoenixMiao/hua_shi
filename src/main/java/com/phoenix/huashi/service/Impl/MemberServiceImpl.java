@@ -1,7 +1,6 @@
 package com.phoenix.huashi.service.Impl;
 
 import com.phoenix.huashi.controller.request.AddMemberRequest;
-import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.mapper.MemberMapper;
@@ -36,4 +35,5 @@ public class MemberServiceImpl implements MemberService {
         }
         return "添加成功";
     }
+
 }
