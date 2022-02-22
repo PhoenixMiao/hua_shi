@@ -121,10 +121,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         }
 
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
-            List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
             Example.Criteria captainCriteria = example.createCriteria();
-            for (BriefUserName ele : briefUserNameList)
-                captainCriteria.orEqualTo("principalChuangNum", ele.getChuangNum());
+            captainCriteria.orLike("captainName", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
 
@@ -157,7 +155,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                         .teacherName(applyForDisplayProjectRequest.getTeacherName())
                         .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
                         .award(applyForDisplayProjectRequest.getAward())
-                        .captainChuangNum(applyForDisplayProjectRequest.getCaptainChuangNum())
                         .captainName(applyForDisplayProjectRequest.getCaptainName())
                         .innovation(applyForDisplayProjectRequest.getInnovation())
                         .institute(applyForDisplayProjectRequest.getInstitute())
