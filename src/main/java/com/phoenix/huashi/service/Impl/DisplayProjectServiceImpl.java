@@ -136,7 +136,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         ArrayList<BriefDisplayProject> searchResponseArrayList = new ArrayList<>();
         for (DisplayProject ele : displayProjectList) {
-            searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), userMapper.getUserByChuangNum(ele.getCaptainChuangNum()).getName(), ele.getType(), ele.getInstitute()));
+            searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), ele.getCaptainName(), ele.getType(), ele.getInstitute()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
