@@ -108,7 +108,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         List<BriefApplication> briefApplications=new ArrayList<>();
         for(Message message:messageList){
             BriefUser user=userMapper.getUserInformationByChuangNum(message.getMemberChuangNum());
-            BriefApplication briefApplication=new BriefApplication(message.getMemberChuangNum(),user.getName(), user.getMajor(), user.getGrade(), user.getTelephone(), user.getQQ(), message.getIsRead(), message.getStatusUpdateTime(),message.getStatus());
+            BriefApplication briefApplication=new BriefApplication(message.getId(),message.getMemberChuangNum(),user.getName(), user.getMajor(), user.getGrade(), user.getTelephone(), user.getQQ(), message.getIsRead(), message.getStatusUpdateTime(),message.getStatus());
             briefApplications.add(briefApplication);
         }
         PageParam pageParam = request.getPageParam();
