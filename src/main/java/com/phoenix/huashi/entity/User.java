@@ -80,4 +80,13 @@ public class User implements Serializable {
 
     @ApiModelProperty("学号")
     private String studentNumber;
+
+    public User(String sessionId, String openId, String unionId, String sessionKey, String createTime,String nickname) {
+        this.sessionId = sessionId;
+        this.openId = openId;
+        this.unionId = unionId;
+        this.sessionKey = sessionKey;
+        this.createTime = createTime;
+        this.nickname = nickname;
+    }
 }

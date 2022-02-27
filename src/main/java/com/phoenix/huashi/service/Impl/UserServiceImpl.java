@@ -109,22 +109,19 @@ public class UserServiceImpl implements UserService {
             return new SessionData(user);
         }
 
+        User user1 = new User(sessionId, wxSession.getOpenId(), wxSession.getUnionId(), wxSession.getSessionKey(), TimeUtil.getCurrentTimestamp(),"华实创赛用户");
 
-        user = User.builder()
-                .createTime(TimeUtil.getCurrentTimestamp())
-                .openId(wxSession.getOpenId())
-                .unionId(wxSession.getUnionId())
-                .sessionKey(wxSession.getSessionKey())
-                .chuangNum("initializing")
-                .sessionId(sessionId)
-                .nickname("华实创赛用户")
-                .build();
+//        User user1 = new User();
+        userMapper.newUser(user1);
 
-        Long userId = userMapper.newUser(user);
+        long userId = user1.getId();
 
         userMapper.updateChuangNum("hs" + String.format("%08d", userId), userId);
 
-        return new SessionData(user);
+        user1.setChuangNum("hs" + String.format("%08d",userId));
+        user1.setId(userId);
+
+        return new SessionData(user1);
     }
 
 
