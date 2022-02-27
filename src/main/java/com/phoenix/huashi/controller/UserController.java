@@ -90,11 +90,11 @@ public class UserController {
     }
 
 
-    @Auth
     @GetMapping("/check")
     @ApiOperation(value = "检查登录态")
     public Object checkSession(){
-        return sessionUtils.getSessionData();
+        if(sessionUtils.getSessionData()==null) return "登录失效";
+        return "已登录";
     }
 
 }
