@@ -12,15 +12,15 @@ import java.util.List;
 
 @Repository
 public interface UserMapper extends MyMapper<User> {
-    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,chuang_num) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{chuangNum})")
-    @Options(useGeneratedKeys = true, keyProperty = "id")
-    Long newUser(User user);
+    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,nickname) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{nickname})")
+    @Options(useGeneratedKeys=true, keyProperty="id")
+    long newUser(User user);
 
     @Select("SELECT * FROM user WHERE open_id=#{openId};")
     User getUserByOpenId(@Param("openId")String openId);
 
 
-    @Update("UPDATE user SET chuang_num=#{chuang_num} WHERE id=#{id}")
+    @Update("UPDATE user SET chuang_num=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);
 
 
