@@ -61,11 +61,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
     @Override
-    public void cancelLike(Long id) {
-        Likes like = likesMapper.getLikeById(id);
-        Long projectId = like.getProjectId();
+    public void cancelLike(Long projectId,String userChuangNum) {
+        Likes like = likesMapper.getLikeByProjectIdAndUserChuangNum(projectId,userChuangNum);
         Long likes = getLikeNumber(projectId);
         redisUtils.set(LIKE_KEY(projectId), likes - 1);
-        likesMapper.cancelLike(id);
+        likesMapper.cancelLike(like.getId());
     }
 }

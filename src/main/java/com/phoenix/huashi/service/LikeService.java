@@ -9,7 +9,7 @@ import java.util.Optional;
 public interface LikeService {
     void like(Long recruitProjectId, String userChuangNum);
 
-    void cancelLike(Long id);
+    void cancelLike(Long projectId,String userChuangNum);
 
     Long getLikeNumber(Long projectId);
 }

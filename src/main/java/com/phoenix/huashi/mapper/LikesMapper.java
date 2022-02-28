@@ -22,8 +22,8 @@ public interface LikesMapper extends MyMapper<Likes> {
             @Param("user_chuang_num") String userChuangNum,
             @Param("like_time") String likeTime);
 
-    @Select("SELECT * FROM likes WHERE id = #{id}")
-    Likes getLikeById(@Param("id") Long id);
+    @Select("SELECT * FROM likes WHERE projectId = #{projectId} AND userChuangNum=#{userChuangNum}")
+    Likes getLikeByProjectIdAndUserChuangNum(@Param("projectId") Long projectId,@Param("userChuangNum")String userChuangNum);
 
     @Delete("DELETE FROM likes WHERE id=#{id};")
     void cancelLike(@Param("id") Long id);

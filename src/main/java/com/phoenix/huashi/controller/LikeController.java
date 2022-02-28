@@ -37,8 +37,9 @@ public class LikeController {
     @GetMapping("/cancel")
     @ApiOperation(value = "取消点赞", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object cancelLike(@NotNull @RequestParam("projectId") Long id) {
-        likeService.cancelLike(id);
+    public Object cancelLike(@NotNull @RequestParam("projectId") Long projectId) {
+        String userChuangNum = sessionUtils.getUserChuangNum();
+        likeService.cancelLike(projectId,userChuangNum);
         return "操作成功";
     }
 }
