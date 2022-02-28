@@ -1004,3 +1004,5 @@ Caused by: org.apache.ibatis.binding.BindingException: Parameter 'chuang_num' no
 
 2022-02-27 13:40:44.122 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
 2022-02-27 13:41:22.967 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-02-28 10:02:58.049 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-02-28 10:13:51.515 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
