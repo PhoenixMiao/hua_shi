@@ -92,8 +92,8 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 //    }
 
     @Override
-    public void finishTeamById(Long id){
-        recruitProjectMapper.updateProjectStatusById(id,-1,timeUtil.getCurrentTimestamp());
+    public void updateProjectStatusById(UpdateProjectStatusRequest updateProjectStatusRequest){
+        recruitProjectMapper.updateProjectStatusById(updateProjectStatusRequest.getProjectId(),updateProjectStatusRequest.getNewStatus(),timeUtil.getCurrentTimestamp());
     }
 
     @Override

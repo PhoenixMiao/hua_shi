@@ -50,12 +50,12 @@ public class MessageController {
         return "邀请成功";
     }
 
-    @Auth
+    //@Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取消息列表", response = String.class)
     public Object getBriefMessageList(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getBriefMessageList(request, userChuangNum);
+        return messageService.getBriefMessageList(request, "hs00000029");
     }
 
     @Auth

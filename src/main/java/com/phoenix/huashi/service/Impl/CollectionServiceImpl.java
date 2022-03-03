@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.entity.DisplayProject;
+import com.phoenix.huashi.entity.Likes;
 import com.phoenix.huashi.service.CollectionService;
 import com.phoenix.huashi.util.RedisUtils;
 import com.phoenix.huashi.util.TimeUtil;
@@ -65,6 +66,8 @@ public class CollectionServiceImpl implements CollectionService {
 
     @Override
     public void addToCollection(Long projectId, String userChuangNum) {
+        Collection collection = collectionMapper.getCollectionByProjectIdAndUserChuangNum(projectId,userChuangNum);
+        if(collection!=null) return ;
         Long collections = getCollectionNumber(projectId);
         redisUtils.set(COLLECTION_KEY(projectId), collections + 1);
         String createTime = timeUtil.getCurrentTimestamp();
@@ -72,9 +75,8 @@ public class CollectionServiceImpl implements CollectionService {
     }
 
     @Override
-    public void cancelCollection(Long id) {
-        Collection collection = collectionMapper.getCollectionById(id);
-        Long projectId = collection.getProjectId();
+    public void cancelCollection(Long projectId,String userChuangNum) {
+        Collection collection = collectionMapper.getCollectionByProjectIdAndUserChuangNum(projectId,userChuangNum);
         Long collections = getCollectionNumber(projectId);
         if (collections != null) {
             redisUtils.set(COLLECTION_KEY(projectId), collections - 1);
@@ -82,7 +84,7 @@ public class CollectionServiceImpl implements CollectionService {
             collections = Optional.ofNullable(displayProjectMapper.getCollections(projectId)).orElse(0L);
             redisUtils.set(COLLECTION_KEY(projectId), collections - 1);
         }
-        collectionMapper.cancelCollection(id);
+        collectionMapper.cancelCollection(collection.getId());
     }
 
     @Override

@@ -6,6 +6,7 @@ import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
 import com.phoenix.huashi.service.LikeService;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.phoenix.huashi.util.RedisUtils;
@@ -50,10 +51,10 @@ public class LikeServiceImpl implements LikeService {
     }
 
 
-
-
     @Override
     public void like(Long projectId, String userChuangNum) {
+        Likes like = likesMapper.getLikeByProjectIdAndUserChuangNum(projectId,userChuangNum);
+        if(like!=null) return ;
         Long likes = getLikeNumber(projectId);
         redisUtils.set(LIKE_KEY(projectId), likes + 1);
         String createTime = timeUtil.getCurrentTimestamp();

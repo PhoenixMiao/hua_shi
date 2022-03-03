@@ -17,7 +17,7 @@ public interface RecruitProjectService {
 
     //void applyForDisplayProject(ApplyForDisplayProjectRequest request);
 
-    void finishTeamById(Long id);
+    void updateProjectStatusById(UpdateProjectStatusRequest updateProjectStatusRequest);
 
     Integer getApplications(Long projectId);
 

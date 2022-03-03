@@ -25,6 +25,9 @@ public class BriefMessage {
     @ApiModelProperty("相关项目id")
     private Long projectId;
 
+    @ApiModelProperty("项目名称")
+    private String projectName;
+
     @ApiModelProperty("预加入成员创赛号")
     private String memberChuangNum;
 
@@ -38,8 +41,8 @@ public class BriefMessage {
     private Integer isRead;
 
     @ApiModelProperty("项目负责人创赛号")
-    private String projectPrincipalChuangNum;
+    private String projectCaptainChuangNum;
 
     @ApiModelProperty("项目负责人昵称")
-    private String projectPrincipalNickname;
+    private String projectCaptainNickname;
 }

@@ -7,7 +7,7 @@ import com.phoenix.huashi.dto.collection.BriefCollection;
 public interface CollectionService {
     void addToCollection(Long recruitProjectId, String userChuangNum);
 
-    void cancelCollection(Long id);
+    void cancelCollection(Long projectId,String userChuangNum);
 
     Page<BriefCollection> getBriefCollectionList(GetListRequest getListRequest, String userChuangNum);
 

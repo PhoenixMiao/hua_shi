@@ -45,8 +45,9 @@ public class CollectionController {
     @GetMapping("/cancel")
     @ApiOperation(value = "取消收藏", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object cancelCollection(@NotNull @RequestParam("projectId") Long id) {
-        collectionService.cancelCollection(id);
+    public Object cancelCollection(@NotNull @RequestParam("projectId") Long projectId) {
+        String userChuangNum=sessionUtils.getUserChuangNum();
+        collectionService.cancelCollection(projectId,userChuangNum);
         return "操作成功";
     }
 

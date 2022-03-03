@@ -58,12 +58,11 @@ public class RecruitProjectController {
         return recruitProjectService.createProject(creatTeamRequest);
     }
 
-    @Auth
-    @GetMapping("/finish")
-    @ApiOperation(value = "结束当前项目", response = String.class)
-    @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object finishTeamById(@NotNull @RequestParam("projectId") Long id) {
-        recruitProjectService.finishTeamById(id);
+   // @Auth
+    @PostMapping("/updateStatus")
+    @ApiOperation(value = "更新项目状态", response = String.class)
+    public Object updateProjectStatusById(@NotNull @Valid @RequestBody UpdateProjectStatusRequest updateProjectStatusRequest) {
+        recruitProjectService.updateProjectStatusById(updateProjectStatusRequest);
         return "操作成功";
     }
 
