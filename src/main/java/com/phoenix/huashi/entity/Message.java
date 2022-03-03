@@ -25,6 +25,9 @@ public class Message implements Serializable {
     @ApiModelProperty("类别")
     private String type;
 
+    @ApiModelProperty("项目名称")
+    private Long projectName;
+
     @ApiModelProperty("相关项目id")
     private Long projectId;
 

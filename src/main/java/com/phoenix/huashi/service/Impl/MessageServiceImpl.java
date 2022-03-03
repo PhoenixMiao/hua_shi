@@ -54,7 +54,7 @@ public class MessageServiceImpl implements MessageService {
                return;
            }
         }
-        messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
+        messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), recruitProjectMapper.getRecruitProjectById(projectId).getName(),projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
     }
 
     @Override
@@ -88,7 +88,7 @@ public class MessageServiceImpl implements MessageService {
             messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
             return;
         }
-        messageMapper.joinProject(MessageTypeEnum.INVITATION.getDescription(), request.getProjectId(), memberChuangNum, userMapper.getNicknameByChuangNum(memberChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
+        messageMapper.joinProject(MessageTypeEnum.INVITATION.getDescription(), recruitProjectMapper.getRecruitProjectById(request.getProjectId()).getName(),request.getProjectId(), memberChuangNum, userMapper.getNicknameByChuangNum(memberChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
     }
 
     @Override
@@ -97,7 +97,7 @@ public class MessageServiceImpl implements MessageService {
         if (request == null) return null;
 
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "statusUpdateTime DESC");
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(),"status_update_time DESC");
 
         if (request.getType().equals("ALL")) {
             List<BriefMessage> briefMessageList = messageMapper.getBriefMessageList(userChuangNum);
@@ -109,23 +109,11 @@ public class MessageServiceImpl implements MessageService {
             List<BriefMessage> briefMessageList = messageMapper.getBriefMessageSentToMeList(userChuangNum, MessageTypeEnum.INVITATION.getDescription(), MessageTypeEnum.APPLICATION.getDescription());
             return new Page(new PageInfo<>(briefMessageList));
         } else if (request.getType().equals("INVITATION")) {
-            List<BriefMessage> messageList = messageMapper.getBriefMessageList(userChuangNum);
-            List<BriefMessage> briefMessageList = new ArrayList<>();
-            for (BriefMessage message : messageList) {
-                if (message.getType().equals(MessageTypeEnum.INVITATION.getDescription())) {
-                    briefMessageList.add(message);
-                }
-            }
-            return new Page(new PageInfo<>(briefMessageList));
+            List<BriefMessage> messageList = messageMapper.getBriefApplicationOrInvitationMessageList(userChuangNum,MessageTypeEnum.INVITATION.getDescription());
+            return new Page(new PageInfo<>(messageList));
         } else if (request.getType().equals("APPLICATION")) {
-            List<BriefMessage> messageList = messageMapper.getBriefMessageList(userChuangNum);
-            List<BriefMessage> briefMessageList = new ArrayList<>();
-            for (BriefMessage message : messageList) {
-                if (message.getType().equals(MessageTypeEnum.APPLICATION.getDescription())) {
-                    briefMessageList.add(message);
-                }
-            }
-            return new Page(new PageInfo<>(briefMessageList));
+            List<BriefMessage> messageList = messageMapper.getBriefApplicationOrInvitationMessageList(userChuangNum,MessageTypeEnum.APPLICATION.getDescription());
+            return new Page(new PageInfo<>(messageList));
         }
 
         return null;

@@ -25,8 +25,8 @@ public interface ColletionMapper extends MyMapper<Collection> {
     @Select("SELECT * FROM collection WHERE chuang_num = #{chuang_num}")
     List<Collection> getCollectionList(@Param("chuang_num") String chuangNum);
 
-    @Select("SELECT * FROM collection WHERE id = #{id}")
-    Collection getCollectionById(@Param("id") Long id);
+    @Select("SELECT * FROM collection WHERE project_id=#{project_id} AND chuang_num=#{chuang_num}")
+    Collection getCollectionByProjectIdAndUserChuangNum(@Param("project_id") Long project_id,@Param("chuang_num")String chuang_num);
 
 
 }

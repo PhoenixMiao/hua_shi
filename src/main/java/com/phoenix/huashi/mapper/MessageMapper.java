@@ -14,9 +14,10 @@ import java.util.List;
 
 @Repository
 public interface MessageMapper {
-    @Insert("INSERT INTO message(type,project_id,member_chuang_num,member_nickname,status,status_update_time,reason,is_read,project_captain_chuang_num,project_captain_nickname) VALUE(#{type},#{project_id},#{member_chuang_num},#{member_nickname},#{status},#{status_update_time},#{reason},#{is_read},#{project_captain_chuang_num},#{project_captain_nickname})")
+    @Insert("INSERT INTO message(type,project_name,project_id,member_chuang_num,member_nickname,status,status_update_time,reason,is_read,project_captain_chuang_num,project_captain_nickname) VALUE(#{type},#{project_name},#{project_id},#{member_chuang_num},#{member_nickname},#{status},#{status_update_time},#{reason},#{is_read},#{project_captain_chuang_num},#{project_captain_nickname})")
     void joinProject(
             @Param("type") String type,
+            @Param("project_name") String projectName,
             @Param("project_id") Long projectId,
             @Param("member_chuang_num") String memberChuangNum,
             @Param("member_nickname") String memberNickname,
@@ -27,15 +28,17 @@ public interface MessageMapper {
             @Param("project_captain_chuang_num") String projectCaptainChuangNum,
             @Param("project_captain_nickname") String projectCaptainNickname);
 
-    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE project_captain_chuang_num=#{chuang_num} or member_chuang_num=#{chuang_num} ")
+    @Select("SELECT id,project_captain_chuang_num,project_captain_nickname,type,project_id,project_name,member_chuang_num,member_nickname,status,is_read FROM message WHERE project_captain_chuang_num=#{chuang_num} or member_chuang_num=#{chuang_num} ")
     List<BriefMessage> getBriefMessageList(@Param("chuang_num") String ChuangNum);
 
-    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{invite}) OR (member_chuang_num=#{chuang_num} AND type=#{apply})")
+    @Select("SELECT id,type,project_id,project_name,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{invite}) OR (member_chuang_num=#{chuang_num} AND type=#{apply})")
     List<BriefMessage> getBriefMessageSentByMeList(@Param("chuang_num") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
 
-    @Select("SELECT id,type,project_id,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{apply}) OR (member_chuang_num=#{chuang_num} AND type=#{invite}) ")
-    List<BriefMessage> getBriefMessageSentToMeList(@Param("ChuangNum") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
+    @Select("SELECT id,type,project_id,project_name,member_chuang_num,member_nickname,status,is_read,project_captain_chuang_num,project_captain_nickname FROM message WHERE (project_captain_chuang_num=#{chuang_num} AND type=#{apply}) OR (member_chuang_num=#{chuang_num} AND type=#{invite}) ")
+    List<BriefMessage> getBriefMessageSentToMeList(@Param("chuang_num") String ChuangNum, @Param("invite") String invite, @Param("apply") String apply);
 
+    @Select("SELECT id,project_captain_chuang_num,project_captain_nickname,type,project_id,project_name,member_chuang_num,member_nickname,status,is_read FROM message WHERE type=#{type} AND (project_captain_chuang_num=#{chuang_num} OR member_chuang_num=#{chuang_num}) ")
+    List<BriefMessage> getBriefApplicationOrInvitationMessageList(@Param("chuang_num") String ChuangNum,@Param("type") String type);
     @Select("SELECT * FROM message WHERE type=#{type} AND project_id=#{projectId} AND member_chuang_num=#{memberChuangNum} ")
     Message hasApplied(@Param("type") String type, @Param("projectId") Long projectId, @Param("memberChuangNum") String memberChuangNum);
 
