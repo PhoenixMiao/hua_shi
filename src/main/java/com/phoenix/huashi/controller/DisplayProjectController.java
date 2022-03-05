@@ -43,6 +43,15 @@ public class DisplayProjectController {
         return displayProjectService.getDisplayProjectById(displayProjectId);
     }
 
+    @Auth
+    @GetMapping("likeOrCollect")
+    @ApiOperation(value = "查看用户是否点赞/收藏过此项目 0表示未点赞未收藏 1表示点赞未收藏 2表示收藏未点赞 3表示收藏点赞", response = Integer.class)
+    @ApiImplicitParam(name="projectId",value="展示项目id",required = true,paramType = "query",dataType = "Long")
+    public Object judgeLikeOrCollect(@NotNull @RequestParam("projectId") Long displayProjectId) {
+        String userChuangNum=sessionUtils.getUserChuangNum();
+        return displayProjectService.judgeLikeOrCollect(displayProjectId,userChuangNum);
+    }
+
     @PostMapping("/list")
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)
     public Object getBriefDisplayProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {

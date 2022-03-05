@@ -18,4 +18,6 @@ public interface DisplayProjectService {
     Page<BriefDisplayProject> searchDisplayProject(SearchRequest searchRequest);
 
     Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest);
+
+    Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum);
 }

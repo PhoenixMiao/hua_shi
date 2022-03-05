@@ -14,16 +14,11 @@ import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.dto.user.DisplayProjectMember;
-import com.phoenix.huashi.entity.DisplayProject;
+import com.phoenix.huashi.entity.*;
 
 
-import com.phoenix.huashi.entity.Member;
-import com.phoenix.huashi.entity.User;
 import com.phoenix.huashi.enums.CommodityTypeEnum;
-import com.phoenix.huashi.mapper.DisplayProjectMapper;
-import com.phoenix.huashi.mapper.LikesMapper;
-import com.phoenix.huashi.mapper.MemberMapper;
-import com.phoenix.huashi.mapper.UserMapper;
+import com.phoenix.huashi.mapper.*;
 import com.phoenix.huashi.service.CollectionService;
 import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.LikeService;
@@ -61,10 +56,20 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     private CollectionService collectionService;
 
     @Autowired
-    private MemberMapper memberMapper;
+    private ColletionMapper colletionMapper;
 
     @Autowired
     private UserMapper userMapper;
+
+    @Override
+    public Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum){
+        Integer result=0;
+        Likes like=likesMapper.getLikeByProjectIdAndUserChuangNum(displayProjectId,userChuangNum);
+        if(like!=null)result=result+1;
+        Collection collection=colletionMapper.getCollectionByProjectIdAndUserChuangNum(displayProjectId,userChuangNum);
+        if(collection!=null)result=result+2;
+        return result;
+    }
 
 
     @Override
