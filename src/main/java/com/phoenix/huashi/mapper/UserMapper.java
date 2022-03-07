@@ -5,6 +5,7 @@ import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.user.BriefUser;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.entity.User;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
@@ -22,6 +23,23 @@ public interface UserMapper extends MyMapper<User> {
 
     @Update("UPDATE user SET chuang_num=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);
+
+    @Update("UPDATE user SET nickname=#{nickname},name=#{name},gender=#{gender},school=#{school},department=#{department},major=#{major},grade=#{grade},telephone=#{telephone},q_q=#{qq},wechat_num=#{wechatNum},portrait=#{portrait},resume=#{resume},attachment=#{attachment},student_number=#{studentNumber} WHERE chuang_num=#{chuangNum}")
+    void fillUserInformation(@Param("chuangNum") String chuangNum,
+                         @Param("nickname") String nickname,
+                         @Param("name") String name,
+                         @Param("gender") Integer gender,
+                         @Param("school")  String school,
+                         @Param("department") String department,
+                         @Param("major") String major,
+                         @Param("grade") String grade,
+                         @Param("telephone") String telephone,
+                         @Param("qq") String QQ,
+                         @Param("wechatNum") String wechatNum,
+                         @Param("portrait") String portrait,
+                         @Param("resume") String resume,
+                         @Param("attachment") String attachment,
+                         @Param("studentNumber") String studentNumber);
 
 
     @Update("UPDATE user SET nickname = #{nickname},portrait = #{portrait},school = #{school},telephone = #{telephone},department=#{department},major=#{major},grade=#{grade},q_q=#{QQ},wechat_num=#{wechatNum},resume=#{resume},attachment=#{attachment} WHERE chuang_num=#{chuangNum}")

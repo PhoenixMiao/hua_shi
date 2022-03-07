@@ -50,11 +50,11 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
 
     );
 
-    @Insert("INSERT INTO recruitProject(name,captain_chuang_num,captain_name,institute,introduction,brief_demand,teacher_name,teacher_apartment,teacher_rank,plan_start_time,plan_end_time,recruit_time,start_time,end_time,state_update_time,demand,member_num,recruit_num,status,tag1,tag2,tag3) VALUE(#{name},#{captainChuangNum},#{captainName},#{institute},#{introduction},#{briefDemand},#{teacherName},#{teacherApartment},#{teacherRank},#{planStartTime},#{planEndTime},#{recruitTime},#{startTime},#{endTime},#{stateUpdateTime},#{demand},#{memberNum},#{recruitNum},#{status},#{tag1},#{tag2},#{tag3})")
+    @Insert("INSERT INTO recruit_project(name,captain_chuang_num,captain_name,institute,introduction,brief_demand,teacher_name,teacher_apartment,teacher_rank,plan_start_time,plan_end_time,recruit_time,start_time,end_time,state_update_time,demand,member_num,recruit_num,status,tag1,tag2,tag3) VALUE(#{name},#{captainChuangNum},#{captainName},#{institute},#{introduction},#{briefDemand},#{teacherName},#{teacherApartment},#{teacherRank},#{planStartTime},#{planEndTime},#{recruitTime},#{startTime},#{endTime},#{stateUpdateTime},#{demand},#{memberNum},#{recruitNum},#{status},#{tag1},#{tag2},#{tag3})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
     int newRecruitProject(RecruitProject recruitProject);
 
-    @Update("UPDATE recruitProject SET name=#{name},captain_name=#{captainName},institute=#{institute},introduction=#{introduction},brief_demand=#{briefDemand},teacher_name=#{teacherName},teacher_apartment=#{teacherApartment},teacher_rank=#{teacherRank},plan_start_time=#{planStartTime},plan_end_time=#{planEndTime},recruit_time=#{recruitTime},start_time=#{startTime},end_time=#{endTime},state_update_time=#{stateUpdateTime},demand=#{demand},recruit_num=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3} WHERE id=#{id}")
+    @Update("UPDATE recruit_project SET name=#{name},captain_name=#{captainName},institute=#{institute},introduction=#{introduction},brief_demand=#{briefDemand},teacher_name=#{teacherName},teacher_apartment=#{teacherApartment},teacher_rank=#{teacherRank},plan_start_time=#{planStartTime},plan_end_time=#{planEndTime},recruit_time=#{recruitTime},start_time=#{startTime},end_time=#{endTime},state_update_time=#{stateUpdateTime},demand=#{demand},recruit_num=#{recruitNum},status=#{status} ,tag1=#{tag1},tag2=#{tag2},tag3=#{tag3} WHERE id=#{id}")
     void updateProjectById(
             @Param("name") String name,
             @Param("captainName") String captainName,
