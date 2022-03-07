@@ -65,7 +65,7 @@ public interface UserMapper extends MyMapper<User> {
     @Select("SELECT nickname FROM user WHERE chuang_num=#{chuangNum}")
     String getNicknameByChuangNum(@Param("chuangNum") String chuangNum);
 
-    @Select("SELECT name,major,grade,telephone,qq,resume,student_number FROM user WHERE chuang_cum=#{chuangNum}")
+    @Select("SELECT name,major,grade,telephone,q_q,resume,student_number FROM user WHERE chuang_cum=#{chuangNum}")
     BriefUser getUserInformationByChuangNum(@Param("chuangNum") String chuangNum);
 }
 
