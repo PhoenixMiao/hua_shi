@@ -4,10 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
-import com.phoenix.huashi.controller.request.GetListRequest;
-import com.phoenix.huashi.controller.request.GetTeamListRequest;
-import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
@@ -56,10 +53,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Page<BriefProjectInformation> getBriefTeamList(GetTeamListRequest request, String userChuangNum) {
-        List<Long> projectIdList=new ArrayList<>();
-        if(request.getTeamType().equals(0))projectIdList=memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,MemberTypeEnum.MEMBER.getDescription());
-        else if(request.getTeamType().equals(1))projectIdList=memberMapper.getTeamByChuangNumAndMemberType(userChuangNum,MemberTypeEnum.CAPTAIN.getDescription());
-        else if(request.getTeamType().equals(2))projectIdList=memberMapper.getTeamByChuangNum(userChuangNum);
+        List<Long> projectIdList = new ArrayList<>();
+        if (request.getTeamType().equals(0))
+            projectIdList = memberMapper.getTeamByChuangNumAndMemberType(userChuangNum, MemberTypeEnum.MEMBER.getDescription());
+        else if (request.getTeamType().equals(1))
+            projectIdList = memberMapper.getTeamByChuangNumAndMemberType(userChuangNum, MemberTypeEnum.CAPTAIN.getDescription());
+        else if (request.getTeamType().equals(2)) projectIdList = memberMapper.getTeamByChuangNum(userChuangNum);
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();
@@ -74,6 +73,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum) {
         userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getSchool(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(), userChuangNum);
+    }
+
+    @Override
+    public void fillUserInformation(FillUserInformationRequest fillUserInformationRequest, String userChuangNum) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        userMapper.fillUserInformation(userChuangNum, fillUserInformationRequest.getNickname(), fillUserInformationRequest.getName(), fillUserInformationRequest.getGender(), fillUserInformationRequest.getSchool(), fillUserInformationRequest.getDepartment(), fillUserInformationRequest.getMajor(), fillUserInformationRequest.getGrade(), fillUserInformationRequest.getTelephone(), fillUserInformationRequest.getQQ(), fillUserInformationRequest.getWechatNum(), fillUserInformationRequest.getPortrait(), fillUserInformationRequest.getResume(), fillUserInformationRequest.getAttachment(), fillUserInformationRequest.getStudentNumber());
+
     }
 
     @Override
@@ -95,7 +101,7 @@ public class UserServiceImpl implements UserService {
         }
 
         WxSession wxSession = Optional.ofNullable(
-                        getWxSessionByCode(code))
+                getWxSessionByCode(code))
                 .orElse(new WxSession());
 
         checkWxSession(wxSession);
@@ -109,7 +115,7 @@ public class UserServiceImpl implements UserService {
             return new SessionData(user);
         }
 
-        User user1 = new User(sessionId, wxSession.getOpenId(), wxSession.getUnionId(), wxSession.getSessionKey(), TimeUtil.getCurrentTimestamp(),"华实创赛用户");
+        User user1 = new User(sessionId, wxSession.getOpenId(), wxSession.getUnionId(), wxSession.getSessionKey(), TimeUtil.getCurrentTimestamp(), "华实创赛用户");
 
 //        User user1 = new User();
         userMapper.newUser(user1);
@@ -118,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
         userMapper.updateChuangNum("hs" + String.format("%08d", userId), userId);
 
-        user1.setChuangNum("hs" + String.format("%08d",userId));
+        user1.setChuangNum("hs" + String.format("%08d", userId));
         user1.setId(userId);
 
         return new SessionData(user1);

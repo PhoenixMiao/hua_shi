@@ -1,10 +1,7 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
-import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
-import com.phoenix.huashi.controller.request.GetListRequest;
-import com.phoenix.huashi.controller.request.GetTeamListRequest;
-import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
@@ -62,6 +59,15 @@ public class UserController {
     public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest) {
         String userChuangNum = sessionUtils.getUserChuangNum();
         userService.updateUserByChuangNum(updateUserByChuangNumRequest, userChuangNum);
+        return "操作成功";
+    }
+
+    //@Auth
+    @PostMapping("/fill")
+    @ApiOperation(value = "填写用户信息", response = String.class)
+    public Object fillUserInformation(@NotNull @Valid @RequestBody FillUserInformationRequest fillUserInformationRequest) {
+        String userChuangNum = sessionUtils.getUserChuangNum();
+        userService.fillUserInformation(fillUserInformationRequest, "hs00000035");
         return "操作成功";
     }
 

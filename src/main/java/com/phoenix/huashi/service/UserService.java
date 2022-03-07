@@ -1,10 +1,7 @@
 package com.phoenix.huashi.service;
 
 import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.controller.request.GetBriefUserNameListRequest;
-import com.phoenix.huashi.controller.request.GetListRequest;
-import com.phoenix.huashi.controller.request.GetTeamListRequest;
-import com.phoenix.huashi.controller.request.UpdateUserByChuangNumRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
@@ -21,6 +18,8 @@ public interface UserService {
     Page<BriefUserName> searchBriefUserNameListByName(GetBriefUserNameListRequest searchBriefUserNameListRequest);
 
     Page<BriefProjectInformation> getBriefTeamList(GetTeamListRequest request, String userChuangNum);
+
+    void fillUserInformation(FillUserInformationRequest fillUserInformationRequest,String userChuangNum);
 
 
     /**

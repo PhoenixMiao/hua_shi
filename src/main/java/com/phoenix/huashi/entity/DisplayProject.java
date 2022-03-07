@@ -75,49 +75,49 @@ public class DisplayProject implements Serializable {
     private String paper;
 
     @ApiModelProperty("成员1姓名")
-    private Long memberOneName;
+    private String memberOneName;
 
     @ApiModelProperty("成员1年级")
-    private Long memberOneGrade;
+    private String memberOneGrade;
 
     @ApiModelProperty("成员1专业")
-    private Long memberOneMajor;
+    private String memberOneMajor;
 
     @ApiModelProperty("成员2姓名")
-    private Long memberTwoName;
+    private String memberTwoName;
 
     @ApiModelProperty("成员2年级")
-    private Long memberTwoGrade;
+    private String memberTwoGrade;
 
     @ApiModelProperty("成员2专业")
-    private Long memberTwoMajor;
+    private String memberTwoMajor;
 
     @ApiModelProperty("成员3姓名")
-    private Long memberThreeName;
+    private String memberThreeName;
 
     @ApiModelProperty("成员3年级")
-    private Long memberThreeGrade;
+    private String memberThreeGrade;
 
     @ApiModelProperty("成员3专业")
-    private Long memberThreeMajor;
+    private String memberThreeMajor;
 
     @ApiModelProperty("成员4姓名")
-    private Long memberFourName;
+    private String memberFourName;
 
     @ApiModelProperty("成员4年级")
-    private Long memberFourGrade;
+    private String memberFourGrade;
 
     @ApiModelProperty("成员4专业")
-    private Long memberFourMajor;
+    private String memberFourMajor;
 
     @ApiModelProperty("成员5姓名")
-    private Long memberFiveName;
+    private String memberFiveName;
 
     @ApiModelProperty("成员5年级")
-    private Long memberFiveGrade;
+    private String memberFiveGrade;
 
     @ApiModelProperty("成员5专业")
-    private Long memberFiveMajor;
+    private String memberFiveMajor;
 }
 
 
