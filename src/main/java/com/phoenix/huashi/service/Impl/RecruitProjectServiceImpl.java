@@ -79,6 +79,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         Integer status = 0;
         RecruitProject recruitProject=new RecruitProject(null,creatTeamRequest.getName(), creatTeamRequest.getCaptainChuangNum(), creatTeamRequest.getCaptainName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(),null, null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L);
         recruitProjectMapper.newRecruitProject(recruitProject);
+        memberMapper.insertMember(recruitProject.getId(),MemberTypeEnum.CAPTAIN.getDescription(),0, creatTeamRequest.getCaptainChuangNum(), null);
         return recruitProject.getId();
     }
 
