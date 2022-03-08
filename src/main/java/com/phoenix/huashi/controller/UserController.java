@@ -62,12 +62,12 @@ public class UserController {
         return "操作成功";
     }
 
-    //@Auth
+    @Auth
     @PostMapping("/fill")
     @ApiOperation(value = "填写用户信息", response = String.class)
     public Object fillUserInformation(@NotNull @Valid @RequestBody FillUserInformationRequest fillUserInformationRequest) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        userService.fillUserInformation(fillUserInformationRequest, "hs00000035");
+        userService.fillUserInformation(fillUserInformationRequest, userChuangNum);
         return "操作成功";
     }
 
