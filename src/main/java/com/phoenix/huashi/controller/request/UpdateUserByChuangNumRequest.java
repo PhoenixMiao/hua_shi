@@ -19,8 +19,6 @@ public class UpdateUserByChuangNumRequest {
     private String telephone;
     @ApiModelProperty("头像")
     private String portrait;
-    @ApiModelProperty("学校")
-    private String school;
     @ApiModelProperty("学院")
     private String department;
     @ApiModelProperty("专业")

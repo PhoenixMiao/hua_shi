@@ -31,13 +31,13 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    //@Auth
+    @Auth
     @GetMapping("/apply")
     @ApiOperation(value = "申请加入项目", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
     public Object applyForProject(@NotNull @RequestParam("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.applyForProject("hs00000034", projectId);
+        messageService.applyForProject(userChuangNum, projectId);
         return "申请成功";
     }
 
