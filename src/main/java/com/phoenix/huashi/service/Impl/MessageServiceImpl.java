@@ -44,6 +44,7 @@ public class MessageServiceImpl implements MessageService {
     @Override
     public void applyForProject(String userChuangNum, Long projectId) {
         String captainChuangNum = recruitProjectMapper.getCaptianChuangNumByProjectId(projectId);
+        if(userChuangNum.equals(captainChuangNum))return ;
         Message message = messageMapper.hasApplied(MessageTypeEnum.APPLICATION.getDescription(), projectId, userChuangNum);
         if (message != null ) {
             if(message.getStatus().equals(0)){

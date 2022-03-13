@@ -58,21 +58,24 @@ public class UserServiceImpl implements UserService {
             projectIdList = memberMapper.getTeamByChuangNumAndMemberType(userChuangNum, MemberTypeEnum.MEMBER.getDescription());
         else if (request.getTeamType().equals(1))
             projectIdList = memberMapper.getTeamByChuangNumAndMemberType(userChuangNum, MemberTypeEnum.CAPTAIN.getDescription());
-        else if (request.getTeamType().equals(2)) projectIdList = memberMapper.getTeamByChuangNum(userChuangNum);
+        else if (request.getTeamType().equals(2))
+            projectIdList = memberMapper.getTeamByChuangNum(userChuangNum);
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();
         for (Long projectId : projectIdList) {
             RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(projectId);
-            BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), recruitProject.getInstitute(), recruitProject.getStatus());
-            briefProjectInformationList.add(briefProjectInformation);
+            if(recruitProject!=null){
+                BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), recruitProject.getInstitute(), recruitProject.getStatus());
+                briefProjectInformationList.add(briefProjectInformation);
+            }
         }
         return new Page(new PageInfo<>(briefProjectInformationList));
     }
 
     @Override
     public void updateUserByChuangNum(UpdateUserByChuangNumRequest updateUserByChuangNumRequest, String userChuangNum) {
-        userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getSchool(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(), userChuangNum);
+        userMapper.updateUserByChuangNum(updateUserByChuangNumRequest.getNickname(), updateUserByChuangNumRequest.getPortrait(), updateUserByChuangNumRequest.getTelephone(), updateUserByChuangNumRequest.getDepartment(), updateUserByChuangNumRequest.getMajor(), updateUserByChuangNumRequest.getGrade(), updateUserByChuangNumRequest.getQQ(), updateUserByChuangNumRequest.getWechatNum(), updateUserByChuangNumRequest.getResume(), updateUserByChuangNumRequest.getAttachment(), userChuangNum);
     }
 
     @Override
