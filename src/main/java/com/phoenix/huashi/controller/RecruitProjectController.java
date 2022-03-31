@@ -58,7 +58,7 @@ public class RecruitProjectController {
         return recruitProjectService.createProject(creatTeamRequest);
     }
 
-   // @Auth
+    @Auth
     @PostMapping("/updateStatus")
     @ApiOperation(value = "更新项目状态", response = String.class)
     public Object updateProjectStatusById(@NotNull @Valid @RequestBody UpdateProjectStatusRequest updateProjectStatusRequest) {
