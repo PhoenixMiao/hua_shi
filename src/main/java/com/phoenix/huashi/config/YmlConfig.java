@@ -11,12 +11,9 @@ import org.springframework.stereotype.Component;
 @Component
 @Data
 public class YmlConfig {
-
+//
 //    @Value("${server.domain}")
 //    private String domain;
-
-    @Value("${server.port}")
-    private String port;
 
     @Value("${mini-app.app-id}")
     private String appId;
