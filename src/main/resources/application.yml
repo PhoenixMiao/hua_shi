@@ -1,5 +1,10 @@
 server:
-  port: 8081
+  port: 443
+  ssl:
+    key-store: classpath:hschuangsai.com.pfx
+    key-store-password: Abc123400197.
+    key-store-type: PKCS12
+    key-alias: hschuangsai.com
   tomcat:
     uri-encoding: UTF-8
 
