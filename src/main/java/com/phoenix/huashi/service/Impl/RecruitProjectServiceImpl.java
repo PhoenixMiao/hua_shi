@@ -141,7 +141,10 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             List<BriefUserName> briefUserNameList = userMapper.searchBriefUserNameListByName(searchRequest.getCaptain());
             Example.Criteria captainCriteria = example.createCriteria();
             for (BriefUserName ele : briefUserNameList)
-                captainCriteria.orEqualTo("captain_Chuang_Num", ele.getChuangNum());
+            {
+                captainCriteria.orEqualTo("captain_chuang_num", ele.getChuangNum());
+            }
+
             example.and(captainCriteria);
         }
 
