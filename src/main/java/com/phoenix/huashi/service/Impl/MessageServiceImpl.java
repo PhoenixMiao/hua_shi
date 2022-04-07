@@ -74,7 +74,7 @@ public class MessageServiceImpl implements MessageService {
                 return "人数已满";
             }
             messageMapper.updateStatus(1, null, timeUtil.getCurrentTimestamp(), 1, request.getId());
-            memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(),0, message.getMemberChuangNum(),null);
+            memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(),0, message.getMemberChuangNum(),request.getWork());
             recruitProjectMapper.updateMemberNumberById(message.getProjectId(), recruitProject.getMemberNum() + 1);
             return "已接受";
         }
@@ -102,19 +102,64 @@ public class MessageServiceImpl implements MessageService {
 
         if (request.getType().equals("ALL")) {
             List<BriefMessage> briefMessageList = messageMapper.getBriefMessageList(userChuangNum);
-            return new Page(new PageInfo<>(briefMessageList));
+            List<BriefMessage> result=new ArrayList<>();
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()==0)result.add(briefMessage);
+            }
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()!=0)result.add(briefMessage);
+            }
+            return new Page(new PageInfo<>(result));
         } else if (request.getType().equals("SEND")) {
             List<BriefMessage> briefMessageList = messageMapper.getBriefMessageSentByMeList(userChuangNum, MessageTypeEnum.INVITATION.getDescription(), MessageTypeEnum.APPLICATION.getDescription());
-            return new Page(new PageInfo<>(briefMessageList));
+            List<BriefMessage> result=new ArrayList<>();
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()==0)result.add(briefMessage);
+            }
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()!=0)result.add(briefMessage);
+            }
+            return new Page(new PageInfo<>(result));
         } else if (request.getType().equals("RECIEVE")) {
             List<BriefMessage> briefMessageList = messageMapper.getBriefMessageSentToMeList(userChuangNum, MessageTypeEnum.INVITATION.getDescription(), MessageTypeEnum.APPLICATION.getDescription());
-            return new Page(new PageInfo<>(briefMessageList));
+            List<BriefMessage> result=new ArrayList<>();
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()==0)result.add(briefMessage);
+            }
+            for(BriefMessage briefMessage:briefMessageList)
+            {
+                if(briefMessage.getStatus()!=0)result.add(briefMessage);
+            }
+            return new Page(new PageInfo<>(result));
         } else if (request.getType().equals("INVITATION")) {
             List<BriefMessage> messageList = messageMapper.getBriefApplicationOrInvitationMessageList(userChuangNum,MessageTypeEnum.INVITATION.getDescription());
-            return new Page(new PageInfo<>(messageList));
+            List<BriefMessage> result=new ArrayList<>();
+            for(BriefMessage briefMessage:messageList)
+            {
+                if(briefMessage.getStatus()==0)result.add(briefMessage);
+            }
+            for(BriefMessage briefMessage:messageList)
+            {
+                if(briefMessage.getStatus()!=0)result.add(briefMessage);
+            }
+            return new Page(new PageInfo<>(result));
         } else if (request.getType().equals("APPLICATION")) {
             List<BriefMessage> messageList = messageMapper.getBriefApplicationOrInvitationMessageList(userChuangNum,MessageTypeEnum.APPLICATION.getDescription());
-            return new Page(new PageInfo<>(messageList));
+            List<BriefMessage> result=new ArrayList<>();
+            for(BriefMessage briefMessage:messageList)
+            {
+                if(briefMessage.getStatus()==0)result.add(briefMessage);
+            }
+            for(BriefMessage briefMessage:messageList)
+            {
+                if(briefMessage.getStatus()!=0)result.add(briefMessage);
+            }
+            return new Page(new PageInfo<>(result));
         }
 
         return null;

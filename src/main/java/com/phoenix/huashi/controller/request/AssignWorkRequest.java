@@ -11,16 +11,19 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-@ApiModel("InviteUserRequest 邀请用户加入项目请求")
-public class InviteUserRequest {
+@ApiModel("AssignWorkRequest 分配工作请求")
+public class AssignWorkRequest {
     @NotNull
-    @ApiModelProperty("用户创赛号")
-    private String userChuangNum;
+    @ApiModelProperty("项目id")
+    Long projectId;
 
     @NotNull
-    @ApiModelProperty("项目Id")
-    private Long projectId;
+    @ApiModelProperty("成员创赛号")
+    String memberChuangNum;
+
+    @ApiModelProperty("分工内容")
+    String work;
 }

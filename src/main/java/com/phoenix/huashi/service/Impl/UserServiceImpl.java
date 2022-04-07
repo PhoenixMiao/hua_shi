@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
         for (Long projectId : projectIdList) {
             RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(projectId);
             if(recruitProject!=null){
-                BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), recruitProject.getInstitute(), recruitProject.getStatus());
+                BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), userMapper.getUserByChuangNum(recruitProject.getCaptainChuangNum()).getDepartment(), recruitProject.getStatus());
                 briefProjectInformationList.add(briefProjectInformation);
             }
         }
