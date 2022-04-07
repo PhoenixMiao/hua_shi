@@ -68,7 +68,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request) {
         if (request == null) return null;
         PageParam pageParam = request.getPageParam();
-        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "state_update_time desc");
         List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRList();
         return new Page(new PageInfo<>(briefRecruitProjectList));
     }
@@ -153,7 +153,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
                 searchRequest.getPageParam().getPageSize(),
-                searchRequest.getPageParam().getOrderBy());
+                "state_update_time desc");
         List<RecruitProject> recruitProjectList = recruitProjectMapper.selectByExample(example);
         Page page = new Page(new PageInfo(recruitProjectList));
 
