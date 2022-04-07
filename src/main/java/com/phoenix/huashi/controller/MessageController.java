@@ -71,6 +71,7 @@ public class MessageController {
     @PostMapping("/reply")
     @ApiOperation(value = "处理消息", response = String.class)
     public Object replyMessage(@NotNull @Valid @RequestBody ReplyMessageRequest request) {
+        String userChuangNum = sessionUtils.getUserChuangNum();
         messageService.replyMessage(request);
         return "操作成功";
     }
