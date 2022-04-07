@@ -142,7 +142,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             Example.Criteria captainCriteria = example.createCriteria();
             for (BriefUserName ele : briefUserNameList)
             {
-                captainCriteria.orEqualTo("captain_chuang_num", ele.getChuangNum());
+                captainCriteria.orEqualTo("captainChuangNum", ele.getChuangNum());
             }
 
             example.and(captainCriteria);
