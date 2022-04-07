@@ -23,4 +23,7 @@ public class ReplyMessageRequest {
 
     @ApiModelProperty("理由：接受时不填写该字段")
     private String reason;
+
+    @ApiModelProperty("分工(选填)")
+    private String work;
 }

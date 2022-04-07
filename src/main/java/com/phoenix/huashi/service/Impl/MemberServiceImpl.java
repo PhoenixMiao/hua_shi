@@ -1,6 +1,8 @@
 package com.phoenix.huashi.service.Impl;
 
 import com.phoenix.huashi.controller.request.AddMemberRequest;
+import com.phoenix.huashi.controller.request.AssignWorkRequest;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.mapper.MemberMapper;
@@ -34,6 +36,16 @@ public class MemberServiceImpl implements MemberService {
             recruitProjectMapper.updateProjectStatusById(reuqest.getRecruitProjectId(),1,timeUtil.getCurrentTimestamp());
         }
         return "添加成功";
+    }
+
+    @Override
+    public void assignWork(AssignWorkRequest assignWorkRequest,String userChuangNum)
+    {
+        Member user=memberMapper.getMemberByProjectIdAndChuangNum(assignWorkRequest.getProjectId(),userChuangNum);
+        if(user.getType().equals("负责人"))
+        {
+            memberMapper.updateMemberWork(assignWorkRequest.getProjectId(), assignWorkRequest.getMemberChuangNum(),assignWorkRequest.getWork());
+        }
     }
 
 }

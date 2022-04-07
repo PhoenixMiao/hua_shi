@@ -1,11 +1,13 @@
 package com.phoenix.huashi.mapper;
 
 import com.phoenix.huashi.dto.member.BriefMember;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.Notification;
 import io.swagger.models.auth.In;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -30,5 +32,18 @@ public interface MemberMapper {
     List<BriefMember> getMembersByProjectId(
             @Param("project_id") Long projectId,
             @Param("project_type") Integer projectType
+    );
+
+    @Select("SELECT * FROM member WHERE project_id=#{project_id} AND chuang_num=#{chuang_num}")
+    Member getMemberByProjectIdAndChuangNum(
+            @Param("project_id") Long projectId,
+            @Param("chuang_num") String chuang_num
+    );
+
+    @Update("UPDATE member SET work=#{work} WHERE project_id=#{project_id} AND chuang_num=#{chuang_num}")
+    void updateMemberWork(
+            @Param("project_id") Long projectId,
+            @Param("chuang_num") String chuang_num,
+            @Param("work") String work
     );
 }

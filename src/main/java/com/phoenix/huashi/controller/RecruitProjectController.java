@@ -55,7 +55,8 @@ public class RecruitProjectController {
     @PostMapping("/create")
     @ApiOperation(value = "创建项目", response = Long.class)
     public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest) {
-        return recruitProjectService.createProject(creatTeamRequest);
+        String userChuangNum= sessionUtils.getUserChuangNum();
+        return recruitProjectService.createProject(creatTeamRequest,userChuangNum);
     }
 
     @Auth
