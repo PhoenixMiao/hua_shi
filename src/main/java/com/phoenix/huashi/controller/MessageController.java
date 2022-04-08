@@ -1,6 +1,7 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
@@ -37,8 +38,12 @@ public class MessageController {
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
     public Object applyForProject(@NotNull @RequestParam("projectId") Long projectId) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.applyForProject(userChuangNum, projectId);
-        return "申请成功";
+        try {
+            messageService.applyForProject(userChuangNum, projectId);
+            return "申请成功";
+        } catch (CommonException e) {
+            return e.getCommonErrorCode();
+        }
     }
 
     @Auth
@@ -46,8 +51,12 @@ public class MessageController {
     @ApiOperation(value = "邀请别人加入项目", response = String.class)
     public Object projectInvitation(@NotNull @Valid @RequestBody InviteUserRequest request) {
         String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.projectInvitation(request, userChuangNum);
-        return "邀请成功";
+        try {
+            messageService.projectInvitation(request, userChuangNum);
+            return "邀请成功";
+        } catch (CommonException e) {
+            return e.getCommonErrorCode();
+        }
     }
 
     @Auth

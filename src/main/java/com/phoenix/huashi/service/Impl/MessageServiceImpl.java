@@ -2,12 +2,15 @@ package com.phoenix.huashi.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.phoenix.huashi.common.CommonErrorCode;
+import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
 import com.phoenix.huashi.controller.request.ReplyMessageRequest;
 import com.phoenix.huashi.dto.Message.BriefMessage;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.Message;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
@@ -43,8 +46,8 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void applyForProject(String userChuangNum, Long projectId) {
-        String captainChuangNum = recruitProjectMapper.getCaptianChuangNumByProjectId(projectId);
-        if(userChuangNum.equals(captainChuangNum))return ;
+        Member member=memberMapper.getMemberByProjectIdAndChuangNum(projectId,userChuangNum);
+        if(member!=null)throw new CommonException(CommonErrorCode.USER_HAS_BEEN_MEMBER);
         Message message = messageMapper.hasApplied(MessageTypeEnum.APPLICATION.getDescription(), projectId, userChuangNum);
         if (message != null ) {
             if(message.getStatus().equals(0)){
@@ -55,7 +58,7 @@ public class MessageServiceImpl implements MessageService {
                return;
            }
         }
-        messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), recruitProjectMapper.getRecruitProjectById(projectId).getName(),projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
+        messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), recruitProjectMapper.getRecruitProjectById(projectId).getName(),projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0,recruitProjectMapper.getCaptianChuangNumByProjectId(projectId), userMapper.getNicknameByChuangNum(recruitProjectMapper.getCaptianChuangNumByProjectId(projectId)));
     }
 
     @Override
@@ -89,6 +92,8 @@ public class MessageServiceImpl implements MessageService {
             messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
             return;
         }
+        Member member=memberMapper.getMemberByProjectIdAndChuangNum(request.getProjectId(),request.getUserChuangNum());
+        if(member!=null)throw new CommonException(CommonErrorCode.USER_HAS_BEEN_MEMBER);
         messageMapper.joinProject(MessageTypeEnum.INVITATION.getDescription(), recruitProjectMapper.getRecruitProjectById(request.getProjectId()).getName(),request.getProjectId(), memberChuangNum, userMapper.getNicknameByChuangNum(memberChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
     }
 
