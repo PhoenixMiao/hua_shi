@@ -1561,3 +1561,6 @@ Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL synta
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:832)
 
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 43
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: projectInvitation

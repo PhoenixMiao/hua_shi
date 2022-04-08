@@ -1585,3 +1585,7 @@ Caused by: java.sql.SQLSyntaxErrorException: You have an error in your SQL synta
 	at java.base/java.lang.Thread.run(Thread.java:832)
 
 2022-04-07 22:36:51.082 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-04-07 22:56:06.976 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 43
+2022-04-07 22:57:03.912 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: projectInvitation
