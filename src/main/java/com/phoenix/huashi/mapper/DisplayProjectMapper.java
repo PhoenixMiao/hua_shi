@@ -1,8 +1,6 @@
 package com.phoenix.huashi.mapper;
 
 import com.phoenix.huashi.MyMapper;
-import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
-import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 import com.phoenix.huashi.entity.DisplayProject;
 
 import org.apache.ibatis.annotations.*;
@@ -15,7 +13,7 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     @Select("SELECT * FROM display_project WHERE id=#{id}")
     DisplayProject getDisplayProjectById(@Param("id") Long id);
 
-    @Select("SELECT * FROM display_project ")
+    @Select("SELECT * FROM display_project")
     List<DisplayProject> getBriefDisplayProjectList();
 
     @Select("SELECT * FROM display_project WHERE type=#{type}")

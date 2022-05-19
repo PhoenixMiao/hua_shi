@@ -130,10 +130,10 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
             captainCriteria.orLike("captainName", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
+        example.orderBy("upload_time").desc();
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
-                searchRequest.getPageParam().getPageSize(),
-                searchRequest.getPageParam().getOrderBy());
+                searchRequest.getPageParam().getPageSize());
         List<DisplayProject> displayProjectList = displayProjectMapper.selectByExample(example);
         Page page = new Page(new PageInfo(displayProjectList));
 

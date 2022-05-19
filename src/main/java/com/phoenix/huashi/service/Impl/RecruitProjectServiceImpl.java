@@ -155,6 +155,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             tagCriteria.orLike("tag3", "%" + searchRequest.getTag() + "%");
             example.and(tagCriteria);
         }
+        example.orderBy("state_update_time").desc();
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
                 searchRequest.getPageParam().getPageSize(),
