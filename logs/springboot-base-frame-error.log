@@ -1,6 +1,28 @@
-2022-04-08 15:54:16.937 [https-jsse-nio-443-exec-8] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
-2022-04-08 15:54:16.951 [https-jsse-nio-443-exec-8] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 43
-2022-04-08 15:54:16.951 [https-jsse-nio-443-exec-8] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: projectInvitation
-2022-04-08 15:56:25.856 [https-jsse-nio-443-exec-3] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
-2022-04-08 15:56:25.857 [https-jsse-nio-443-exec-3] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 43
-2022-04-08 15:56:25.858 [https-jsse-nio-443-exec-3] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: applyForProject
+2022-05-19 22:28:47.874 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 443 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 443 or configure this application to listen on another port.
+
+2022-05-19 22:50:53.895 [main] ERROR o.s.b.diagnostics.LoggingFailureAnalysisReporter - 
+
+***************************
+APPLICATION FAILED TO START
+***************************
+
+Description:
+
+Web server failed to start. Port 443 was already in use.
+
+Action:
+
+Identify and stop the process that's listening on port 443 or configure this application to listen on another port.
+
