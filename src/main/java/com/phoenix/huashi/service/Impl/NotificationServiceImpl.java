@@ -62,7 +62,7 @@ public class NotificationServiceImpl implements NotificationService {
             nameCriteria.orLike("title", "%" + searchRequest.getName() + "%");
             example.and(nameCriteria);
         }
-        example.orderBy("updateDate").desc();
+        example.orderBy("id").desc();
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
                 searchRequest.getPageParam().getPageSize(),
