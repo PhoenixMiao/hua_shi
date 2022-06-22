@@ -130,7 +130,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
             captainCriteria.orLike("captainName", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
-        example.orderBy("upload_time").desc();
+        example.orderBy("id").desc();
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
                 searchRequest.getPageParam().getPageSize());
