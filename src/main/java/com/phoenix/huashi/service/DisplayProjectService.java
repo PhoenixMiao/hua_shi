@@ -9,6 +9,7 @@ import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 
 import com.phoenix.huashi.entity.DisplayProject;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface DisplayProjectService {
     DisplayProject getDisplayProjectById(Long id);
@@ -20,4 +21,6 @@ public interface DisplayProjectService {
     Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest);
 
     Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum);
+
+    String uploadFile(Long displayProjectId, MultipartFile multipartFile);
 }

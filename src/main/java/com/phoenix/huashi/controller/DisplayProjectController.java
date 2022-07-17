@@ -1,6 +1,11 @@
 package com.phoenix.huashi.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.common.CommonErrorCode;
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
@@ -17,10 +22,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Api("展示项目相关操作")
 @RestController
@@ -38,7 +48,7 @@ public class DisplayProjectController {
 
     @GetMapping("")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
-    @ApiImplicitParam(name="projectId",value="展示项目id",required = true,paramType = "query",dataType = "Long")
+    @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
     public Object getDisplayProjectById(@NotNull @RequestParam("projectId") Long displayProjectId) {
         return displayProjectService.getDisplayProjectById(displayProjectId);
     }
@@ -46,10 +56,10 @@ public class DisplayProjectController {
     @Auth
     @GetMapping("likeOrCollect")
     @ApiOperation(value = "查看用户是否点赞/收藏过此项目 0表示未点赞未收藏 1表示点赞未收藏 2表示收藏未点赞 3表示收藏点赞", response = Integer.class)
-    @ApiImplicitParam(name="projectId",value="展示项目id",required = true,paramType = "query",dataType = "Long")
+    @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
     public Object judgeLikeOrCollect(@NotNull @RequestParam("projectId") Long displayProjectId) {
-        String userChuangNum=sessionUtils.getUserChuangNum();
-        return displayProjectService.judgeLikeOrCollect(displayProjectId,userChuangNum);
+        String userChuangNum = sessionUtils.getUserChuangNum();
+        return displayProjectService.judgeLikeOrCollect(displayProjectId, userChuangNum);
     }
 
     @PostMapping("/list")
@@ -60,10 +70,22 @@ public class DisplayProjectController {
 
     @Auth
     @PostMapping("/add")
-    @ApiOperation(value = "增加展示项目",response = String.class)
-    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request){
+    @ApiOperation(value = "增加展示项目", response = String.class)
+    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request) {
         return displayProjectService.addDisplayProject(request);
     }
 
+    @Auth
+    @PostMapping(value = "/upload", produces = "application/json")
+    @ApiOperation(value = "上传文件")
+    @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
+    public Object uploadPortrait(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
+        try {
+            return Result.success(displayProjectService.uploadFile(displayProjectId, file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
 
+    }
 }
+

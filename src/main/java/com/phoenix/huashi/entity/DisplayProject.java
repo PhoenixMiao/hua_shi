@@ -118,6 +118,9 @@ public class DisplayProject implements Serializable {
 
     @ApiModelProperty("成员5专业")
     private String memberFiveMajor;
+
+    @ApiModelProperty("附件")
+    private String file;
 }
 
 
