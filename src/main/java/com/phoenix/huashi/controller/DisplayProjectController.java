@@ -87,5 +87,30 @@ public class DisplayProjectController {
         }
 
     }
+
+    @GetMapping(value = "/download/{flag}",produces = "application/json")
+    @ApiOperation(value = "下载笔记附件（pdf或markdown）,整个链接upload接口曾经给过")
+    public Result downloadNote(@PathVariable String flag, HttpServletResponse response){
+        OutputStream os;
+        String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
+        List<String> fileNames = FileUtil.listFileNames(basePath);
+        String fileName = fileNames.stream().filter(name -> name.contains(flag)).findAny().orElse("");
+        if(fileName.equals("")) return Result.result(CommonErrorCode.FILE_NOT_EXIST);
+        try{
+            if(StrUtil.isNotEmpty(fileName)){
+                response.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(fileName,"UTF-8"));
+                response.setContentType("application/octet-stream");
+                byte[] bytes = FileUtil.readBytes(basePath + fileName);
+                os = response.getOutputStream();
+                os.write(bytes);
+                os.flush();
+                os.close();
+            }
+        } catch (Exception e) {
+            return Result.result(CommonErrorCode.DOWNLOAD_FILE_FAILED);
+        }
+        return Result.success("下载成功");
+    }
+
 }
 
