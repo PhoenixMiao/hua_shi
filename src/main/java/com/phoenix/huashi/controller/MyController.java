@@ -1,5 +1,7 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.util.SessionUtils;
 import com.phoenix.huashi.dto.SessionData;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,14 @@ public class MyController {
 
     @GetMapping("/get")
     @Deprecated
-    public Object get() {
+    public Result get() {
+        try{
         sessionUtils.getUserChuangNum();
         SessionData sessionData = sessionUtils.getSessionData();
-        return null;
+        return Result.success(null);
+        }catch (CommonException e){
+        return Result.result(e.getCommonErrorCode());
+        }
     }
 
 }

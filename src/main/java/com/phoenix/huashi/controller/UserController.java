@@ -47,10 +47,12 @@ public class UserController {
     @GetMapping("/login/{code}")
     @ApiOperation(value = "登录", response = SessionData.class)
     @ApiImplicitParam(name = "code", value = "code", required = true, paramType = "path")
-    public Object login(@NotBlank @PathVariable("code") String code) {
-
-        return userService.login(code);
-
+    public Result login(@NotBlank @PathVariable("code") String code) {
+try {
+    return  Result.success(userService.login(code));
+}catch (CommonException e){
+    return  Result.result(e.getCommonErrorCode());
+}
     }
 
     @Auth
@@ -58,8 +60,11 @@ public class UserController {
     @ApiOperation(value = "查看用户信息", response = GetUserResponse.class)
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
     public Object getUserByChuangNum(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
-        User user = userService.getUserByChuangNum(userChuangNum);
-        return user;
+        try {
+            return  Result.success(userService.getUserByChuangNum(userChuangNum));
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 
 
@@ -67,56 +72,80 @@ public class UserController {
     @PostMapping("/update")
     @ApiOperation(value = "更新当前用户信息", response = String.class)
     public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        userService.updateUserByChuangNum(updateUserByChuangNumRequest, userChuangNum);
-        return "操作成功";
+        try {
+            userService.updateUserByChuangNum(updateUserByChuangNumRequest,sessionUtils.getUserChuangNum());
+            return  Result.success("更新成功");
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/fill")
     @ApiOperation(value = "填写用户信息", response = String.class)
-    public Object fillUserInformation(@NotNull @Valid @RequestBody FillUserInformationRequest fillUserInformationRequest) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        userService.fillUserInformation(fillUserInformationRequest, userChuangNum);
-        return "操作成功";
+    public Result fillUserInformation(@NotNull @Valid @RequestBody FillUserInformationRequest fillUserInformationRequest) {
+        try {
+            String userChuangNum = sessionUtils.getUserChuangNum();
+            userService.fillUserInformation(fillUserInformationRequest, userChuangNum);
+            return Result.success("更新成功");
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+
     }
 
     @Auth
     @PostMapping("/userNameList")
     @ApiOperation(value = "根据姓名获取用户姓名创赛号列表", response = BriefUserName.class)
-    public Object getBriefUserNameListByName(@NotNull @Valid @RequestBody GetBriefUserNameListRequest request) {
-        return userService.searchBriefUserNameListByName(request);
+    public Result getBriefUserNameListByName(@NotNull @Valid @RequestBody GetBriefUserNameListRequest request) {
+        try {
+            return  Result.success(userService.searchBriefUserNameListByName(request));
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/team")
     @ApiOperation(value = "查看我的组队", response = BriefProjectInformation.class)
-    public Object getBriefTeamList(@NotNull @Valid @RequestBody GetTeamListRequest request) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        return userService.getBriefTeamList(request, userChuangNum);
+    public Result getBriefTeamList(@NotNull @Valid @RequestBody GetTeamListRequest request) {
+        try {
+            return  Result.success(userService.getBriefTeamList(request,sessionUtils.getUserChuangNum()));
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/logout")
     @ApiOperation(value = "登出",response = String.class)
-    public Object logout(){
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        sessionUtils.invalidate();
-        return userChuangNum;
+    public Result logout(){
+        try {
+            String userChuangNum = sessionUtils.getUserChuangNum();
+            sessionUtils.invalidate();
+            return Result.success(userChuangNum);
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 
 
     @GetMapping("/check")
     @ApiOperation(value = "检查登录态")
-    public Object checkSession(){
-        if(sessionUtils.getSessionData()==null) return "登录失效";
-        return "已登录";
+    public Result checkSession(){
+        try {
+            if(sessionUtils.getSessionData()==null) return Result.fail("登录失效");
+            return Result.success("已登录");
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+
     }
 
     @Auth
     @PostMapping(value = "/resumeUpload", produces = "application/json")
     @ApiOperation(value = "上传个人简历")
-    public Object resumeUpload(MultipartFile file) {
+    public Result resumeUpload(MultipartFile file) {
         try {
             return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file));
         } catch (CommonException e) {
@@ -127,7 +156,7 @@ public class UserController {
     @GetMapping(value = "/experience", produces = "application/json")
     @ApiOperation(value = "获取用户项目经历")
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
-    public Object getUserProjectExperience(@NotNull @RequestParam("userChuangNum")String userChuangNum) {
+    public Result getUserProjectExperience(@NotNull @RequestParam("userChuangNum")String userChuangNum) {
         try {
             return Result.success(userService.getUserProjectExperience(userChuangNum));
         } catch (CommonException e) {
@@ -137,7 +166,7 @@ public class UserController {
 
     @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
     @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
-    public Result downloadNote(@PathVariable String flag, HttpServletResponse response){
+    public Result downloadResume(@PathVariable String flag, HttpServletResponse response){
         OutputStream os;
         String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
         List<String> fileNames = FileUtil.listFileNames(basePath);

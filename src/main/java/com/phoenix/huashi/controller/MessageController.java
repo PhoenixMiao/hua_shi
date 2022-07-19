@@ -3,6 +3,7 @@ package com.phoenix.huashi.controller;
 import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
 import com.phoenix.huashi.controller.request.ReplyMessageRequest;
@@ -36,26 +37,24 @@ public class MessageController {
     @GetMapping("/apply")
     @ApiOperation(value = "申请加入项目", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object applyForProject(@NotNull @RequestParam("projectId") Long projectId) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
+    public Result applyForProject(@NotNull @RequestParam("projectId") Long projectId) {
         try {
-            messageService.applyForProject(userChuangNum, projectId);
-            return "申请成功";
+            messageService.applyForProject(sessionUtils.getUserChuangNum(), projectId);
+            return Result.success("申请成功");
         } catch (CommonException e) {
-            return e.getCommonErrorCode();
+            return Result.result(e.getCommonErrorCode());
         }
     }
 
     @Auth
     @PostMapping("/invite")
     @ApiOperation(value = "邀请别人加入项目", response = String.class)
-    public Object projectInvitation(@NotNull @Valid @RequestBody InviteUserRequest request) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
+    public Result projectInvitation(@NotNull @Valid @RequestBody InviteUserRequest request) {
         try {
-            messageService.projectInvitation(request, userChuangNum);
-            return "邀请成功";
+            messageService.projectInvitation(request, sessionUtils.getUserChuangNum());
+            return Result.success("邀请成功");
         } catch (CommonException e) {
-            return e.getCommonErrorCode();
+            return Result.result(e.getCommonErrorCode());
         }
     }
 
@@ -63,8 +62,11 @@ public class MessageController {
     @PostMapping("/list")
     @ApiOperation(value = "获取消息列表", response = String.class)
     public Object getBriefMessageList(@NotNull @Valid @RequestBody GetMessageListReuqest request) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getBriefMessageList(request, userChuangNum);
+        try {
+            return Result.success(messageService.getBriefMessageList(request,sessionUtils.getUserChuangNum()));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
@@ -72,16 +74,21 @@ public class MessageController {
     @ApiOperation(value = "查看消息详情", response = Object.class)
     @ApiImplicitParam(name="messageId",value="消息id",required = true,paramType = "query",dataType = "Long")
     public Object getMessage(@NotNull @RequestParam("messageId") Long id) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        return messageService.getMessage(id, userChuangNum);
+        try {
+            return Result.success(messageService.getMessage(id,sessionUtils.getUserChuangNum()));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/reply")
     @ApiOperation(value = "处理消息", response = String.class)
     public Object replyMessage(@NotNull @Valid @RequestBody ReplyMessageRequest request) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        messageService.replyMessage(request);
-        return "操作成功";
+        try {
+            return Result.success( messageService.replyMessage(request));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 }
