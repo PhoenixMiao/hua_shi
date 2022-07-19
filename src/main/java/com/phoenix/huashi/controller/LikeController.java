@@ -1,6 +1,9 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.common.CommonErrorCode;
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
@@ -27,9 +30,13 @@ public class LikeController {
     @GetMapping("")
     @ApiOperation(value = "点赞", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object giveLike(@NotNull @RequestParam("projectId") Long projectId) {
-        likeService.like(projectId, sessionUtils.getUserChuangNum());
-        return "操作成功";
+    public Result giveLike(@NotNull @RequestParam("projectId") Long projectId) {
+        try {
+            likeService.like(projectId, sessionUtils.getUserChuangNum());
+            return Result.success("点赞成功");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
 
@@ -37,9 +44,12 @@ public class LikeController {
     @GetMapping("/cancel")
     @ApiOperation(value = "取消点赞", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object cancelLike(@NotNull @RequestParam("projectId") Long projectId) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        likeService.cancelLike(projectId,userChuangNum);
-        return "操作成功";
+    public Result cancelLike(@NotNull @RequestParam("projectId") Long projectId) {
+        try {
+            likeService.cancelLike(projectId, sessionUtils.getUserChuangNum());
+            return Result.success("取消成功");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 }

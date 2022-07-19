@@ -17,6 +17,7 @@ import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.dto.user.DisplayProjectMember;
 import com.phoenix.huashi.entity.*;
+
 import static com.phoenix.huashi.common.CommonConstants.*;
 
 import com.phoenix.huashi.enums.CommodityTypeEnum;
@@ -81,15 +82,14 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     private COSClient cosClient;
 
     @Override
-    public Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum){
-        Integer result=0;
-        Likes like=likesMapper.getLikeByProjectIdAndUserChuangNum(displayProjectId,userChuangNum);
-        if(like!=null)result=result+1;
-        Collection collection=colletionMapper.getCollectionByProjectIdAndUserChuangNum(displayProjectId,userChuangNum);
-        if(collection!=null)result=result+2;
+    public Integer judgeLikeOrCollect(Long displayProjectId, String userChuangNum) {
+        Integer result = 0;
+        Likes like = likesMapper.getLikeByProjectIdAndUserChuangNum(displayProjectId, userChuangNum);
+        if (like != null) result = result + 1;
+        Collection collection = colletionMapper.getCollectionByProjectIdAndUserChuangNum(displayProjectId, userChuangNum);
+        if (collection != null) result = result + 2;
         return result;
     }
-
 
 
     @Override
@@ -167,7 +167,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
     @Override
     public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
-        return (long)displayProjectMapper.insert(
+        return (long) displayProjectMapper.insert(
                 DisplayProject
                         .builder()
                         .name(applyForDisplayProjectRequest.getName())
@@ -206,7 +206,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
     @Override
     public String uploadFile(Long displayProjectId, MultipartFile multipartFile) {
-        DisplayProject displayProject=displayProjectMapper.getDisplayProjectById(displayProjectId);
+        DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -219,18 +219,18 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
             AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
             String extension = name.substring(name.lastIndexOf("."));
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getId().toString() + extension, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getNumber() + extension, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,displayProject.getId().toString()).toString()+extension;
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, displayProject.getNumber()).toString() + extension;
+            displayProject.setFile(res);
+            displayProjectMapper.updateByPrimaryKeySelective(displayProject);
 
-            displayProjectMapper.setFile(res,displayProjectId);
-
-        } catch (Exception e){
+        } catch (Exception e) {
             //e.printStackTrace();
             throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
         }
@@ -242,7 +242,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         return res;
     }
-
 
 
 }

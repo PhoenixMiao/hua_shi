@@ -1,6 +1,8 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.AddMemberRequest;
 import com.phoenix.huashi.controller.request.AssignWorkRequest;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
@@ -29,17 +31,24 @@ public class MemberController {
     @Auth
     @PostMapping("/add")
     @ApiOperation(value = "添加项目成员", response = String.class)
-    public Object addMember(@NotNull @Valid @RequestBody AddMemberRequest request) {
-        return memberService.addMember(request);
+    public Result addMember(@NotNull @Valid @RequestBody AddMemberRequest request) {
+     try {
+         return  Result.success(memberService.addMember(request));
+     }catch (CommonException e){
+         return Result.result(e.getCommonErrorCode());
+     }
     }
 
     @Auth
     @PostMapping("/work")
     @ApiOperation(value = "安排分工", response = String.class)
     public Object assignWork(@NotNull @Valid @RequestBody AssignWorkRequest assignWorkRequest) {
-        String userChuangNum=sessionUtils.getUserChuangNum();
-        memberService.assignWork(assignWorkRequest,userChuangNum);
-        return "操作成功";
+        try {
+            memberService.assignWork(assignWorkRequest,sessionUtils.getUserChuangNum());
+            return  Result.success("更新成功");
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
 }

@@ -1,5 +1,7 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetListRequest;
 import com.phoenix.huashi.dto.collection.BriefCollection;
 import com.phoenix.huashi.service.CollectionService;
@@ -35,28 +37,37 @@ public class CollectionController {
     @GetMapping("")
     @ApiOperation(value = "收藏项目", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object addToCollection(@NotNull @RequestParam("projectId") Long projectId) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        collectionService.addToCollection(projectId, userChuangNum);
-        return "收藏成功";
+    public Result addToCollection(@NotNull @RequestParam("projectId") Long projectId) {
+        try {
+            collectionService.addToCollection(projectId,sessionUtils.getUserChuangNum());
+            return Result.success("收藏成功");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @GetMapping("/cancel")
     @ApiOperation(value = "取消收藏", response = String.class)
     @ApiImplicitParam(name="projectId",value="项目id",required = true,paramType = "query",dataType = "Long")
-    public Object cancelCollection(@NotNull @RequestParam("projectId") Long projectId) {
-        String userChuangNum=sessionUtils.getUserChuangNum();
-        collectionService.cancelCollection(projectId,userChuangNum);
-        return "操作成功";
+    public Result cancelCollection(@NotNull @RequestParam("projectId") Long projectId) {
+        try {
+            collectionService.cancelCollection(projectId,sessionUtils.getUserChuangNum());
+            return Result.success("取消成功");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/list")
     @ApiOperation(value = "查看收藏夹", response = BriefCollection.class)
-    public Object getBriefCollectionList(@NotNull @Valid @RequestBody GetListRequest getListRequest) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        return collectionService.getBriefCollectionList(getListRequest, userChuangNum);
+    public Result getBriefCollectionList(@NotNull @Valid @RequestBody GetListRequest getListRequest) {
+        try {
+            return Result.success(collectionService.getBriefCollectionList(getListRequest,sessionUtils.getUserChuangNum()));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
 }

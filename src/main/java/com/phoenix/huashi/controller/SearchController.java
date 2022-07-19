@@ -1,5 +1,7 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.NotificationService;
@@ -33,10 +35,18 @@ public class SearchController {
 
     @PostMapping("/condition")
     @ApiOperation(value = "根据条件筛选信息")
-    public Object search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {
-        if(searchRequest.getType()==1) return notificationService.searchNotification(searchRequest);
-        if(searchRequest.getType()==2) return displayProjectService.searchDisplayProject(searchRequest);
-        if(searchRequest.getType()==3) return recruitProjectService.searchRecruitProject(searchRequest);
-        return "tag值必须为1或2或3";
+    public Result search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {
+        try {
+            if (searchRequest.getType() == 1)
+                return Result.success(notificationService.searchNotification(searchRequest));
+            if (searchRequest.getType() == 2)
+                return Result.success(displayProjectService.searchDisplayProject(searchRequest));
+            if (searchRequest.getType() == 3)
+                return Result.success(recruitProjectService.searchRecruitProject(searchRequest));
+            return Result.fail("tag值必须为1或2或3");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+
     }
 }

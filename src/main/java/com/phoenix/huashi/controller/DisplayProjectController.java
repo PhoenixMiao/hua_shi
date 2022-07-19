@@ -49,33 +49,48 @@ public class DisplayProjectController {
     @GetMapping("")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Object getDisplayProjectById(@NotNull @RequestParam("projectId") Long displayProjectId) {
-        return displayProjectService.getDisplayProjectById(displayProjectId);
+    public Result getDisplayProjectById(@NotNull @RequestParam("projectId") Long displayProjectId) {
+        try {
+            return Result.success(displayProjectService.getDisplayProjectById(displayProjectId));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @GetMapping("likeOrCollect")
     @ApiOperation(value = "查看用户是否点赞/收藏过此项目 0表示未点赞未收藏 1表示点赞未收藏 2表示收藏未点赞 3表示收藏点赞", response = Integer.class)
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Object judgeLikeOrCollect(@NotNull @RequestParam("projectId") Long displayProjectId) {
-        String userChuangNum = sessionUtils.getUserChuangNum();
-        return displayProjectService.judgeLikeOrCollect(displayProjectId, userChuangNum);
+    public Result judgeLikeOrCollect(@NotNull @RequestParam("projectId") Long displayProjectId) {
+        try {
+            return Result.success(displayProjectService.judgeLikeOrCollect(displayProjectId,sessionUtils.getUserChuangNum()));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @PostMapping("/list")
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)
-    public Object getBriefDisplayProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
-        return displayProjectService.getBriefDisplayProjectList(request);
+    public Result getBriefDisplayProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
+        try {
+            return Result.success(displayProjectService.getBriefDisplayProjectList(request));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
     @Auth
     @PostMapping("/add")
     @ApiOperation(value = "增加展示项目", response = String.class)
-    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request) {
-        return displayProjectService.addDisplayProject(request);
+    public Result applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request) {
+        try {
+            return Result.success(displayProjectService.addDisplayProject(request));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
     }
 
-    @Auth
+@Auth
     @PostMapping(value = "/upload", produces = "application/json")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
@@ -88,9 +103,9 @@ public class DisplayProjectController {
 
     }
 
-    @GetMapping(value = "/download/{flag}",produces = "application/json")
-    @ApiOperation(value = "下载笔记附件（pdf或markdown）,整个链接upload接口曾经给过")
-    public Result downloadFile(@PathVariable String flag, HttpServletResponse response){
+    @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
+    @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
+    public Result downloadResume(@PathVariable String flag, HttpServletResponse response){
         OutputStream os;
         String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
         List<String> fileNames = FileUtil.listFileNames(basePath);

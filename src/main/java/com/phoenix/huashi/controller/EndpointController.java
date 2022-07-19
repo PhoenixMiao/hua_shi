@@ -1,5 +1,7 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.validation.annotation.Validated;
@@ -15,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 public class EndpointController {
     @GetMapping("/{key}")
     @ApiOperation(value = "获取OSS域名(输入“OSS”时返回OSS域名)", response = String.class)
-    public Object getOSS(@PathVariable("key") String key) {
+    public Result getOSS(@PathVariable("key") String key) {
+        try{
         if (key.equals("OSS")) {
-            return "https://huashi-1305159828.cos.ap-shanghai.myqcloud.com";
+            return Result.success("https://huashi-1305159828.cos.ap-shanghai.myqcloud.com");
         }
-        return "请输入“oss”";
+        return Result.fail("请输入“oss”");
+    }catch (CommonException e){
+        return Result.result(e.getCommonErrorCode());
+        }
     }
+
 }
