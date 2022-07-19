@@ -1,6 +1,11 @@
 package com.phoenix.huashi.controller;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.util.StrUtil;
 import com.phoenix.huashi.annotation.Auth;
+import com.phoenix.huashi.common.CommonErrorCode;
+import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
@@ -16,10 +21,15 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.OutputStream;
+import java.net.URLEncoder;
+import java.util.List;
 
 @Api("用户相关操作")
 @RestController
@@ -101,6 +111,52 @@ public class UserController {
     public Object checkSession(){
         if(sessionUtils.getSessionData()==null) return "登录失效";
         return "已登录";
+    }
+
+    @Auth
+    @PostMapping(value = "/resumeUpload", produces = "application/json")
+    @ApiOperation(value = "上传个人简历")
+    public Object resumeUpload(MultipartFile file) {
+        try {
+            return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @GetMapping(value = "/experience", produces = "application/json")
+    @ApiOperation(value = "获取用户项目经历")
+    @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
+    public Object getUserProjectExperience(@NotNull @RequestParam("userChuangNum")String userChuangNum) {
+        try {
+            return Result.success(userService.getUserProjectExperience(userChuangNum));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
+    @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
+    public Result downloadNote(@PathVariable String flag, HttpServletResponse response){
+        OutputStream os;
+        String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
+        List<String> fileNames = FileUtil.listFileNames(basePath);
+        String fileName = fileNames.stream().filter(name -> name.contains(flag)).findAny().orElse("");
+        if(fileName.equals("")) return Result.result(CommonErrorCode.FILE_NOT_EXIST);
+        try{
+            if(StrUtil.isNotEmpty(fileName)){
+                response.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(fileName,"UTF-8"));
+                response.setContentType("application/octet-stream");
+                byte[] bytes = FileUtil.readBytes(basePath + fileName);
+                os = response.getOutputStream();
+                os.write(bytes);
+                os.flush();
+                os.close();
+            }
+        } catch (Exception e) {
+            return Result.result(CommonErrorCode.DOWNLOAD_FILE_FAILED);
+        }
+        return Result.success("下载成功");
     }
 
 }
