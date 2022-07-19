@@ -45,10 +45,11 @@ public enum CommonErrorCode {
     SCHOOL_UNAUTHORIZED(2007,"未通过学校认证","尚未进行校园认证，请先认证"),
     INVALID_PICTURE_TYPE(2008,"无效的图片类型（必须是goods或advice）","图片上传出错，请重试"),
     USER_HAS_BEEN_MEMBER(2009,"用户已经是该项目成员","用户已经是该项目成员，不可以重复邀请"),
-
-
-
-
+    UPDATE_FAIL(2010,"更新失败，出现竞态条件","请稍后重试"),
+    UPLOAD_FILE_FAIL(2011,"上传文件失败","请检查网络状况后稍后重试"),
+    FILENAME_CAN_NOT_BE_NULL(2012,"文件名不能为空","请取一个有后缀的文件名"),
+    DOWNLOAD_FILE_FAILED(2013,"下载文件失败","请在浏览器地址栏中输入链接来测试，或者检查网络或系统状况"),
+    FILE_NOT_EXIST(2014, "该文件不存在", "请输入有效的文件名"),
 
     TEL_USED_ERROR(1007,"手机号已注册","请前往登录"),
     VERIFY_FAILED(1008,"验证失败","请重试"),
@@ -58,6 +59,7 @@ public enum CommonErrorCode {
     INVALID_PHONE(1012,"无效手机号","请输入正确的手机号"),
 
     ;
+
 
     /**
      * 错误码

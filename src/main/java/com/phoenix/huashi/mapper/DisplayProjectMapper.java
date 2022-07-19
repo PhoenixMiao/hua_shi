@@ -31,6 +31,8 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     @Update("UPDATE display_project SET collections=#{collections} WHERE id=#{id};")
     void setCollectionNumber(@Param("collections") Long collections, @Param("id") Long id);
 
+    @Update("UPDATE display_project SET file=#{file} WHERE id=#{id};")
+    void setFile(@Param("file") String file, @Param("id") Long id);
 
 //    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections)  VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")
 //    void newDisplayProject(ApplyForDisplayProjectRequest displayProject);
