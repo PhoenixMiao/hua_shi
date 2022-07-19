@@ -40,6 +40,8 @@ import com.qcloud.cos.transfer.TransferManager;
 import org.springframework.web.multipart.MultipartFile;
 import tk.mybatis.mapper.entity.Example;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -240,5 +242,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         return res;
     }
+
+
 
 }

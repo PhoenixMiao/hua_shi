@@ -79,7 +79,7 @@ public class DisplayProjectController {
     @PostMapping(value = "/upload", produces = "application/json")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Object uploadPortrait(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
         try {
             return Result.success(displayProjectService.uploadFile(displayProjectId, file));
         } catch (CommonException e) {
@@ -90,7 +90,7 @@ public class DisplayProjectController {
 
     @GetMapping(value = "/download/{flag}",produces = "application/json")
     @ApiOperation(value = "下载笔记附件（pdf或markdown）,整个链接upload接口曾经给过")
-    public Result downloadNote(@PathVariable String flag, HttpServletResponse response){
+    public Result downloadFile(@PathVariable String flag, HttpServletResponse response){
         OutputStream os;
         String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
         List<String> fileNames = FileUtil.listFileNames(basePath);
