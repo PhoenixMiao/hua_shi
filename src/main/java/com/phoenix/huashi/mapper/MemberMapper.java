@@ -1,5 +1,6 @@
 package com.phoenix.huashi.mapper;
 
+import com.phoenix.huashi.MyMapper;
 import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.Notification;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface MemberMapper {
+public interface MemberMapper extends MyMapper<Member> {
     @Select("SELECT project_id FROM member WHERE chuang_num=#{chuang_num} AND type=#{type}")
     List<Long> getTeamByChuangNumAndMemberType(@Param("chuang_num") String chuangNum,@Param("type") String type);
 

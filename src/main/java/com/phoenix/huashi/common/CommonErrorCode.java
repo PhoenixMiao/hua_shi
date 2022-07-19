@@ -37,8 +37,6 @@ public enum CommonErrorCode {
     WX_SUBSCRIBE_SEND_41030(141030,"page路径不正确，需要保证在现网版本小程序中存在，与app.json保持一致","系统异常，请稍后再试"),
     //微信退款
 
-
-
     USER_NOT_EXIST(2001,"用户不存在","用户不存在"),
     SYSTEM_ERROR(2002,"系统错误","系统错误，请重试"),
     INVALID_SESSION(2006,"会话丢失","登录已失效，请重新登录"),
@@ -50,6 +48,11 @@ public enum CommonErrorCode {
     FILENAME_CAN_NOT_BE_NULL(2012,"文件名不能为空","请取一个有后缀的文件名"),
     DOWNLOAD_FILE_FAILED(2013,"下载文件失败","请在浏览器地址栏中输入链接来测试，或者检查网络或系统状况"),
     FILE_NOT_EXIST(2014, "该文件不存在", "请输入有效的文件名"),
+    APPLICATION_HAS_PASSED(2015, "申请已经通过", "请勿重复申请"),
+    INVITATION_HAS_PASSED(2016, "邀请已经通过", "请勿重复邀请"),
+
+
+
 
     TEL_USED_ERROR(1007,"手机号已注册","请前往登录"),
     VERIFY_FAILED(1008,"验证失败","请重试"),
@@ -59,7 +62,6 @@ public enum CommonErrorCode {
     INVALID_PHONE(1012,"无效手机号","请输入正确的手机号"),
 
     ;
-
 
     /**
      * 错误码
