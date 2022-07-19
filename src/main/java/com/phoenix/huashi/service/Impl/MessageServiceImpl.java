@@ -55,26 +55,32 @@ public class MessageServiceImpl implements MessageService {
                 return;
             }
            if(message.getStatus().equals(1)){
-               return;
+               throw new CommonException(CommonErrorCode.APPLICATION_HAS_PASSED);
            }
+            if(message.getStatus().equals(-1)){
+                messageMapper.updateStatus(0,null,timeUtil.getCurrentTimestamp(),1,message.getId());
+                return;
+            }
         }
         messageMapper.joinProject(MessageTypeEnum.APPLICATION.getDescription(), recruitProjectMapper.getRecruitProjectById(projectId).getName(),projectId, userChuangNum, userMapper.getNicknameByChuangNum(userChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0,recruitProjectMapper.getCaptianChuangNumByProjectId(projectId), userMapper.getNicknameByChuangNum(recruitProjectMapper.getCaptianChuangNumByProjectId(projectId)));
     }
 
     @Override
     public String replyMessage(ReplyMessageRequest request) {
-        System.out.println(request.getId());
+        Message message=messageMapper.getMessage(request.getId());
         if (request.getStatus().equals("REFUSE")) {
             messageMapper.updateStatus(-1, request.getReason(), timeUtil.getCurrentTimestamp(), 1, request.getId());
             return "已拒绝";
         } else if (request.getStatus().equals("ACCEPT")) {
-            Message message = messageMapper.getMessage(request.getId());
             RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(message.getProjectId());
             if (recruitProject.getMemberNum().equals(recruitProject.getRecruitNum())) {
                 messageMapper.updateStatus(-1, "人数已满", timeUtil.getCurrentTimestamp(), 1, request.getId());
                 recruitProjectMapper.updateProjectStatusById(message.getProjectId(), 1,timeUtil.getCurrentTimestamp());
                 recruitProjectMapper.setStartTime(message.getProjectId(),timeUtil.getCurrentTimestamp());
                 return "人数已满";
+            }
+            if(memberMapper.getMemberByProjectIdAndChuangNum(message.getProjectId(),message.getMemberChuangNum())!=null){
+                return "该成员已参加项目";
             }
             messageMapper.updateStatus(1, null, timeUtil.getCurrentTimestamp(), 1, request.getId());
             memberMapper.insertMember(message.getProjectId(), MemberTypeEnum.MEMBER.getDescription(),0, message.getMemberChuangNum(),request.getWork());
@@ -86,14 +92,23 @@ public class MessageServiceImpl implements MessageService {
 
     @Override
     public void projectInvitation(InviteUserRequest request, String captainChuangNum) {
+        Member member=memberMapper.getMemberByProjectIdAndChuangNum(request.getProjectId(),request.getUserChuangNum());
+        if(member!=null)throw new CommonException(CommonErrorCode.USER_HAS_BEEN_MEMBER);
         String memberChuangNum = request.getUserChuangNum();
         Message message = messageMapper.hasInvited(MessageTypeEnum.INVITATION.getDescription(), request.getProjectId(), memberChuangNum);
         if (message != null) {
-            messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
-            return;
+            if(message.getStatus().equals(0)){
+                messageMapper.setStatusUpdateTime(message.getId(), timeUtil.getCurrentTimestamp());
+                return;
+            }
+            if(message.getStatus().equals(1)){
+                throw new CommonException(CommonErrorCode.INVITATION_HAS_PASSED);
+            }
+            if(message.getStatus().equals(-1)){
+                messageMapper.updateStatus(0,null,timeUtil.getCurrentTimestamp(),1,message.getId());
+                return;
+            }
         }
-        Member member=memberMapper.getMemberByProjectIdAndChuangNum(request.getProjectId(),request.getUserChuangNum());
-        if(member!=null)throw new CommonException(CommonErrorCode.USER_HAS_BEEN_MEMBER);
         messageMapper.joinProject(MessageTypeEnum.INVITATION.getDescription(), recruitProjectMapper.getRecruitProjectById(request.getProjectId()).getName(),request.getProjectId(), memberChuangNum, userMapper.getNicknameByChuangNum(memberChuangNum), 0, timeUtil.getCurrentTimestamp(), null, 0, captainChuangNum, userMapper.getNicknameByChuangNum(captainChuangNum));
     }
 

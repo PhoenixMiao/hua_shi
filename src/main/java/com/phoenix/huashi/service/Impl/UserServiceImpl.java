@@ -2,17 +2,16 @@ package com.phoenix.huashi.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.common.*;
 import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
-import com.phoenix.huashi.common.CommonConstants;
-import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.config.YmlConfig;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.WxSession;
+import com.phoenix.huashi.entity.DisplayProject;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.User;
 import com.phoenix.huashi.enums.MemberTypeEnum;
@@ -21,10 +20,19 @@ import com.phoenix.huashi.mapper.RecruitProjectMapper;
 import com.phoenix.huashi.mapper.UserMapper;
 import com.phoenix.huashi.service.UserService;
 import com.phoenix.huashi.util.*;
+import com.qcloud.cos.COSClient;
+import com.qcloud.cos.model.ObjectMetadata;
+import com.qcloud.cos.model.PutObjectRequest;
+import com.qcloud.cos.model.UploadResult;
+import com.qcloud.cos.transfer.TransferManager;
+import com.qcloud.cos.transfer.Upload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+
+import static com.phoenix.huashi.common.CommonConstants.COS_BUCKET_NAME;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -43,6 +51,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private RecruitProjectMapper recruitProjectMapper;
+
+    @Autowired
+    private TransferManager transferManager;
+
+    @Autowired
+    private COSClient cosClient;
 
     @Override
     public User getUserByChuangNum(String userChuangNum) {
@@ -160,6 +174,50 @@ public class UserServiceImpl implements UserService {
             AssertUtil.isFalse(45011 == wxSession.getErrcode(), CommonErrorCode.WX_LOGIN_FREQUENCY_REFUSED, wxSession.getErrmsg());
             AssertUtil.isTrue(wxSession.getErrcode() == 0, CommonErrorCode.WX_LOGIN_UNKNOWN_ERROR, wxSession.getErrmsg());
         }
+    }
+
+    @Override
+    public String resumeUpload(String userChuangNum, MultipartFile file){
+        User user=userMapper.getUserByChuangNum(userChuangNum);
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+
+        UploadResult uploadResult = null;
+        String res = null;
+
+        try {
+
+            String name = file.getOriginalFilename();
+            AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+            String extension = name.substring(name.lastIndexOf("."));
+
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, user.getChuangNum() + extension, file.getInputStream(), objectMetadata);
+
+            // 高级接口会返回一个异步结果Upload
+            // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
+            Upload upload = transferManager.upload(putObjectRequest);
+            uploadResult = upload.waitForUploadResult();
+
+            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,user.getChuangNum()).toString()+extension;
+            user.setAttachment(res);
+            userMapper.updateByPrimaryKeySelective(user);
+
+        } catch (Exception e){
+            //e.printStackTrace();
+            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
+        }
+
+
+        // 确定本进程不再使用 transferManager 实例之后，关闭之
+        // 详细代码参见本页：高级接口 -> 关闭 TransferManager
+        transferManager.shutdownNow(true);
+
+        return res;
+    }
+
+    @Override
+    public List<Member> getUserProjectExperience(String userChuangNum){
+        return memberMapper.select(Member.builder().chuangNum(userChuangNum).build());
     }
 
 

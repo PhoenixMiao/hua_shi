@@ -6,7 +6,9 @@ import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
+import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.User;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,6 +23,9 @@ public interface UserService {
 
     void fillUserInformation(FillUserInformationRequest fillUserInformationRequest,String userChuangNum);
 
+    String resumeUpload(String userChuangNum, MultipartFile file);
+
+    List<Member> getUserProjectExperience(String userChuangNum);
 
     /**
      * 登录
