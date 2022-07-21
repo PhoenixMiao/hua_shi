@@ -2,6 +2,7 @@ package com.phoenix.huashi.mapper;
 
 import com.phoenix.huashi.MyMapper;
 import com.phoenix.huashi.dto.member.BriefMember;
+import com.phoenix.huashi.dto.member.Experience;
 import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.Notification;
 import io.swagger.models.auth.In;
@@ -46,5 +47,16 @@ public interface MemberMapper extends MyMapper<Member> {
             @Param("project_id") Long projectId,
             @Param("chuang_num") String chuang_num,
             @Param("work") String work
+    );
+
+    @Select("SELECT * FROM recruit_project JOIN (SELECT * FROM member WHERE member.chuang_num=#{chuang_num} ) tmp on tmp.project_id=recruit_project.id WHERE status=#{status}")
+    List<Experience> getMemberExperienceInRecruitProject(
+            @Param("chuang_num") String chuang_num,
+            @Param("status") Integer status
+    );
+
+    @Select("SELECT * FROM display_project JOIN (SELECT * FROM member WHERE member.chuang_num=#{chuang_num} ) tmp ON tmp.project_id=display_project.id")
+    List<Experience> getMemberExperienceInDisplayProject(
+            @Param("chuang_num") String chuang_num
     );
 }

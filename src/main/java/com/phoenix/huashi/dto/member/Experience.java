@@ -1,6 +1,5 @@
-package com.phoenix.huashi.entity;
+package com.phoenix.huashi.dto.member;
 
-import ch.qos.logback.core.rolling.helper.IntegerTokenConverter;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -8,16 +7,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("Member 成员")
-public class Member implements Serializable {
-    @Id
+@ApiModel("Experience 项目经历")
+public class Experience {
     @ApiModelProperty("Id")
     private Long id;
 
@@ -36,4 +31,12 @@ public class Member implements Serializable {
     @ApiModelProperty("分工")
     private String work;
 
+    @ApiModelProperty("项目名称")
+    private String name;
+
+    @ApiModelProperty("项目介绍")
+    private String introduction;
+
+    @ApiModelProperty("项目开始进行时间")
+    private String startTime;
 }

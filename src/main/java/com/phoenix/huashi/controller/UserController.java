@@ -22,11 +22,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.File;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.List;
@@ -145,9 +149,18 @@ try {
     @Auth
     @PostMapping(value = "/resumeUpload", produces = "application/json")
     @ApiOperation(value = "上传个人简历")
-    public Result resumeUpload(MultipartFile file) {
+    public Result resumeUpload(HttpServletRequest request) throws IOException  {
+
+        request.setCharacterEncoding("utf-8"); //设置编码
+
+        MultipartHttpServletRequest req = (MultipartHttpServletRequest) request;
+
+        //对应前端的upload的name参数"file"
+        MultipartFile multipartFile = req.getFile("file");
+
+        String chuang_num = sessionUtils.getUserChuangNum();
         try {
-            return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file));
+            return Result.success(userService.resumeUpload(chuang_num,multipartFile,request));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

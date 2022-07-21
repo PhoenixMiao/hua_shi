@@ -76,8 +76,14 @@ public class SessionData implements Serializable {
     @ApiModelProperty("简历文本")
     private String resume;
 
-    @ApiModelProperty("resume")
-    private String attachment;
+    @ApiModelProperty("resume1")
+    private String attachment1;
+
+    @ApiModelProperty("resume2")
+    private String attachment2;
+
+    @ApiModelProperty("resume3")
+    private String attachment3;
 
     public SessionData(User user) {
         AssertUtil.notNull(user, CommonErrorCode.USER_NOT_EXIST);
@@ -97,6 +103,8 @@ public class SessionData implements Serializable {
         this.wechatNum = user.getWechatNum();
         this.portrait = user.getPortrait();
         this.resume = user.getResume();
-        this.attachment = user.getAttachment();
+        this.attachment1 = user.getAttachment1();
+        this.attachment2=user.getAttachment2();
+        this.attachment3=user.getAttachment3();
     }
 }
