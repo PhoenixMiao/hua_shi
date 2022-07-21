@@ -9,6 +9,10 @@ server:
     uri-encoding: UTF-8
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 100MB
+      max-request-size: 500MB
   http:
     encoding:
       charset: UTF-8

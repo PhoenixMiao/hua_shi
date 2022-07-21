@@ -4,12 +4,15 @@ import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetUserResponse;
 import com.phoenix.huashi.dto.SessionData;
+import com.phoenix.huashi.dto.member.Experience;
 import com.phoenix.huashi.dto.recruitproject.BriefProjectInformation;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -23,9 +26,9 @@ public interface UserService {
 
     void fillUserInformation(FillUserInformationRequest fillUserInformationRequest,String userChuangNum);
 
-    String resumeUpload(String userChuangNum, MultipartFile file);
+    String resumeUpload(String userChuangNum, MultipartFile file, HttpServletRequest request);
 
-    List<Member> getUserProjectExperience(String userChuangNum);
+    List<Experience> getUserProjectExperience(String userChuangNum);
 
     /**
      * 登录
