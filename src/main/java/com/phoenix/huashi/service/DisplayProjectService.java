@@ -11,6 +11,8 @@ import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 import com.phoenix.huashi.entity.DisplayProject;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface DisplayProjectService {
     DisplayProject getDisplayProjectById(Long id);
 
@@ -22,5 +24,5 @@ public interface DisplayProjectService {
 
     Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum);
 
-    String uploadFile(Long displayProjectId, MultipartFile multipartFile);
+    String uploadFile(Long displayProjectId, MultipartFile multipartFile, HttpServletRequest request);
 }

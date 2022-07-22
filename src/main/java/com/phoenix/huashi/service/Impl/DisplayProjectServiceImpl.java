@@ -43,6 +43,8 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -205,42 +207,52 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public String uploadFile(Long displayProjectId, MultipartFile multipartFile) {
-        DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
-        ObjectMetadata objectMetadata = new ObjectMetadata();
-        objectMetadata.setContentLength(multipartFile.getSize());
+    public String uploadFile(Long displayProjectId, MultipartFile multipartFile,HttpServletRequest request) {
+        //realPath填写电脑文件夹所在路径
+        String realPath = "/home/ubuntu/huashi-userresume";
 
-        UploadResult uploadResult = null;
-        String res = null;
+        //裁剪用户id
+        String originalFirstName = multipartFile.getOriginalFilename();
+        String firstName = originalFirstName.substring(0, originalFirstName.indexOf("."));
+
+        //取得图片的格式后缀
+        String originalLastName = multipartFile.getOriginalFilename();
+        String lastName = originalLastName.substring(originalLastName.lastIndexOf("."));
+
+        //拼接
+        String name = displayProjectId+"." + firstName + lastName;
+
+        //图片上传成功之后的路径
+        String filePath;
 
         try {
+            File dir = new File(realPath);
+            //如果文件目录不存在，创建文件目录
+            if (!dir.exists()) {
+                dir.mkdir();
+                System.out.println("创建文件目录成功：" + realPath);
+            }
+            File file = new File(realPath, name);
+            multipartFile.transferTo(file);
 
-            String name = multipartFile.getOriginalFilename();
-            AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
-            String extension = name.substring(name.lastIndexOf("."));
+            System.out.println("添加成功！");
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getNumber() + extension, multipartFile.getInputStream(), objectMetadata);
+            filePath = request.getScheme() + "://" +
+                    request.getServerName() + ":"
+                    + request.getServerPort()
+                    + "/resume/" + name;
 
-            // 高级接口会返回一个异步结果Upload
-            // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
-            Upload upload = transferManager.upload(putObjectRequest);
-            uploadResult = upload.waitForUploadResult();
+            DisplayProject displayProject=displayProjectMapper.selectOne(DisplayProject.builder().id(displayProjectId).build());
+            if(displayProject.getFile()==null)displayProject.setFile(filePath);
+        } catch (IOException e) {
+            e.printStackTrace();
+            filePath = " ";
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, displayProject.getNumber()).toString() + extension;
-            displayProject.setFile(res);
-            displayProjectMapper.updateByPrimaryKeySelective(displayProject);
-
-        } catch (Exception e) {
-            //e.printStackTrace();
-            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+            filePath = " ";
         }
-
-
-        // 确定本进程不再使用 transferManager 实例之后，关闭之
-        // 详细代码参见本页：高级接口 -> 关闭 TransferManager
-        transferManager.shutdownNow(true);
-
-        return res;
+        return filePath;
     }
 
 
