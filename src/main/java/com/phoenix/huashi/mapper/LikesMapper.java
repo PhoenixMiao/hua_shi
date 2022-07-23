@@ -15,7 +15,6 @@ import java.util.List;
 @Repository
 public interface LikesMapper extends MyMapper<Likes> {
 
-
     @Insert("INSERT INTO likes(id,project_id,user_chuang_num,like_time) VALUE(null,#{project_id},#{user_chuang_num},#{like_time})")
     void addToLikes(
             @Param("project_id") Long projectId,
