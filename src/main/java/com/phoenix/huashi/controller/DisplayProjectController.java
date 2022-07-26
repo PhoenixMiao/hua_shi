@@ -97,19 +97,14 @@ public class DisplayProjectController {
     @PostMapping(value = "/upload", produces = "application/json")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file, HttpServletRequest request) throws UnsupportedEncodingException {
-    request.setCharacterEncoding("utf-8"); //设置编码
-
-    MultipartHttpServletRequest req = (MultipartHttpServletRequest) request;
-
-    //对应前端的upload的name参数"file"
-    MultipartFile multipartFile = req.getFile("file");
-    try {
-        return Result.success(displayProjectService.uploadFile(displayProjectId,multipartFile,request));
-    } catch (CommonException e) {
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId,MultipartFile file)   {
+    try{
+        return Result.success(displayProjectService.uploadFile(displayProjectId, file));
+    }catch (CommonException e){
         return Result.result(e.getCommonErrorCode());
     }
-    }
+
+}
 
     @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
     @ApiOperation(value = "下载附件（pdf或markdown）,整个链接upload接口曾经给过")
