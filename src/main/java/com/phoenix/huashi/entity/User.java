@@ -76,7 +76,7 @@ public class User implements Serializable {
     private String resume;
 
     @ApiModelProperty("简历附件1")
-    private String attachment1;
+    private String attachment;
 
     @ApiModelProperty("简历附件2")
     private String attachment2;

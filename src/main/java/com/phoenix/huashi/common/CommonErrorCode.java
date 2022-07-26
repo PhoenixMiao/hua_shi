@@ -50,6 +50,7 @@ public enum CommonErrorCode {
     FILE_NOT_EXIST(2014, "该文件不存在", "请输入有效的文件名"),
     APPLICATION_HAS_PASSED(2015, "申请已经通过", "请勿重复申请"),
     INVITATION_HAS_PASSED(2016, "邀请已经通过", "请勿重复邀请"),
+    EXCEED_MAX_NUMBER(2017, "超过文件可上传的最大数量", "请删除后再上传或取消上传"),
 
 
 
