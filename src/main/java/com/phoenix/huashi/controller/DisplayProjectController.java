@@ -23,15 +23,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.List;
 
@@ -93,21 +90,20 @@ public class DisplayProjectController {
         }
     }
 
-@Auth
     @PostMapping(value = "/upload", produces = "application/json")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId,MultipartFile file)   {
-    try{
-        return Result.success(displayProjectService.uploadFile(displayProjectId, file));
-    }catch (CommonException e){
-        return Result.result(e.getCommonErrorCode());
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
+        try {
+            return Result.success(displayProjectService.uploadFile(displayProjectId, file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+
     }
 
-}
-
-    @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
-    @ApiOperation(value = "下载附件（pdf或markdown）,整个链接upload接口曾经给过")
+    @GetMapping(value = "/download/{flag}",produces = "application/json")
+    @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
     public Result downloadResume(@PathVariable String flag, HttpServletResponse response){
         OutputStream os;
         String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
