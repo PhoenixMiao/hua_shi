@@ -188,24 +188,34 @@ public class UserServiceImpl implements UserService {
 
         try {
 
-            String name = file.getOriginalFilename();
+//            String name = file.getOriginalFilename();
+            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
             AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
             String first=name.substring(0,name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
 
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, user.getChuangNum() + name, file.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, user.getChuangNum() + "." + name, file.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,user.getChuangNum()+first).toString()+extension;
-            if(user.getAttachment()==null)user.setAttachment(res);
-            else if(user.getAttachment2()==null)user.setAttachment2(res);
-            else if(user.getAttachment3()==null)user.setAttachment3(res);
-            userMapper.updateByPrimaryKeySelective(user);
+            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,user.getChuangNum()+name).toString();
+            if(user.getAttachment()==null){
+                user.setAttachment(res);
+                user.setAttachmentName(name);
+            }
+            else if(user.getAttachment2()==null){
+                user.setAttachment2(res);
+                user.setAttachment2Name(name);
+            }
+            else if(user.getAttachment3()==null){
+                user.setAttachment3(res);
+                user.setAttachment3Name(name);
+            }
+            userMapper.updateByPrimaryKey(user);
 
         } catch (Exception e){
             //e.printStackTrace();
@@ -215,7 +225,6 @@ public class UserServiceImpl implements UserService {
 
         // 确定本进程不再使用 transferManager 实例之后，关闭之
         // 详细代码参见本页：高级接口 -> 关闭 TransferManager
-        transferManager.shutdownNow(true);
 
         return res;
     }
@@ -226,6 +235,18 @@ public class UserServiceImpl implements UserService {
         List<Experience> result = memberMapper.getMemberExperienceInDisplayProject(userChuangNum);
         result.addAll(memberMapper.getMemberExperienceInRecruitProject(userChuangNum,-1));
         return result;
+    }
+
+    @Override
+    public String resumeDelete(String url,String chuangNum){
+        User user=userMapper.selectOne(User.builder().chuangNum(chuangNum).build());
+        if(user.getAttachment()==url)user.setAttachment(null);
+        else if(user.getAttachment2()==url)user.setAttachment2(null);
+        else if(user.getAttachment3()==url)user.setAttachment3(null);
+        else throw new CommonException(CommonErrorCode.FILE_NOT_EXIST);
+        userMapper.updateByPrimaryKey(user);
+        cosClient.deleteObject(COS_BUCKET_NAME,url.substring(url.indexOf(chuangNum)));
+        return "删除成功";
     }
 
 

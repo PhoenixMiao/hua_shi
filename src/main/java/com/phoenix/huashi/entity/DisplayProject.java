@@ -7,6 +7,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.io.Serializable;
 
@@ -16,8 +18,12 @@ import java.io.Serializable;
 @Builder
 @ApiModel("DisplayProject 展示项目")
 public class DisplayProject implements Serializable {
+
+
+
     @Id
     @ApiModelProperty("项目id")
+    @GeneratedValue(generator = "JDBC",strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ApiModelProperty("立项年份")
@@ -121,6 +127,9 @@ public class DisplayProject implements Serializable {
 
     @ApiModelProperty("附件")
     private String file;
+
+    @ApiModelProperty("附件名称")
+    private String fileName;
 }
 
 

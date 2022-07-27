@@ -90,7 +90,7 @@ public class DisplayProjectController {
         }
     }
 
-    @PostMapping(value = "/upload", produces = "application/json")
+    @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8" )
     @ApiOperation(value = "上传文件")
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
     public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
