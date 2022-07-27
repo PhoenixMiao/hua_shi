@@ -103,7 +103,7 @@ public class SessionData implements Serializable {
         this.wechatNum = user.getWechatNum();
         this.portrait = user.getPortrait();
         this.resume = user.getResume();
-        this.attachment1 = user.getAttachment1();
+        this.attachment1 = user.getAttachment();
         this.attachment2=user.getAttachment2();
         this.attachment3=user.getAttachment3();
     }

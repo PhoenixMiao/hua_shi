@@ -28,6 +28,8 @@ public interface UserService {
 
     List<Experience> getUserProjectExperience(String userChuangNum);
 
+    String resumeDelete(String url,String chuangNum);
+
     /**
      * 登录
      *

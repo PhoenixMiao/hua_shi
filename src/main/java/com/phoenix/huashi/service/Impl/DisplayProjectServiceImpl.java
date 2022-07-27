@@ -45,6 +45,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -59,10 +60,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     private DisplayProjectMapper displayProjectMapper;
 
     @Autowired
-    private RedisUtils redisUtil;
-
-    @Autowired
-    private TimeUtil timeUtil;
+    private RecruitProjectMapper recruitProjectMapper;
 
     @Autowired
     private LikeService likeService;
@@ -169,54 +167,55 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
     @Override
     public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
-        return (long) displayProjectMapper.insert(
-                DisplayProject
-                        .builder()
-                        .name(applyForDisplayProjectRequest.getName())
-                        .year(applyForDisplayProjectRequest.getYear())
-                        .type(applyForDisplayProjectRequest.getType())
-                        .number(applyForDisplayProjectRequest.getNumber())
-                        .uploadTime(TimeUtil.getCurrentTimestamp())
-                        .paper(applyForDisplayProjectRequest.getPaper())
-                        .teacherApartment(applyForDisplayProjectRequest.getTeacherApartment())
-                        .teacherName(applyForDisplayProjectRequest.getTeacherName())
-                        .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
-                        .award(applyForDisplayProjectRequest.getAward())
-                        .captainName(applyForDisplayProjectRequest.getCaptainName())
-                        .innovation(applyForDisplayProjectRequest.getInnovation())
-                        .institute(applyForDisplayProjectRequest.getInstitute())
-                        .major(applyForDisplayProjectRequest.getMajor())
-                        .introduction(applyForDisplayProjectRequest.getIntroduction())
-                        .memberFiveGrade(applyForDisplayProjectRequest.getMemberFiveGrade())
-                        .memberFiveName(applyForDisplayProjectRequest.getMemberFiveName())
-                        .memberFiveMajor(applyForDisplayProjectRequest.getMemberFiveMajor())
-                        .memberFourGrade(applyForDisplayProjectRequest.getMemberFourGrade())
-                        .memberFourName(applyForDisplayProjectRequest.getMemberFourName())
-                        .memberFourMajor(applyForDisplayProjectRequest.getMemberFourMajor())
-                        .memberOneGrade(applyForDisplayProjectRequest.getMemberOneGrade())
-                        .memberOneName(applyForDisplayProjectRequest.getMemberOneName())
-                        .memberOneMajor(applyForDisplayProjectRequest.getMemberOneMajor())
-                        .memberThreeGrade(applyForDisplayProjectRequest.getMemberThreeGrade())
-                        .memberThreeName(applyForDisplayProjectRequest.getMemberThreeName())
-                        .memberThreeMajor(applyForDisplayProjectRequest.getMemberThreeMajor())
-                        .memberTwoGrade(applyForDisplayProjectRequest.getMemberTwoGrade())
-                        .memberTwoName(applyForDisplayProjectRequest.getMemberTwoName())
-                        .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
-                        .build()
-        );
+        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(applyForDisplayProjectRequest.getRecruitProjectId());
+        DisplayProject displayProject = DisplayProject
+                .builder()
+                .name(applyForDisplayProjectRequest.getName())
+                .year(applyForDisplayProjectRequest.getYear())
+                .type(applyForDisplayProjectRequest.getType())
+                .number(applyForDisplayProjectRequest.getNumber())
+                .uploadTime(TimeUtil.getCurrentTimestamp())
+                .paper(applyForDisplayProjectRequest.getPaper())
+                .teacherApartment(applyForDisplayProjectRequest.getTeacherApartment())
+                .teacherName(applyForDisplayProjectRequest.getTeacherName())
+                .teacherRank(applyForDisplayProjectRequest.getTeacherRank())
+                .teacherStudy(applyForDisplayProjectRequest.getTeacherStudy())
+                .award(applyForDisplayProjectRequest.getAward())
+                .captainName(applyForDisplayProjectRequest.getCaptainName())
+                .innovation(applyForDisplayProjectRequest.getInnovation())
+                .institute(applyForDisplayProjectRequest.getInstitute())
+                .major(applyForDisplayProjectRequest.getMajor())
+                .introduction(applyForDisplayProjectRequest.getIntroduction())
+                .memberFiveGrade(applyForDisplayProjectRequest.getMemberFiveGrade())
+                .memberFiveName(applyForDisplayProjectRequest.getMemberFiveName())
+                .memberFiveMajor(applyForDisplayProjectRequest.getMemberFiveMajor())
+                .memberFourGrade(applyForDisplayProjectRequest.getMemberFourGrade())
+                .memberFourName(applyForDisplayProjectRequest.getMemberFourName())
+                .memberFourMajor(applyForDisplayProjectRequest.getMemberFourMajor())
+                .memberOneGrade(applyForDisplayProjectRequest.getMemberOneGrade())
+                .memberOneName(applyForDisplayProjectRequest.getMemberOneName())
+                .memberOneMajor(applyForDisplayProjectRequest.getMemberOneMajor())
+                .memberThreeGrade(applyForDisplayProjectRequest.getMemberThreeGrade())
+                .memberThreeName(applyForDisplayProjectRequest.getMemberThreeName())
+                .memberThreeMajor(applyForDisplayProjectRequest.getMemberThreeMajor())
+                .memberTwoGrade(applyForDisplayProjectRequest.getMemberTwoGrade())
+                .memberTwoName(applyForDisplayProjectRequest.getMemberTwoName())
+                .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
+                .build();
+        displayProjectMapper.insert(displayProject);
+        Long displayProjectId = displayProject.getId();
+        recruitProject.setDisplayId(displayProjectId);
+        recruitProjectMapper.updateByPrimaryKeySelective(recruitProject);
+        return displayProjectId;
     }
 
     @Override
     public String uploadFile(Long displayProjectId, MultipartFile multipartFile)throws CommonException {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
-        String file = displayProject.getFile();
-        try{
-            if(displayProject.getFile()!=null){
-                cosClient.deleteObject(COS_BUCKET_NAME,file.substring(file.indexOf(displayProject.getNumber())));
-            }
-        }catch (Exception e){
-            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
-        }
+        if(displayProject.getFile()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+
+//                cosClient.deleteObject(COS_BUCKET_NAME,file.substring(file.indexOf(displayProject.getNumber())));
+
 
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
@@ -226,20 +225,25 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         try {
 
-            String name = multipartFile.getOriginalFilename();
+//            String name = multipartFile.getOriginalFilename();
+            String name=new String(multipartFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
             AssertUtil.notNull(name,CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+            String first=name.substring(0,name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
 
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getNumber() + extension, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getNumber() + "." + name, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,displayProject.getNumber()).toString()+extension;
+            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,displayProject.getNumber() + "." +name).toString();
+//            res = URLDecoder.decode(res, "utf-8");
 
             displayProject.setFile(res);
+            displayProject.setFileName(name);
+
             displayProjectMapper.updateByPrimaryKeySelective(displayProject);
 
         } catch (Exception e){
@@ -250,7 +254,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         // 确定本进程不再使用 transferManager 实例之后，关闭之
         // 详细代码参见本页：高级接口 -> 关闭 TransferManager
-        transferManager.shutdownNow(true);
 
         return res;
     }

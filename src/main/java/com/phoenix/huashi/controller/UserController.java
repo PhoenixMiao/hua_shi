@@ -153,6 +153,18 @@ public class UserController {
         }
     }
 
+    @Auth
+    @PostMapping(value = "/resumeDelete", produces = "application/json")
+    @ApiOperation(value = "删除用户简历", response = String.class)
+    @ApiImplicitParam(name = "url", value = "简历url", required = true, paramType = "query", dataType = "String")
+    public Result resumeDelete(@NotNull @RequestParam("url") String url) {
+        try {
+            return Result.success(userService.resumeDelete(url,sessionUtils.getUserChuangNum()));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
     @GetMapping(value = "/experience", produces = "application/json")
     @ApiOperation(value = "获取用户项目经历")
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")

@@ -17,6 +17,9 @@ import javax.persistence.Id;
 @ApiModel("ApplyForDisplayProjectRequest 申请成为展示项目")
 public class ApplyForDisplayProjectRequest {
 
+    @ApiModelProperty("招募项目id")
+    private Long recruitProjectId;
+
     @ApiModelProperty("立项年份")
     private String year;
 
