@@ -32,17 +32,29 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("项目负责人姓名")
     private String captainName;
 
-    @ApiModelProperty("指导老师姓名")
-    private String teacherName;
+    @ApiModelProperty("指导老师1姓名")
+    private String teacherOneName;
 
-    @ApiModelProperty("指导老师院系")
-    private String teacherApartment;
+    @ApiModelProperty("指导老师1院系")
+    private String teacherOneApartment;
 
-    @ApiModelProperty("指导老师职称")
-    private String teacherRank;
+    @ApiModelProperty("指导老师1职称")
+    private String teacherOneRank;
 
-    @ApiModelProperty("指导老师研究方向")
-    private String teacherStudy;
+    @ApiModelProperty("指导老师1研究方向")
+    private String teacherOneStudy;
+
+    @ApiModelProperty("指导老师2姓名")
+    private String teacherTwoName;
+
+    @ApiModelProperty("指导老师2院系")
+    private String teacherTwoApartment;
+
+    @ApiModelProperty("指导老师2职称")
+    private String teacherTwoRank;
+
+    @ApiModelProperty("指导老师2研究方向")
+    private String teacherTwoStudy;
 
     @ApiModelProperty("项目简介")
     private String introduction;
