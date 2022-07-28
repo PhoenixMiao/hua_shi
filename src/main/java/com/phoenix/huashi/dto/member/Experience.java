@@ -38,5 +38,8 @@ public class Experience {
     private String introduction;
 
     @ApiModelProperty("项目开始进行时间")
-    private String startTime;
+    private String planStartTime;
+
+    @ApiModelProperty("项目展示id 未展示的项目id为null")
+    private Long displayId;
 }

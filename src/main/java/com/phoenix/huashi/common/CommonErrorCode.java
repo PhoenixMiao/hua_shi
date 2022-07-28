@@ -51,6 +51,9 @@ public enum CommonErrorCode {
     APPLICATION_HAS_PASSED(2015, "申请已经通过", "请勿重复申请"),
     INVITATION_HAS_PASSED(2016, "邀请已经通过", "请勿重复邀请"),
     EXCEED_MAX_NUMBER(2017, "超过文件可上传的最大数量", "请删除后再上传或取消上传"),
+    PROGRAM_UNDERWAY(2017, "项目仍在进行中不可申请成为展示项目", "请结束项目后再申请"),
+    WRONG_FILE_FORMAT(2017, "文件格式错误", "请上传正确格式的文件"),
+    WRONG_FILE_NAME(2017, "文件名重复", "请勿上传重名的文件"),
 
 
 

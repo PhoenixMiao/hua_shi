@@ -178,9 +178,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String resumeUpload(String userChuangNum, MultipartFile file){
+    public String resumeUpload(String userChuangNum, MultipartFile file,String fileName){
         User user=userMapper.getUserByChuangNum(userChuangNum);
         if(user.getAttachment()!=null && user.getAttachment2()!=null && user.getAttachment3()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+        if(fileName==user.getAttachmentName() || fileName==user.getAttachment2Name() || fileName==user.getAttachment3Name())throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         UploadResult uploadResult = null;
@@ -188,8 +189,8 @@ public class UserServiceImpl implements UserService {
 
         try {
 
-//            String name = file.getOriginalFilename();
-            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+            String name = file.getOriginalFilename();
+//            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
             AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
             String first=name.substring(0,name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
@@ -205,15 +206,15 @@ public class UserServiceImpl implements UserService {
             res =  cosClient.getObjectUrl(COS_BUCKET_NAME,user.getChuangNum()+name).toString();
             if(user.getAttachment()==null){
                 user.setAttachment(res);
-                user.setAttachmentName(name);
+                user.setAttachmentName(fileName);
             }
             else if(user.getAttachment2()==null){
                 user.setAttachment2(res);
-                user.setAttachment2Name(name);
+                user.setAttachment2Name(fileName);
             }
             else if(user.getAttachment3()==null){
                 user.setAttachment3(res);
-                user.setAttachment3Name(name);
+                user.setAttachment3Name(fileName);
             }
             userMapper.updateByPrimaryKey(user);
 
@@ -232,9 +233,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<Experience> getUserProjectExperience(String userChuangNum){
-        List<Experience> result = memberMapper.getMemberExperienceInDisplayProject(userChuangNum);
-        result.addAll(memberMapper.getMemberExperienceInRecruitProject(userChuangNum,-1));
-        return result;
+        return memberMapper.getMemberExperienceInRecruitProject(userChuangNum,-1);
     }
 
     @Override

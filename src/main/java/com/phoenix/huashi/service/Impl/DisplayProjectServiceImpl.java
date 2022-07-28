@@ -168,6 +168,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Override
     public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(applyForDisplayProjectRequest.getRecruitProjectId());
+        if(recruitProject.getStatus()!=-1)throw new CommonException(CommonErrorCode.PROGRAM_UNDERWAY);
         DisplayProject displayProject = DisplayProject
                 .builder()
                 .name(applyForDisplayProjectRequest.getName())
@@ -214,7 +215,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public String uploadFile(Long displayProjectId, MultipartFile multipartFile)throws CommonException {
+    public String uploadFile(Long displayProjectId,  String fileName, MultipartFile multipartFile)throws CommonException {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
         if(displayProject.getFile()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
 
@@ -229,8 +230,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         try {
 
-//            String name = multipartFile.getOriginalFilename();
-            String name=new String(multipartFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+            String name = multipartFile.getOriginalFilename();
+//            String name=new String(multipartFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
             AssertUtil.notNull(name,CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
             String first=name.substring(0,name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
@@ -246,7 +247,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 //            res = URLDecoder.decode(res, "utf-8");
 
             displayProject.setFile(res);
-            displayProject.setFileName(name);
+            displayProject.setFileName(fileName);
 
             displayProjectMapper.updateByPrimaryKeySelective(displayProject);
 
