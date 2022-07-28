@@ -24,7 +24,7 @@ public interface UserService {
 
     void fillUserInformation(FillUserInformationRequest fillUserInformationRequest,String userChuangNum);
 
-    String resumeUpload(String userChuangNum, MultipartFile file);
+    String resumeUpload(String userChuangNum, MultipartFile file,String fileName);
 
     List<Experience> getUserProjectExperience(String userChuangNum);
 

@@ -145,9 +145,10 @@ public class UserController {
     @Auth
     @PostMapping(value = "/resumeUpload", produces = "application/json")
     @ApiOperation(value = "上传个人简历")
-    public Result resumeUpload(MultipartFile file) {
+    @ApiImplicitParam(name="name",value="文件名",required = true,paramType = "query",dataType = "String")
+    public Result resumeUpload(MultipartFile file,@NotNull @RequestParam("name") String name) {
         try {
-            return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file));
+            return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file,name));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

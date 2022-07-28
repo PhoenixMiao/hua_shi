@@ -18,6 +18,7 @@ import com.phoenix.huashi.service.LikeService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -92,10 +93,14 @@ public class DisplayProjectController {
 
     @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8" )
     @ApiOperation(value = "上传文件")
-    @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, MultipartFile file) {
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "name", value = "文件名", required = true, paramType = "query", dataType = "String")
+    })
+
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId,@NotNull @RequestParam("name") String name, MultipartFile file) {
         try {
-            return Result.success(displayProjectService.uploadFile(displayProjectId, file));
+            return Result.success(displayProjectService.uploadFile(displayProjectId,name, file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

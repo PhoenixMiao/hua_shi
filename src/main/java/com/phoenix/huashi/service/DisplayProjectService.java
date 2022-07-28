@@ -24,5 +24,5 @@ public interface DisplayProjectService {
 
     Integer judgeLikeOrCollect(Long displayProjectId,String userChuangNum);
 
-    String uploadFile(Long displayProjectId, MultipartFile multipartFile);
+    String uploadFile(Long displayProjectId, String fileName, MultipartFile multipartFile);
 }
