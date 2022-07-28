@@ -217,7 +217,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Override
     public String uploadFile(Long displayProjectId,  String fileName, MultipartFile multipartFile)throws CommonException {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
-        if(displayProject.getFile()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+        if(displayProject.getFile()!=null&& displayProject.getFile2()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
 
 //                cosClient.deleteObject(COS_BUCKET_NAME,file.substring(file.indexOf(displayProject.getNumber())));
 
@@ -245,9 +245,14 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
             res =  cosClient.getObjectUrl(COS_BUCKET_NAME,displayProject.getNumber() + "." +name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
-
-            displayProject.setFile(res);
-            displayProject.setFileName(fileName);
+            if(displayProject.getFile()==null){
+                displayProject.setFile(res);
+                displayProject.setFileName(fileName);
+            }
+            else if(displayProject.getFile2()==null){
+                displayProject.setFile2(res);
+                displayProject.setFile2Name(fileName);
+            }
 
             displayProjectMapper.updateByPrimaryKeySelective(displayProject);
 
