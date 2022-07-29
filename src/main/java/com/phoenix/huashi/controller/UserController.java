@@ -145,7 +145,7 @@ public class UserController {
     @Auth
     @PostMapping(value = "/resumeUpload", produces = "application/json")
     @ApiOperation(value = "上传个人简历")
-    @ApiImplicitParam(name="name",value="文件名",required = true,paramType = "query",dataType = "String")
+    @ApiImplicitParam(name="fileData",value="文件名",required = true,paramType = "query",dataType = "String")
     public Result resumeUpload(MultipartFile file,@NotNull @RequestParam("name") String name) {
         try {
             return Result.success(userService.resumeUpload(sessionUtils.getUserChuangNum(),file,name));
