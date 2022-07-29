@@ -95,7 +95,7 @@ public class DisplayProjectController {
     @ApiOperation(value = "上传文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "name", value = "文件名", required = true, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
     })
 
     public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId,@NotNull @RequestParam("name") String name, MultipartFile file) {
