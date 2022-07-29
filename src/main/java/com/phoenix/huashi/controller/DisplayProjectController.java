@@ -64,7 +64,7 @@ public class DisplayProjectController {
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
     public Result judgeLikeOrCollect(@NotNull @RequestParam("projectId") Long displayProjectId) {
         try {
-            return Result.success(displayProjectService.judgeLikeOrCollect(displayProjectId,sessionUtils.getUserChuangNum()));
+            return Result.success(displayProjectService.judgeLikeOrCollect(displayProjectId, sessionUtils.getUserChuangNum()));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
@@ -91,33 +91,34 @@ public class DisplayProjectController {
         }
     }
 
-    @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8" )
+    @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long"),
             @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
     })
 
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId,@NotNull @RequestParam("name") String name, MultipartFile file) {
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, @NotNull @RequestParam("name") String name, MultipartFile file) {
         try {
-            return Result.success(displayProjectService.uploadFile(displayProjectId,name, file));
+            return Result.success(displayProjectService.uploadFile(displayProjectId, name, file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
 
     }
 
-    @GetMapping(value = "/download/{flag}",produces = "application/json")
+    @Auth
+    @GetMapping(value = "/download/{flag}", produces = "application/json")
     @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
-    public Result downloadResume(@PathVariable String flag, HttpServletResponse response){
+    public Result downloadResume(@PathVariable String flag, HttpServletResponse response) {
         OutputStream os;
         String basePath = System.getProperty("user.dir") + "/src/main/resources/files";
         List<String> fileNames = FileUtil.listFileNames(basePath);
         String fileName = fileNames.stream().filter(name -> name.contains(flag)).findAny().orElse("");
-        if(fileName.equals("")) return Result.result(CommonErrorCode.FILE_NOT_EXIST);
-        try{
-            if(StrUtil.isNotEmpty(fileName)){
-                response.addHeader("Content-Disposition","attachment;filename=" + URLEncoder.encode(fileName,"UTF-8"));
+        if (fileName.equals("")) return Result.result(CommonErrorCode.FILE_NOT_EXIST);
+        try {
+            if (StrUtil.isNotEmpty(fileName)) {
+                response.addHeader("Content-Disposition", "attachment;filename=" + URLEncoder.encode(fileName, "UTF-8"));
                 response.setContentType("application/octet-stream");
                 byte[] bytes = FileUtil.readBytes(basePath + fileName);
                 os = response.getOutputStream();
@@ -131,5 +132,18 @@ public class DisplayProjectController {
         return Result.success("下载成功");
     }
 
+    @Auth
+    @PostMapping(value = "/fileDelete", produces = "application/json")
+    @ApiOperation(value = "删除展示项目附件", response = String.class)
+    @ApiImplicitParams({@ApiImplicitParam(name = "url", value = "附件url", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
+    })
+    public Result fileDelete(@NotNull @RequestParam("url") String url, @NotNull @RequestParam("projectId") Long displayProjectId) {
+        try {
+            return Result.success(displayProjectService.fileDelete(url, displayProjectId));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
 }
 

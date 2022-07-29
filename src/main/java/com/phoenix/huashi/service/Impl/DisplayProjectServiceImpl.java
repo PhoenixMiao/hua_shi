@@ -218,7 +218,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     public String uploadFile(Long displayProjectId,  String fileName, MultipartFile multipartFile)throws CommonException {
         DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
         if(displayProject.getFile()!=null&& displayProject.getFile2()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-
+        if(fileName==displayProject.getFileName() || fileName==displayProject.getFile2Name() )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
 //                cosClient.deleteObject(COS_BUCKET_NAME,file.substring(file.indexOf(displayProject.getNumber())));
 
 
@@ -268,5 +268,15 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         return res;
     }
 
+    @Override
+    public String fileDelete(String url,Long displayProjectId){
+        DisplayProject displayProject=displayProjectMapper.selectOne(DisplayProject.builder().id(displayProjectId).build());
+        if(displayProject.getFile()==url)displayProject.setFile(null);
+        else if(displayProject.getFile2()==url)displayProject.setFile2(null);
+        else throw new CommonException(CommonErrorCode.FILE_NOT_EXIST);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
+        cosClient.deleteObject(COS_BUCKET_NAME,url.substring(url.indexOf(displayProject.getNumber())));
+        return "删除成功";
+    }
 
 }
