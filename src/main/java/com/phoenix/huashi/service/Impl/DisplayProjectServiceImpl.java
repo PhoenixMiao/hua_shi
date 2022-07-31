@@ -168,6 +168,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Override
     public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(applyForDisplayProjectRequest.getRecruitProjectId());
+        if(recruitProject==null)throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
         if(recruitProject.getStatus()!=-1)throw new CommonException(CommonErrorCode.PROGRAM_UNDERWAY);
         DisplayProject displayProject = DisplayProject
                 .builder()

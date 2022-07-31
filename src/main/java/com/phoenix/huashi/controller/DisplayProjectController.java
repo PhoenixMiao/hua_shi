@@ -98,7 +98,7 @@ public class DisplayProjectController {
             @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
     })
 
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, @NotNull @RequestParam("name") String name, MultipartFile file) {
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
         try {
             return Result.success(displayProjectService.uploadFile(displayProjectId, name, file));
         } catch (CommonException e) {
