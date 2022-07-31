@@ -37,4 +37,6 @@ public interface UserService {
      * @return
      */
     SessionData login(String code);
+
+    String  uploadResumeRTF(String userChuangNum,  String fileName, MultipartFile file);
 }

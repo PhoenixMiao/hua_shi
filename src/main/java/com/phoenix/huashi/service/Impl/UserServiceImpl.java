@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserService {
         List<BriefProjectInformation> briefProjectInformationList = new LinkedList<>();
         for (Long projectId : projectIdList) {
             RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(projectId);
-            if(recruitProject!=null){
+            if (recruitProject != null) {
                 BriefProjectInformation briefProjectInformation = new BriefProjectInformation(recruitProject.getId(), recruitProject.getName(), recruitProject.getTag1(), recruitProject.getTag2(), recruitProject.getTag3(), recruitProject.getCaptainName(), userMapper.getUserByChuangNum(recruitProject.getCaptainChuangNum()).getDepartment(), recruitProject.getStatus());
                 briefProjectInformationList.add(briefProjectInformation);
             }
@@ -119,7 +119,7 @@ public class UserServiceImpl implements UserService {
         }
 
         WxSession wxSession = Optional.ofNullable(
-                getWxSessionByCode(code))
+                        getWxSessionByCode(code))
                 .orElse(new WxSession());
 
         checkWxSession(wxSession);
@@ -178,10 +178,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String resumeUpload(String userChuangNum, MultipartFile file,String fileName){
-        User user=userMapper.getUserByChuangNum(userChuangNum);
-        if(user.getAttachment()!=null && user.getAttachment2()!=null && user.getAttachment3()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-        if(fileName==user.getAttachmentName() || fileName==user.getAttachment2Name() || fileName==user.getAttachment3Name())throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
+    public String resumeUpload(String userChuangNum, MultipartFile file, String fileName) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        if (user.getAttachment() != null && user.getAttachment2() != null && user.getAttachment3() != null)
+            throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+        if (fileName == user.getAttachmentName() || fileName == user.getAttachment2Name() || fileName == user.getAttachment3Name())
+            throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         UploadResult uploadResult = null;
@@ -192,7 +194,7 @@ public class UserServiceImpl implements UserService {
             String name = file.getOriginalFilename();
 //            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
             AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
-            String first=name.substring(0,name.lastIndexOf("."));
+            String first = name.substring(0, name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
 
 
@@ -203,22 +205,20 @@ public class UserServiceImpl implements UserService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res =  cosClient.getObjectUrl(COS_BUCKET_NAME,user.getChuangNum()+name).toString();
-            if(user.getAttachment()==null){
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, user.getChuangNum() + name).toString();
+            if (user.getAttachment() == null) {
                 user.setAttachment(res);
                 user.setAttachmentName(fileName);
-            }
-            else if(user.getAttachment2()==null){
+            } else if (user.getAttachment2() == null) {
                 user.setAttachment2(res);
                 user.setAttachment2Name(fileName);
-            }
-            else if(user.getAttachment3()==null){
+            } else if (user.getAttachment3() == null) {
                 user.setAttachment3(res);
                 user.setAttachment3Name(fileName);
             }
             userMapper.updateByPrimaryKey(user);
 
-        } catch (Exception e){
+        } catch (Exception e) {
             //e.printStackTrace();
             throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
         }
@@ -232,21 +232,61 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public List<Experience> getUserProjectExperience(String userChuangNum){
-        return memberMapper.getMemberExperienceInRecruitProject(userChuangNum,-1);
+    public List<Experience> getUserProjectExperience(String userChuangNum) {
+        return memberMapper.getMemberExperienceInRecruitProject(userChuangNum, -1);
     }
 
     @Override
-    public String resumeDelete(String url,String chuangNum){
-        User user=userMapper.selectOne(User.builder().chuangNum(chuangNum).build());
-        if(user.getAttachment()==url)user.setAttachment(null);
-        else if(user.getAttachment2()==url)user.setAttachment2(null);
-        else if(user.getAttachment3()==url)user.setAttachment3(null);
+    public String resumeDelete(String url, String chuangNum) {
+        User user = userMapper.selectOne(User.builder().chuangNum(chuangNum).build());
+        if (user.getAttachment() == url) user.setAttachment(null);
+        else if (user.getAttachment2() == url) user.setAttachment2(null);
+        else if (user.getAttachment3() == url) user.setAttachment3(null);
         else throw new CommonException(CommonErrorCode.FILE_NOT_EXIST);
         userMapper.updateByPrimaryKey(user);
-        cosClient.deleteObject(COS_BUCKET_NAME,url.substring(url.indexOf(chuangNum)));
+        cosClient.deleteObject(COS_BUCKET_NAME, url.substring(url.indexOf(chuangNum)));
         return "删除成功";
     }
 
+    @Override
+    public String uploadResumeRTF(String userChuangNum, String fileName, MultipartFile file) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        UploadResult uploadResult = null;
+        String res = null;
+
+        try {
+
+            String name = file.getOriginalFilename();
+//            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+            AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+            String first = name.substring(0, name.lastIndexOf("."));
+            String extension = name.substring(name.lastIndexOf("."));
+
+            String time = TimeUtil.getCurrentTimestamp();
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, time + "." + name, file.getInputStream(), objectMetadata);
+
+            // 高级接口会返回一个异步结果Upload
+            // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
+            Upload upload = transferManager.upload(putObjectRequest);
+            uploadResult = upload.waitForUploadResult();
+
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, time + name).toString();
+            user.setResume(res);
+            userMapper.updateByPrimaryKey(user);
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
+        }
+
+
+        // 确定本进程不再使用 transferManager 实例之后，关闭之
+        // 详细代码参见本页：高级接口 -> 关闭 TransferManager
+
+        return res;
+
+    }
 
 }
