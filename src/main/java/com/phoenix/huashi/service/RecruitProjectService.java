@@ -5,6 +5,7 @@ import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetRecruitProjectResponse;
 import com.phoenix.huashi.dto.recruitproject.BriefApplication;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface RecruitProjectService {
     GetRecruitProjectResponse getRecruitProjectById(Long id);
@@ -24,4 +25,8 @@ public interface RecruitProjectService {
     Page<BriefApplication> getBriefApplicationList(GetBriefApplicationListRequest request);
 
     Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest);
+
+    String  uploadDemandRTF(Long recruitProjectId,  String fileName, MultipartFile multipartFile);
+
+    String uploadIntroductionRTF(Long recruitProjectId, String fileName, MultipartFile multipartFile);
 }

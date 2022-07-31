@@ -13,10 +13,12 @@ import com.phoenix.huashi.service.RecruitProjectService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -117,5 +119,35 @@ public class RecruitProjectController {
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
+    }
+
+    @PostMapping(value = "/introductionUpload", produces = "application/json;charset=UTF-8")
+    @ApiOperation(value = "上传介绍富文本")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
+    })
+
+    public Result uploadIntroduction(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
+        try {
+            return Result.success(recruitProjectService.uploadIntroductionRTF(recruitProjectId, name, file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+
+    }
+    @PostMapping(value = "/demandUpload", produces = "application/json;charset=UTF-8")
+    @ApiOperation(value = "上传要求富文本文件")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long"),
+            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
+    })
+    public Result uploadDemand(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
+        try {
+            return Result.success(recruitProjectService.uploadDemandRTF(recruitProjectId, name, file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+
     }
 }

@@ -200,4 +200,16 @@ public class UserController {
         }
         return Result.success("下载成功");
     }
+
+    @Auth
+    @PostMapping(value = "/uploadResumeRTF", produces = "application/json")
+    @ApiOperation(value = "上传简历富文本")
+    @ApiImplicitParam(name="fileData",value="文件名",required = true,paramType = "query",dataType = "String")
+    public Result uploadResumeRTF(MultipartFile file,@NotNull @RequestParam("fileData") String name) {
+        try {
+            return Result.success(userService.uploadResumeRTF(sessionUtils.getUserChuangNum(),name,file));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
 }
