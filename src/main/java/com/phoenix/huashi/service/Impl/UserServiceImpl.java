@@ -205,7 +205,7 @@ public class UserServiceImpl implements UserService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, user.getChuangNum() + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, user.getChuangNum() + "." + name).toString();
             if (user.getAttachment() == null) {
                 user.setAttachment(res);
                 user.setAttachmentName(fileName);
@@ -249,7 +249,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String uploadResumeRTF(String userChuangNum, String fileName, MultipartFile file) {
+    public String uploadResumeRTF(String userChuangNum,MultipartFile file) {
         User user = userMapper.getUserByChuangNum(userChuangNum);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
@@ -272,7 +272,7 @@ public class UserServiceImpl implements UserService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, time + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "resumeRTF"+time+userChuangNum + "." + name).toString();
             user.setResume(res);
             userMapper.updateByPrimaryKey(user);
 

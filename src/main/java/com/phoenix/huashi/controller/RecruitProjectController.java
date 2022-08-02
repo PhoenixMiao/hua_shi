@@ -124,13 +124,12 @@ public class RecruitProjectController {
     @PostMapping(value = "/introductionUpload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传介绍富文本")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
+            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long")
     })
 
-    public Result uploadIntroduction(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
+    public Result uploadIntroduction(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId,  MultipartFile file) {
         try {
-            return Result.success(recruitProjectService.uploadIntroductionRTF(recruitProjectId, name, file));
+            return Result.success(recruitProjectService.uploadIntroductionRTF(recruitProjectId, file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
@@ -140,11 +139,10 @@ public class RecruitProjectController {
     @ApiOperation(value = "上传要求富文本文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
-    })
-    public Result uploadDemand(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
+        })
+    public Result uploadDemand(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId,  MultipartFile file) {
         try {
-            return Result.success(recruitProjectService.uploadDemandRTF(recruitProjectId, name, file));
+            return Result.success(recruitProjectService.uploadDemandRTF(recruitProjectId, file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
