@@ -198,7 +198,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadDemandRTF(Long recruitProjectId, String fileName, MultipartFile multipartFile) throws CommonException {
+    public String uploadDemandRTF(Long recruitProjectId, MultipartFile multipartFile) throws CommonException {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
@@ -221,7 +221,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, time + "." + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectDemandRTF"+time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
             recruitProject.setDemand(res);
@@ -235,7 +235,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadIntroductionRTF(Long recruitProjectId, String fileName, MultipartFile multipartFile) throws CommonException {
+    public String uploadIntroductionRTF(Long recruitProjectId,  MultipartFile multipartFile) throws CommonException {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
@@ -258,7 +258,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, time + "." + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectIntroductionRTF"+time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
             recruitProject.setIntroduction(res);

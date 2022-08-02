@@ -38,5 +38,5 @@ public interface UserService {
      */
     SessionData login(String code);
 
-    String  uploadResumeRTF(String userChuangNum,  String fileName, MultipartFile file);
+    String  uploadResumeRTF(String userChuangNum,  MultipartFile file);
 }

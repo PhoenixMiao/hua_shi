@@ -26,7 +26,7 @@ public interface RecruitProjectService {
 
     Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest);
 
-    String  uploadDemandRTF(Long recruitProjectId,  String fileName, MultipartFile multipartFile);
+    String  uploadDemandRTF(Long recruitProjectId,  MultipartFile multipartFile);
 
-    String uploadIntroductionRTF(Long recruitProjectId, String fileName, MultipartFile multipartFile);
+    String uploadIntroductionRTF(Long recruitProjectId,  MultipartFile multipartFile);
 }
