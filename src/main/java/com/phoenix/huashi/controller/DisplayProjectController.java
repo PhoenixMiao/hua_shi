@@ -95,12 +95,13 @@ public class DisplayProjectController {
     @ApiOperation(value = "上传文件")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long"),
-            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String")
-    })
+            @ApiImplicitParam(name = "fileData", value = "文件名", required = true, paramType = "query", dataType = "String"),
+            @ApiImplicitParam(name = "projectType", value = "文件类型 0招募 1展示", required = true, paramType = "query", dataType = "Integer"),
+     })
 
-    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, @NotNull @RequestParam("fileData.") String name, MultipartFile file) {
+    public Result uploadFile(@NotNull @RequestParam("projectId") Long displayProjectId, @NotNull @RequestParam("fileData") String name,@NotNull @RequestParam("projectType") Integer projectType,  MultipartFile file) {
         try {
-            return Result.success(displayProjectService.uploadFile(displayProjectId, name, file));
+            return Result.success(displayProjectService.uploadFile(displayProjectId, name, projectType,file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

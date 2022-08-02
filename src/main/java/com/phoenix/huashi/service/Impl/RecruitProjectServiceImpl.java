@@ -214,7 +214,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             String first = name.substring(0, name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
             String time = TimeUtil.getCurrentTimestamp();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, time + "." + name, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectDemandRTF"+time + "." + name, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
@@ -251,7 +251,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             String first = name.substring(0, name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
             String time = TimeUtil.getCurrentTimestamp();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, time + "." + name, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectIntroductionRTF"+time + "." + name, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常

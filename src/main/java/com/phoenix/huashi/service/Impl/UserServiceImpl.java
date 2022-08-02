@@ -265,7 +265,7 @@ public class UserServiceImpl implements UserService {
             String extension = name.substring(name.lastIndexOf("."));
 
             String time = TimeUtil.getCurrentTimestamp();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, time + "." + name, file.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "resumeRTF"+time+userChuangNum + "." + name, file.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
