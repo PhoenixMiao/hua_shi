@@ -207,6 +207,10 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 .memberTwoGrade(applyForDisplayProjectRequest.getMemberTwoGrade())
                 .memberTwoName(applyForDisplayProjectRequest.getMemberTwoName())
                 .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
+                .file(applyForDisplayProjectRequest.getFile())
+                .fileName(applyForDisplayProjectRequest.getFileName())
+                .file(applyForDisplayProjectRequest.getFile2())
+                .file2Name(applyForDisplayProjectRequest.getFile2Name())
                 .build();
         displayProjectMapper.insert(displayProject);
         Long displayProjectId = displayProject.getId();
