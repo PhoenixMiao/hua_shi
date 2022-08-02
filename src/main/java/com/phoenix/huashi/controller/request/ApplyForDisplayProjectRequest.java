@@ -122,4 +122,16 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("成员5专业")
     private String memberFiveMajor;
 
+    @ApiModelProperty("附件1")
+    private String file;
+
+    @ApiModelProperty("附件1名称")
+    private String fileName;
+
+    @ApiModelProperty("附件2")
+    private String file2;
+
+    @ApiModelProperty("附件2名称")
+    private String file2Name;
+
 }

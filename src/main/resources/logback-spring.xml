@@ -97,7 +97,7 @@
             <fileNamePattern>${logback.dir}/${logback.filename.all}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
             <maxHistory>${logback.maxhistory}</maxHistory>
             <maxFileSize>${logback.maxfilesize}</maxFileSize>
-        </rollingPolicy>
+      。  </rollingPolicy>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${logback.FILE_LOG_PATTERN}</pattern>
             <charset>${logback.charset}</charset>
