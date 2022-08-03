@@ -288,5 +288,56 @@ public class UserServiceImpl implements UserService {
         return res;
 
     }
+    @Override
+    public String uploadPortrait(String userChuangNum, MultipartFile file) throws CommonException{
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        if (user.getPortrait() != null )
+            throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+        ObjectMetadata objectMetadata = new ObjectMetadata();
+        objectMetadata.setContentLength(file.getSize());
+        UploadResult uploadResult = null;
+        String res = null;
+        String portrait = user.getPortrait();
 
+        try{
+            if(user.getPortrait()!=null){
+                cosClient.deleteObject(COS_BUCKET_NAME,portrait.substring(portrait.indexOf("portrait"+user.getChuangNum())));
+            }
+        }catch (Exception e){
+            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
+        }
+
+        try {
+
+            String name = file.getOriginalFilename();
+//            String name=new String(file.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
+            AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+            String first = name.substring(0, name.lastIndexOf("."));
+            String extension = name.substring(name.lastIndexOf("."));
+
+            if(!extension.equals(".bmp") && !extension.equals(".jpg") && !extension.equals(".png")){
+                throw new CommonException(CommonErrorCode.WRONG_FILE_FORMAT);
+            }
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "portrait"+user.getChuangNum() + "." + name, file.getInputStream(), objectMetadata);
+
+            // 高级接口会返回一个异步结果Upload
+            // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
+            Upload upload = transferManager.upload(putObjectRequest);
+            uploadResult = upload.waitForUploadResult();
+
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "portrait"+user.getChuangNum() + name).toString();
+            user.setPortrait(res);
+            userMapper.updateByPrimaryKey(user);
+
+        } catch (Exception e) {
+            //e.printStackTrace();
+            throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
+        }
+
+
+        // 确定本进程不再使用 transferManager 实例之后，关闭之
+        // 详细代码参见本页：高级接口 -> 关闭 TransferManager
+
+        return res;
+    }
 }
