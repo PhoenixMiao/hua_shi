@@ -291,8 +291,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public String uploadPortrait(String userChuangNum, MultipartFile file) throws CommonException{
         User user = userMapper.getUserByChuangNum(userChuangNum);
-        if (user.getPortrait() != null )
-            throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());
         UploadResult uploadResult = null;
@@ -325,7 +323,7 @@ public class UserServiceImpl implements UserService {
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "portrait"+user.getChuangNum() + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "portrait"+user.getChuangNum() + "." + name).toString();
             user.setPortrait(res);
             userMapper.updateByPrimaryKey(user);
 

@@ -212,12 +212,12 @@ public class UserController {
         }
     }
 
-    @Auth
+    //@Auth
     @PostMapping(value = "/uploadPortrait", produces = "application/json")
     @ApiOperation(value = "上传用户头像")
     public Object uploadPortrait(MultipartFile file) {
         try{
-            return Result.success(userService.uploadPortrait(sessionUtils.getUserChuangNum(), file));
+            return Result.success(userService.uploadPortrait("hs00000043", file));
         }catch (CommonException e){
             return Result.result(e.getCommonErrorCode());
         }

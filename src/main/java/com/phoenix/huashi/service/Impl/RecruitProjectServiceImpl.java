@@ -140,8 +140,8 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     @Override
     public Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest) {
         Example example = new Example(RecruitProject.class);
-        Example.Criteria statusCriteria = example.createCriteria();
-        statusCriteria.andEqualTo("status", 0);
+//        Example.Criteria statusCriteria = example.createCriteria();
+//        statusCriteria.andEqualTo("status", 0);
 
         if (!StringUtils.isEmpty(searchRequest.getDepartment())) {
             Example.Criteria departmentCriteria = example.createCriteria();
