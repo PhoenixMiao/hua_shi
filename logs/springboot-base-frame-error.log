@@ -503,3 +503,12 @@ java.net.SocketException: Network is unreachable: no further information
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.base/java.lang.Thread.run(Thread.java:832)
 
+2022-08-04 20:37:54.688 [https-jsse-nio-443-exec-4] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2022-08-04 20:37:54.713 [https-jsse-nio-443-exec-4] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 42
+2022-08-04 20:37:54.714 [https-jsse-nio-443-exec-4] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: uploadPortrait
+2022-08-04 20:38:12.437 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2022-08-04 20:38:12.437 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 42
+2022-08-04 20:38:12.437 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: uploadPortrait
+2022-08-04 20:40:55.754 [https-jsse-nio-443-exec-2] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2022-08-04 20:40:55.755 [https-jsse-nio-443-exec-2] ERROR com.phoenix.huashi.aspect.AuthAspect - operator: 44
+2022-08-04 20:40:55.755 [https-jsse-nio-443-exec-2] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: uploadPortrait
