@@ -172,11 +172,14 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             tagCriteria.orLike("tag3", "%" + searchRequest.getTag() + "%");
             example.and(tagCriteria);
         }
-        example.orderBy("id").desc();
+//        example.orderBy("id").desc();
+        example.setOrderByClause("`status` desc,`id` desc");
+//
+//        PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
+//                searchRequest.getPageParam().getPageSize(),"state_update_time desc");
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
-                searchRequest.getPageParam().getPageSize(),
-                "state_update_time desc");
+                searchRequest.getPageParam().getPageSize());
         List<RecruitProject> recruitProjectList = recruitProjectMapper.selectByExample(example);
         Page page = new Page(new PageInfo(recruitProjectList));
 
