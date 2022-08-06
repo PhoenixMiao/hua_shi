@@ -30,6 +30,8 @@ public interface UserService {
 
     String resumeDelete(String url,String chuangNum);
 
+    void updateResumeRTF(String userChuangNum, String resume);
+
     /**
      * 登录
      *

@@ -59,7 +59,7 @@ public class UserController {
     @GetMapping("/info")
     @ApiOperation(value = "查看用户信息", response = GetUserResponse.class)
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
-    public Object getUserByChuangNum(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
+    public Result getUserByChuangNum(@NotNull @RequestParam("userChuangNum") String userChuangNum) {
         try {
             return  Result.success(userService.getUserByChuangNum(userChuangNum));
         }catch (CommonException e){
@@ -71,7 +71,7 @@ public class UserController {
     @Auth
     @PostMapping("/update")
     @ApiOperation(value = "更新当前用户信息", response = String.class)
-    public Object updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest) {
+    public Result updateUserById(@NotNull @Valid @RequestBody UpdateUserByChuangNumRequest updateUserByChuangNumRequest) {
         try {
             userService.updateUserByChuangNum(updateUserByChuangNumRequest,sessionUtils.getUserChuangNum());
             return  Result.success("更新成功");
@@ -222,5 +222,18 @@ public class UserController {
             return Result.result(e.getCommonErrorCode());
         }
 
+    }
+
+    @Auth
+    @PostMapping("/updateResume")
+    @ApiOperation(value = "更新当前用户简历富文本", response = String.class)
+    @ApiImplicitParam(name="resume",value="简历富文本",required = true,paramType = "query",dataType = "String")
+    public Result updateResume(@NotNull @RequestParam("resume") String resume) {
+        try {
+            userService.updateResumeRTF(resume,sessionUtils.getUserChuangNum());
+            return  Result.success("更新成功");
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
     }
 }

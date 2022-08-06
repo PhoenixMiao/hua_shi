@@ -338,4 +338,11 @@ public class UserServiceImpl implements UserService {
 
         return res;
     }
+
+    @Override
+    public void updateResumeRTF(String userChuangNum, String resume) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        user.setResume(resume);
+        userMapper.updateByPrimaryKey(user);
+    }
 }

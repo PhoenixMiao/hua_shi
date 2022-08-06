@@ -148,4 +148,33 @@ public class RecruitProjectController {
         }
 
     }
+
+
+    @Auth
+    @PostMapping("/updateIntroduction")
+    @ApiOperation(value = "更新当前招募项目介绍富文本", response = String.class)
+    @ApiImplicitParams({ @ApiImplicitParam(name="introduction",value="介绍富文本",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long")})
+    public Result updateResume(@NotNull @RequestParam("introduction") String introduction,@NotNull @RequestParam("recruitProjectId") Long recruitProjectId) {
+        try {
+            recruitProjectService.updateIntroductionRTF(recruitProjectId,introduction);
+            return  Result.success("更新成功");
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @Auth
+    @PostMapping("/updateDemand")
+    @ApiOperation(value = "更新当前招募项目要求富文本", response = String.class)
+    @ApiImplicitParams({ @ApiImplicitParam(name="demand",value="要求富文本",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long")})
+    public Result updateDemand(@NotNull @RequestParam("demand") String demand,@NotNull @RequestParam("recruitProjectId") Long recruitProjectId) {
+        try {
+            recruitProjectService.updateIntroductionRTF(recruitProjectId,demand);
+            return  Result.success("更新成功");
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
+    }
 }
