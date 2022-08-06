@@ -273,4 +273,18 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         }
         return res;
     }
+
+    @Override
+    public void updateDemandRTF(Long recruitProjectId, String demand) {
+        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
+        recruitProject.setDemand(demand);
+        recruitProjectMapper.updateByPrimaryKey(recruitProject);
+    }
+
+    @Override
+    public void updateIntroductionRTF(Long recruitProjectId, String introduction) {
+        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
+        recruitProject.setDemand(introduction);
+        recruitProjectMapper.updateByPrimaryKey(recruitProject);
+    }
 }

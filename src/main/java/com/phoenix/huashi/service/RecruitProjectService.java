@@ -29,4 +29,8 @@ public interface RecruitProjectService {
     String  uploadDemandRTF(Long recruitProjectId,  MultipartFile multipartFile);
 
     String uploadIntroductionRTF(Long recruitProjectId,  MultipartFile multipartFile);
+
+    void updateDemandRTF(Long recruitProjectId, String demand);
+
+    void updateIntroductionRTF(Long recruitProjectId, String introduction);
 }
