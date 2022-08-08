@@ -230,7 +230,7 @@ public class UserController {
     @ApiImplicitParam(name="resume",value="简历富文本",required = true,paramType = "query",dataType = "String")
     public Result updateResume(@NotNull @RequestParam("resume") String resume) {
         try {
-            userService.updateResumeRTF(resume,sessionUtils.getUserChuangNum());
+            userService.updateResumeRTF(sessionUtils.getUserChuangNum(), resume);
             return  Result.success("更新成功");
         }catch (CommonException e){
             return  Result.result(e.getCommonErrorCode());

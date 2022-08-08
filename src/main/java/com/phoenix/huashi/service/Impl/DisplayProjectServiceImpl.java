@@ -209,8 +209,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 .memberTwoMajor(applyForDisplayProjectRequest.getMemberTwoMajor())
                 .file(applyForDisplayProjectRequest.getFile())
                 .fileName(applyForDisplayProjectRequest.getFileName())
-                .file(applyForDisplayProjectRequest.getFile2())
-                .file2Name(applyForDisplayProjectRequest.getFile2Name())
+                .fileTwo(applyForDisplayProjectRequest.getFileTwo())
+                .fileTwoName(applyForDisplayProjectRequest.getFileTwoName())
                 .build();
         displayProjectMapper.insert(displayProject);
         Long displayProjectId = displayProject.getId();
@@ -224,8 +224,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         String res = null;
         if(projectType==1){
             DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
-            if(displayProject.getFile()!=null&& displayProject.getFile2()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-            if(fileName==displayProject.getFileName() || fileName==displayProject.getFile2Name() )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
+            if(displayProject.getFile()!=null&& displayProject.getFileTwo()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+            if(fileName==displayProject.getFileName() || fileName==displayProject.getFileTwoName() )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -253,9 +253,9 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                     displayProject.setFile(res);
                     displayProject.setFileName(fileName);
                 }
-                else if(displayProject.getFile2()==null){
-                    displayProject.setFile2(res);
-                    displayProject.setFile2Name(fileName);
+                else if(displayProject.getFileTwo()==null){
+                    displayProject.setFileTwo(res);
+                    displayProject.setFileTwoName(fileName);
                 }
 
                 displayProjectMapper.updateByPrimaryKeySelective(displayProject);
@@ -309,7 +309,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     public String fileDelete(String url,Long displayProjectId){
         DisplayProject displayProject=displayProjectMapper.selectOne(DisplayProject.builder().id(displayProjectId).build());
         if(displayProject.getFile()==url)displayProject.setFile(null);
-        else if(displayProject.getFile2()==url)displayProject.setFile2(null);
+        else if(displayProject.getFileTwo()==url)displayProject.setFileTwo(null);
         else throw new CommonException(CommonErrorCode.FILE_NOT_EXIST);
         displayProjectMapper.updateByPrimaryKey(displayProject);
         cosClient.deleteObject(COS_BUCKET_NAME,url.substring(url.indexOf(displayProject.getNumber())));
