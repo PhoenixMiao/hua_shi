@@ -182,7 +182,7 @@ public class UserServiceImpl implements UserService {
         User user = userMapper.getUserByChuangNum(userChuangNum);
         if (user.getAttachment() != null && user.getAttachment2() != null && user.getAttachment3() != null)
             throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-        if (fileName == user.getAttachmentName() || fileName == user.getAttachment2Name() || fileName == user.getAttachment3Name())
+        if (fileName .equals(user.getAttachmentName())  || fileName .equals(user.getAttachment2Name())  || fileName .equals(user.getAttachment3Name()))
             throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(file.getSize());

@@ -225,7 +225,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         if(projectType==1){
             DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
             if(displayProject.getFile()!=null&& displayProject.getFileTwo()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-            if(fileName==displayProject.getFileName() || fileName==displayProject.getFileTwoName() )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
+            if(fileName.equals(displayProject.getFileName()) || fileName.equals(displayProject.getFileTwoName()) )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(multipartFile.getSize());
 
