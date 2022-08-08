@@ -144,10 +144,10 @@ public class DisplayProject implements Serializable {
     private String fileName;
 
     @ApiModelProperty("附件2")
-    private String file2;
+    private String fileTwo;
 
     @ApiModelProperty("附件2名称")
-    private String file2Name;
+    private String fileTwoName;
 }
 
 
