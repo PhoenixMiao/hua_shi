@@ -201,8 +201,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadDemandRTF(Long recruitProjectId, MultipartFile multipartFile) throws CommonException {
-        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
+    public String uploadDemandRTF( MultipartFile multipartFile) throws CommonException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -227,9 +226,6 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectDemandRTF"+time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
-            recruitProject.setDemand(res);
-            recruitProjectMapper.updateByPrimaryKeySelective(recruitProject);
-
         } catch (Exception e) {
             //e.printStackTrace();
             throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
@@ -238,8 +234,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadIntroductionRTF(Long recruitProjectId,  MultipartFile multipartFile) throws CommonException {
-        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(recruitProjectId);
+    public String uploadIntroductionRTF(  MultipartFile multipartFile) throws CommonException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -264,8 +259,6 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectIntroductionRTF"+time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
-            recruitProject.setIntroduction(res);
-            recruitProjectMapper.updateByPrimaryKeySelective(recruitProject);
 
         } catch (Exception e) {
             //e.printStackTrace();

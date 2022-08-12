@@ -123,13 +123,10 @@ public class RecruitProjectController {
 
     @PostMapping(value = "/introductionUpload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传介绍富文本")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long")
-    })
 
-    public Result uploadIntroduction(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId,  MultipartFile file) {
+    public Result uploadIntroduction( MultipartFile file) {
         try {
-            return Result.success(recruitProjectService.uploadIntroductionRTF(recruitProjectId, file));
+            return Result.success(recruitProjectService.uploadIntroductionRTF( file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
@@ -137,12 +134,9 @@ public class RecruitProjectController {
     }
     @PostMapping(value = "/demandUpload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传要求富文本文件")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "recruitProjectId", value = "招募项目id", required = true, paramType = "query", dataType = "Long"),
-        })
-    public Result uploadDemand(@NotNull @RequestParam("recruitProjectId") Long recruitProjectId,  MultipartFile file) {
+    public Result uploadDemand( MultipartFile file) {
         try {
-            return Result.success(recruitProjectService.uploadDemandRTF(recruitProjectId, file));
+            return Result.success(recruitProjectService.uploadDemandRTF( file));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
