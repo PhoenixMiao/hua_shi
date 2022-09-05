@@ -28,9 +28,12 @@ public class Carousel {
     @ApiModelProperty("对应项目id")
     private Long projectId;
 
-    @ApiModelProperty("对应项目类型(0招募项目 1展示项目)")
+    @ApiModelProperty("对应项目类型(0招募项目 1展示项目 2通知公告)")
     private Integer projectType;
 
     @ApiModelProperty("上传时间")
     private String uploadTime;
+
+    @ApiModelProperty("状态 0审核中 1通过 -1未通过")
+    private Integer status;
 }
