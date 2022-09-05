@@ -55,6 +55,7 @@ public enum CommonErrorCode {
     WRONG_FILE_FORMAT(2017, "文件格式错误", "请上传正确格式的文件"),
     WRONG_FILE_NAME(2017, "文件名重复", "请勿上传重名的文件"),
     PROGRAM_NOT_EXIST(2018,"项目不存在","项目不存在"),
+    CAROUSEL_NOT_EXIST(2018,"轮播图","轮播图"),
 
 
 

@@ -1,7 +1,12 @@
 package com.phoenix.huashi.service.Impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.common.CommonException;
+import com.phoenix.huashi.common.Page;
+import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.controller.request.GetListRequest;
 import com.phoenix.huashi.entity.Carousel;
 import com.phoenix.huashi.mapper.CarouselMapper;
 import com.phoenix.huashi.service.CarouselService;
@@ -16,6 +21,7 @@ import com.qcloud.cos.transfer.Upload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+import tk.mybatis.mapper.genid.GenId;
 
 import java.util.List;
 
@@ -62,7 +68,7 @@ public class CarouselServiceImpl implements CarouselService {
             res =  cosClient.getObjectUrl(COS_BUCKET_NAME,time + "." +name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
-            Carousel carousel=Carousel.builder().url(res).projectId(projectId).projectType(type).uploadTime(time).build();
+            Carousel carousel=Carousel.builder().url(res).projectId(projectId).projectType(type).uploadTime(time).status(0).build();
             carouselMapper.insert(carousel);
 
         } catch (Exception e){
@@ -79,6 +85,29 @@ public class CarouselServiceImpl implements CarouselService {
 
     @Override
     public List<Carousel> getCarouselList(Integer number){
-        return carouselMapper.getCarouselList(number);
+        return carouselMapper.getCarouselList(number,1);
+    }
+
+    @Override
+    public List<Carousel> getCarouselUncheckedList(){
+        Carousel carousel = Carousel.builder().status(0).build();
+        return carouselMapper.select(carousel);
+    }
+
+    @Override
+    public String updateCarouselStatus(Integer newStatus,Long carouselId){
+        Carousel carousel = carouselMapper.selectByPrimaryKey(carouselId);
+        if(carousel==null)throw new CommonException(CommonErrorCode.CAROUSEL_NOT_EXIST);
+        carousel.setStatus(newStatus);
+        carouselMapper.updateByPrimaryKey(carousel);
+        return "更新成功";
+    }
+
+    @Override
+    public Page<Carousel> getAllCarouselList(GetListRequest getListRequest){
+        List<Carousel> carouselList = carouselMapper.selectAll();
+        PageParam pageParam = getListRequest.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        return new Page(new PageInfo<>(carouselList));
     }
 }
