@@ -103,14 +103,15 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         return recruitProject.getId();
     }
 
-//    @Override
-//    public void applyForDisplayProject(ApplyForDisplayProjectRequest request){
-//        DisplayProject displayProject=new DisplayProject(null,request.getYear(),request.getInstitute(),request.getName(),request.getCaptainChuangNum(),request.getCaptainName(),request.getTeacherName(),request.getTeacherApartment(),request.getTeacherRank(),request.getTeacherStudy(),request.getUploadTime(),request.getIntroduction(),
-//                request.getType(),request.getMajor(),request.getNumber(),request.getAward(),request.getInnovation(),request.getLikes(),request.getCollections(),request.getPaper(), request.getDeadline(), request.getPersonLimit(),request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(),
-//                request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor());
-//        displayProjectMapper.insert(displayProject);
-//        recruitProjectMapper.deleteRecruitProject(request.getId());
-//    }
+    @Override
+    public void applyForDisplayProject(ApplyForDisplayProjectRequest request) {
+        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(request.getRecruitProjectId());
+        String uploadTime = timeUtil.getCurrentTimestamp();
+        if (recruitProject.getStatus() == -1) {
+            DisplayProject displayProject = new DisplayProject(null, request.getYear(), request.getInstitute(), request.getName(), request.getCaptainName(), request.getTeacherOneName(), request.getTeacherOneApartment(), request.getTeacherOneRank(), request.getTeacherOneStudy(), request.getTeacherTwoName(), request.getTeacherTwoApartment(), request.getTeacherTwoRank(), request.getTeacherTwoStudy(), uploadTime, request.getIntroduction(), request.getType(), request.getMajor(), request.getNumber(), request.getAward(), request.getInnovation(), null, null, request.getPaper(), request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(), request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor(), request.getFile(), request.getFileName(), request.getFileTwo(), request.getFileTwoName(), 0);
+            displayProjectMapper.insert(displayProject);
+        }
+    }
 
     @Override
     public void updateProjectStatusById(UpdateProjectStatusRequest updateProjectStatusRequest) {
@@ -201,7 +202,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadDemandRTF( MultipartFile multipartFile) throws CommonException {
+    public String uploadDemandRTF(MultipartFile multipartFile) throws CommonException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -216,14 +217,14 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             String first = name.substring(0, name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
             String time = TimeUtil.getCurrentTimestamp();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectDemandRTF"+time + "." + name, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectDemandRTF" + time + "." + name, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectDemandRTF"+time + "." + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectDemandRTF" + time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
         } catch (Exception e) {
@@ -234,7 +235,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public String uploadIntroductionRTF(  MultipartFile multipartFile) throws CommonException {
+    public String uploadIntroductionRTF(MultipartFile multipartFile) throws CommonException {
         ObjectMetadata objectMetadata = new ObjectMetadata();
         objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -249,14 +250,14 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             String first = name.substring(0, name.lastIndexOf("."));
             String extension = name.substring(name.lastIndexOf("."));
             String time = TimeUtil.getCurrentTimestamp();
-            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectIntroductionRTF"+time + "." + name, multipartFile.getInputStream(), objectMetadata);
+            PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, "recruitProjectIntroductionRTF" + time + "." + name, multipartFile.getInputStream(), objectMetadata);
 
             // 高级接口会返回一个异步结果Upload
             // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
             Upload upload = transferManager.upload(putObjectRequest);
             uploadResult = upload.waitForUploadResult();
 
-            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectIntroductionRTF"+time + "." + name).toString();
+            res = cosClient.getObjectUrl(COS_BUCKET_NAME, "recruitProjectIntroductionRTF" + time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
 

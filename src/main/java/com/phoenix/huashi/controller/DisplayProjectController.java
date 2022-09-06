@@ -8,6 +8,7 @@ import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
+import com.phoenix.huashi.controller.request.GetListRequest;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 import com.phoenix.huashi.entity.DisplayProject;
@@ -142,6 +143,41 @@ public class DisplayProjectController {
     public Result fileDelete(@NotNull @RequestParam("url") String url, @NotNull @RequestParam("projectId") Long displayProjectId) {
         try {
             return Result.success(displayProjectService.fileDelete(url, displayProjectId));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @PostMapping(value = "/allList", produces = "application/json" )
+    @ApiOperation(value = "获取展示项目所有信息列表", response = BriefDisplayProject.class)
+    public Result getAllDisplayProjectList(@NotNull @Valid @RequestBody GetListRequest getListRequest) {
+        try {
+            return Result.success(displayProjectService.getAllDisplayProjectList(getListRequest));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+
+    @GetMapping(value = "/uncheckedList", produces = "application/json" )
+    @ApiOperation(value = "获得待审核展示项目列表")
+    public Result getCarouselUncheckedList() {
+        try {
+            return Result.success(displayProjectService.getDisplayProjectUncheckedList());
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @GetMapping(value = "/update", produces = "application/json" )
+    @ApiOperation(value = "更新展示项目审核状态")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "status", value = "审核状态 1通过 -1未通过", required = true, paramType = "query", dataType = "Integer"),
+            @ApiImplicitParam(name = "id", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
+    })
+    public Result updateDisplayProjectStatus(@NotNull @RequestParam("status") Integer newStatus,@NotNull @RequestParam("id") Long displayProjectId) {
+        try {
+            return Result.success(displayProjectService.updateDisplayProjectStatus(newStatus,displayProjectId));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

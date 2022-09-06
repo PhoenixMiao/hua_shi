@@ -91,13 +91,17 @@ public class RecruitProjectController {
         }
     }
 
-//    @Auth
-//    @PostMapping("/display")
-//    @ApiOperation(value = "申请成为展示项目",response = String.class)
-//    public Object applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request){
-//        recruitProjectService.applyForDisplayProject(request);
-//        return "操作成功";
-//    }
+    @Auth
+    @PostMapping("/display")
+    @ApiOperation(value = "申请成为展示项目",response = String.class)
+    public Result applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request){
+        try {
+            recruitProjectService.applyForDisplayProject(request);
+            return Result.success("申请成功");
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
 
     @GetMapping("/applications")
     @ApiOperation(value = "获得简历数", response = Integer.class)

@@ -9,6 +9,7 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 
+import com.phoenix.huashi.controller.request.GetListRequest;
 import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
@@ -107,19 +108,19 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
         if (request.getType().equals(CommodityTypeEnum.ALL.getName())) {
-            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectList();
+            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectList(1);
             for (DisplayProject project : displayProjects) {
                 BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         } else if (request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
-            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
+            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription(), 1);
             for (DisplayProject project : displayProjects) {
                 BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         } else if (request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())) {
-            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
+            List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription(), 1);
             for (DisplayProject project : displayProjects) {
                 BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
                 briefDisplayProjectList.add(briefDisplayProject);
@@ -168,8 +169,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     @Override
     public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(applyForDisplayProjectRequest.getRecruitProjectId());
-        if(recruitProject==null)throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
-        if(recruitProject.getStatus()!=-1)throw new CommonException(CommonErrorCode.PROGRAM_UNDERWAY);
+        if (recruitProject == null) throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
+        if (recruitProject.getStatus() != -1) throw new CommonException(CommonErrorCode.PROGRAM_UNDERWAY);
         DisplayProject displayProject = DisplayProject
                 .builder()
                 .name(applyForDisplayProjectRequest.getName())
@@ -220,12 +221,14 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public String uploadFile(Long displayProjectId,  String fileName,Integer projectType, MultipartFile multipartFile)throws CommonException {
+    public String uploadFile(Long displayProjectId, String fileName, Integer projectType, MultipartFile multipartFile) throws CommonException {
         String res = null;
-        if(projectType==1){
+        if (projectType == 1) {
             DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(displayProjectId);
-            if(displayProject.getFile()!=null&& displayProject.getFileTwo()!=null)throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
-            if(fileName.equals(displayProject.getFileName()) || fileName.equals(displayProject.getFileTwoName()) )throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
+            if (displayProject.getFile() != null && displayProject.getFileTwo() != null)
+                throw new CommonException(CommonErrorCode.EXCEED_MAX_NUMBER);
+            if (fileName.equals(displayProject.getFileName()) || fileName.equals(displayProject.getFileTwoName()))
+                throw new CommonException(CommonErrorCode.WRONG_FILE_NAME);
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(multipartFile.getSize());
 
@@ -236,8 +239,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
                 String name = multipartFile.getOriginalFilename();
 //            String name=new String(multipartFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
-                AssertUtil.notNull(name,CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
-                String first=name.substring(0,name.lastIndexOf("."));
+                AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+                String first = name.substring(0, name.lastIndexOf("."));
                 String extension = name.substring(name.lastIndexOf("."));
 
                 PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, displayProject.getNumber() + "." + name, multipartFile.getInputStream(), objectMetadata);
@@ -247,20 +250,19 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 Upload upload = transferManager.upload(putObjectRequest);
                 uploadResult = upload.waitForUploadResult();
 
-                res =  cosClient.getObjectUrl(COS_BUCKET_NAME,displayProject.getNumber() + "." +name).toString();
+                res = cosClient.getObjectUrl(COS_BUCKET_NAME, displayProject.getNumber() + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
-                if(displayProject.getFile()==null){
+                if (displayProject.getFile() == null) {
                     displayProject.setFile(res);
                     displayProject.setFileName(fileName);
-                }
-                else if(displayProject.getFileTwo()==null){
+                } else if (displayProject.getFileTwo() == null) {
                     displayProject.setFileTwo(res);
                     displayProject.setFileTwoName(fileName);
                 }
 
                 displayProjectMapper.updateByPrimaryKeySelective(displayProject);
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 //e.printStackTrace();
                 throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
             }
@@ -272,8 +274,8 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         }
 //                cosClient.deleteObject(COS_BUCKET_NAME,file.substring(file.indexOf(displayProject.getNumber())));
-        else if(projectType==0){
-           ObjectMetadata objectMetadata = new ObjectMetadata();
+        else if (projectType == 0) {
+            ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(multipartFile.getSize());
 
             UploadResult uploadResult = null;
@@ -283,21 +285,21 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
                 String name = multipartFile.getOriginalFilename();
 //            String name=new String(multipartFile.getOriginalFilename().getBytes("ISO-8859-1"), "UTF-8");
-                AssertUtil.notNull(name,CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
-                String first=name.substring(0,name.lastIndexOf("."));
+                AssertUtil.notNull(name, CommonErrorCode.FILENAME_CAN_NOT_BE_NULL);
+                String first = name.substring(0, name.lastIndexOf("."));
                 String extension = name.substring(name.lastIndexOf("."));
-                String time=TimeUtil.getCurrentTimestamp();
-                PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME,  time+ "." + name, multipartFile.getInputStream(), objectMetadata);
+                String time = TimeUtil.getCurrentTimestamp();
+                PutObjectRequest putObjectRequest = new PutObjectRequest(COS_BUCKET_NAME, time + "." + name, multipartFile.getInputStream(), objectMetadata);
 
                 // 高级接口会返回一个异步结果Upload
                 // 可同步地调用 waitForUploadResult 方法等待上传完成，成功返回UploadResult, 失败抛出异常
                 Upload upload = transferManager.upload(putObjectRequest);
                 uploadResult = upload.waitForUploadResult();
 
-                res =  cosClient.getObjectUrl(COS_BUCKET_NAME,time+ "." +name).toString();
+                res = cosClient.getObjectUrl(COS_BUCKET_NAME, time + "." + name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
-            } catch (Exception e){
+            } catch (Exception e) {
                 //e.printStackTrace();
                 throw new CommonException(CommonErrorCode.UPLOAD_FILE_FAIL);
             }
@@ -306,14 +308,36 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public String fileDelete(String url,Long displayProjectId){
-        DisplayProject displayProject=displayProjectMapper.selectOne(DisplayProject.builder().id(displayProjectId).build());
-        if(displayProject.getFile()==url)displayProject.setFile(null);
-        else if(displayProject.getFileTwo()==url)displayProject.setFileTwo(null);
+    public String fileDelete(String url, Long displayProjectId) {
+        DisplayProject displayProject = displayProjectMapper.selectOne(DisplayProject.builder().id(displayProjectId).build());
+        if (displayProject.getFile() == url) displayProject.setFile(null);
+        else if (displayProject.getFileTwo() == url) displayProject.setFileTwo(null);
         else throw new CommonException(CommonErrorCode.FILE_NOT_EXIST);
         displayProjectMapper.updateByPrimaryKey(displayProject);
-        cosClient.deleteObject(COS_BUCKET_NAME,url.substring(url.indexOf(displayProject.getNumber())));
+        cosClient.deleteObject(COS_BUCKET_NAME, url.substring(url.indexOf(displayProject.getNumber())));
         return "删除成功";
     }
 
+    @Override
+    public List<DisplayProject> getDisplayProjectUncheckedList() {
+        DisplayProject displayProject = DisplayProject.builder().status(0).build();
+        return displayProjectMapper.select(displayProject);
+    }
+
+    @Override
+    public String updateDisplayProjectStatus(Integer newStatus, Long displayProjectId) {
+        DisplayProject displayProject = displayProjectMapper.selectByPrimaryKey(displayProjectId);
+        if (displayProject == null) throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
+        displayProject.setStatus(newStatus);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
+        return "更新成功";
+    }
+
+    @Override
+    public Page<DisplayProject> getAllDisplayProjectList(GetListRequest getListRequest) {
+        List<DisplayProject> displayProjectList = displayProjectMapper.selectAll();
+        PageParam pageParam = getListRequest.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), pageParam.getOrderBy());
+        return new Page(new PageInfo<>(displayProjectList));
+    }
 }
