@@ -12,11 +12,11 @@ public interface RecruitProjectService {
 
     Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request);
 
-    Long createProject(CreateProjectRequest creatTeamRequest,String userChuangNum);
+    Long createProject(CreateProjectRequest creatTeamRequest, String userChuangNum);
 
     void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest);
 
-    //void applyForDisplayProject(ApplyForDisplayProjectRequest request);
+    void applyForDisplayProject(ApplyForDisplayProjectRequest request);
 
     void updateProjectStatusById(UpdateProjectStatusRequest updateProjectStatusRequest);
 
@@ -26,9 +26,9 @@ public interface RecruitProjectService {
 
     Page<BriefRecruitProject> searchRecruitProject(SearchRequest searchRequest);
 
-    String  uploadDemandRTF(  MultipartFile multipartFile);
+    String uploadDemandRTF(MultipartFile multipartFile);
 
-    String uploadIntroductionRTF(  MultipartFile multipartFile);
+    String uploadIntroductionRTF(MultipartFile multipartFile);
 
     void updateDemandRTF(Long recruitProjectId, String demand);
 

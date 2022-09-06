@@ -77,6 +77,7 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("论文成果")
     private String paper;
 
+
     @ApiModelProperty("成员1姓名")
     private String memberOneName;
 

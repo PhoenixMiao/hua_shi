@@ -20,10 +20,9 @@ import java.io.Serializable;
 public class DisplayProject implements Serializable {
 
 
-
     @Id
     @ApiModelProperty("项目id")
-    @GeneratedValue(generator = "JDBC",strategy = GenerationType.IDENTITY)
+    @GeneratedValue(generator = "JDBC", strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ApiModelProperty("立项年份")
@@ -148,6 +147,9 @@ public class DisplayProject implements Serializable {
 
     @ApiModelProperty("附件2名称")
     private String fileTwoName;
+
+    @ApiModelProperty("状态 0审核中 1通过 -1未通过")
+    private Integer status;
 }
 
 
