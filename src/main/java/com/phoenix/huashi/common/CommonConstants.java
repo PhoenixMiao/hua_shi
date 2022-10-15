@@ -25,4 +25,16 @@ public class CommonConstants {
     public final static String COS_SECRET_ID = "AKIDwgANJxKQGp78tNaVAYfW6QTFkyvb092e";
     public final static String COS_SECRET_KEY = "MTKuDF0UgbFcYCZgW5NO8bmhLiocARRA";
     public static final String COS_BUCKET_NAME = "huashi-1305159828";
+
+    public final static String ADMIN1_NUMBER ="hsadminone";
+    public final static String ADMIN1_PASSWORD ="hsadmin1";
+    public final static String ADMIN1_SESSIONID ="9db3411c-dc82-49c5-ab39-14e01b62f97d1";
+
+    public final static String ADMIN2_NUMBER ="hsadmintwo";
+    public final static String ADMIN2_PASSWORD ="hsadmin2";
+    public final static String ADMIN2_SESSIONID ="9db3411c-dc82-49c5-ab39-14e01b62f97d2";
+
+    public final static String ADMIN3_NUMBER ="hsadminthree";
+    public final static String ADMIN3_PASSWORD ="hsadmin3";
+    public final static String ADMIN3_SESSIONID ="9db3411c-dc82-49c5-ab39-14e01b62f97d3";
 }
