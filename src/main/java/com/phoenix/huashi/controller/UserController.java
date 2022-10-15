@@ -17,6 +17,7 @@ import com.phoenix.huashi.service.UserService;
 import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -52,6 +53,20 @@ public class UserController {
             return  Result.success(userService.login(code));
         }catch (CommonException e){
             return  Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @GetMapping(value = "/adminLogin" , produces = "application/json")
+    @ApiOperation(value = "管理员登录",response = String.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "number",value = "用户账号",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String"),})
+    public Result adminLogin(@NotNull @RequestParam("number")String number,
+                        @NotNull @RequestParam("password")String password){
+        try{
+             return Result.success(userService.adminLogin(number, password));
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
         }
     }
 

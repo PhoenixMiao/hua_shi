@@ -40,6 +40,8 @@ public interface UserService {
      */
     SessionData login(String code);
 
+    String adminLogin(String number,String password);
+
     String  uploadResumeRTF(String userChuangNum,  MultipartFile file);
 
     String uploadPortrait(String userChuangNum, MultipartFile file);

@@ -56,6 +56,7 @@ public enum CommonErrorCode {
     WRONG_FILE_NAME(2017, "文件名重复", "请勿上传重名的文件"),
     PROGRAM_NOT_EXIST(2018,"项目不存在","项目不存在"),
     CAROUSEL_NOT_EXIST(2018,"轮播图","轮播图"),
+    USER_NOT_ADMIN(2018,"轮播图","轮播图"),
 
 
 

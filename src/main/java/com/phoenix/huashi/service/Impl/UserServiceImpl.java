@@ -57,6 +57,9 @@ public class UserServiceImpl implements UserService {
     private TransferManager transferManager;
 
     @Autowired
+    private RedisUtils redisUtils;
+
+    @Autowired
     private COSClient cosClient;
 
     @Override
@@ -146,6 +149,29 @@ public class UserServiceImpl implements UserService {
         user1.setId(userId);
 
         return new SessionData(user1);
+    }
+
+    @Override
+    public String adminLogin(String number, String password) {
+
+        String sessionId = null;
+        AssertUtil.isTrue((number.equals(CommonConstants.ADMIN1_NUMBER)&&password.equals(CommonConstants.ADMIN1_PASSWORD))
+                |(number.equals(CommonConstants.ADMIN2_NUMBER)&&password.equals(CommonConstants.ADMIN2_PASSWORD))
+                |(number.equals(CommonConstants.ADMIN3_NUMBER)&&password.equals(CommonConstants.ADMIN3_PASSWORD)), CommonErrorCode.LOGIN_FAILED);
+
+        if(number.equals(CommonConstants.ADMIN1_NUMBER)&&password.equals(CommonConstants.ADMIN1_PASSWORD)){
+            sessionId=CommonConstants.ADMIN1_SESSIONID;
+        }
+        else if(number.equals(CommonConstants.ADMIN2_NUMBER)&&password.equals(CommonConstants.ADMIN2_PASSWORD)){
+            sessionId=CommonConstants.ADMIN2_SESSIONID;
+        }
+        else if(number.equals(CommonConstants.ADMIN3_NUMBER)&&password.equals(CommonConstants.ADMIN3_PASSWORD)){
+            sessionId=CommonConstants.ADMIN3_SESSIONID;
+        }
+        sessionUtils.setSessionId(sessionId);
+        redisUtils.set(sessionId,sessionId);
+
+        return sessionId;
     }
 
 

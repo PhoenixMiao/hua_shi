@@ -53,6 +53,13 @@ public class SessionUtils {
         return getSessionDataFromDB(key);
     }
 
+    public String getSessionId() {
+        String key = request.getHeader(CommonConstants.SESSION);
+        if(key == null) return null;
+        return (String) redisUtil.get(key);
+    }
+
+
     public void setSessionId(String sessionId){
         response.setHeader(CommonConstants.SESSION,sessionId);
     }
@@ -79,4 +86,6 @@ public class SessionUtils {
             return null;
         }
     }
+
+
 }
