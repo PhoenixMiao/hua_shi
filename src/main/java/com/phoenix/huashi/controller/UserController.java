@@ -61,7 +61,7 @@ public class UserController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "number",value = "用户账号",required = true,paramType = "query",dataType = "String"),
             @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String"),})
-    public Result login(@NotNull @RequestParam("number")String number,
+    public Result adminLogin(@NotNull @RequestParam("number")String number,
                         @NotNull @RequestParam("password")String password){
         try{
              return Result.success(userService.adminLogin(number, password));
