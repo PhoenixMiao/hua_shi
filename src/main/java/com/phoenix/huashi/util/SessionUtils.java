@@ -56,7 +56,7 @@ public class SessionUtils {
     public String getSessionId() {
         String key = request.getHeader(CommonConstants.SESSION);
         if(key == null) return null;
-        return (String) redisUtil.get(key);
+        return  key;
     }
 
 

@@ -35,7 +35,7 @@ public class AdminAspect {
 
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
 
-        Auth annotation = method.getAnnotation(Auth.class);
+        Admin annotation = method.getAnnotation(Admin.class);
 
         //log
         log.error("------------");

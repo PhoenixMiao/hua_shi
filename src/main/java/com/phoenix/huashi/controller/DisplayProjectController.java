@@ -2,6 +2,7 @@ package com.phoenix.huashi.controller;
 
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.util.StrUtil;
+import com.phoenix.huashi.annotation.Admin;
 import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.common.CommonException;
@@ -48,6 +49,7 @@ public class DisplayProjectController {
     @Autowired
     private LikeService likeService;
 
+
     @GetMapping("")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
@@ -70,6 +72,7 @@ public class DisplayProjectController {
             return Result.result(e.getCommonErrorCode());
         }
     }
+
 
     @PostMapping("/list")
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)
