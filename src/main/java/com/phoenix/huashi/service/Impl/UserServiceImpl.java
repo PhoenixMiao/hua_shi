@@ -169,7 +169,6 @@ public class UserServiceImpl implements UserService {
             sessionId=CommonConstants.ADMIN3_SESSIONID;
         }
         sessionUtils.setSessionId(sessionId);
-        redisUtils.set(sessionId,sessionId);
 
         return sessionId;
     }
