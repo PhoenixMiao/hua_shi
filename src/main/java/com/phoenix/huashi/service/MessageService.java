@@ -1,10 +1,7 @@
 package com.phoenix.huashi.service;
 
 import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.controller.request.GetMessageListReuqest;
-import com.phoenix.huashi.controller.request.InviteUserRequest;
-import com.phoenix.huashi.controller.request.ReplyMessageRequest;
-import com.phoenix.huashi.controller.request.UpdateDisplayProjectStatusRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.dto.Message.BriefMessage;
 
 public interface MessageService {
