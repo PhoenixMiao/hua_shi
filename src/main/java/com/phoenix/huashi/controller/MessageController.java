@@ -7,14 +7,13 @@ import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
 import com.phoenix.huashi.controller.request.ReplyMessageRequest;
+import com.phoenix.huashi.controller.request.UpdateDisplayProjectStatusRequest;
 import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Message;
+import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.MessageService;
 import com.phoenix.huashi.util.SessionUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -32,6 +31,7 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+
 
     @Auth
     @GetMapping("/apply")
@@ -88,6 +88,17 @@ public class MessageController {
         try {
             return Result.success( messageService.replyMessage(request));
         } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @Auth
+    @PostMapping("/auditProject")
+    @ApiOperation(value = "更新项目审核状态并反馈",response = String.class)
+    public Result updateProjectStatus(@NotNull @Valid @RequestBody UpdateDisplayProjectStatusRequest request){
+        try {
+            return Result.success(messageService.auditProject(request));
+        }catch (CommonException e){
             return Result.result(e.getCommonErrorCode());
         }
     }

@@ -1,10 +1,7 @@
 package com.phoenix.huashi.service;
 
 import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
-import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
-import com.phoenix.huashi.controller.request.GetListRequest;
-import com.phoenix.huashi.controller.request.SearchRequest;
+import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
@@ -32,7 +29,7 @@ public interface DisplayProjectService {
 
     List<DisplayProject> getDisplayProjectUncheckedList();
 
-    String updateDisplayProjectStatus(Integer newStatus, Long displayProjectId);
+    String updateDisplayProjectStatus(UpdateDisplayProjectStatusRequest request);
 
     Page<DisplayProject> getAllDisplayProjectList(GetListRequest getListRequest);
 }

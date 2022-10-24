@@ -54,4 +54,6 @@ public class Message implements Serializable {
 
     @ApiModelProperty("项目负责人昵称")
     private String projectCaptainNickname;
+
+
 }

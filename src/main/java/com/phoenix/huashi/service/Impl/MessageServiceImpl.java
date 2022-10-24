@@ -2,24 +2,17 @@ package com.phoenix.huashi.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.phoenix.huashi.common.CommonErrorCode;
-import com.phoenix.huashi.common.CommonException;
-import com.phoenix.huashi.common.Page;
-import com.phoenix.huashi.common.PageParam;
+import com.phoenix.huashi.common.*;
 import com.phoenix.huashi.controller.request.GetMessageListReuqest;
 import com.phoenix.huashi.controller.request.InviteUserRequest;
 import com.phoenix.huashi.controller.request.ReplyMessageRequest;
+import com.phoenix.huashi.controller.request.UpdateDisplayProjectStatusRequest;
 import com.phoenix.huashi.dto.Message.BriefMessage;
-import com.phoenix.huashi.entity.Member;
-import com.phoenix.huashi.entity.Message;
-import com.phoenix.huashi.entity.RecruitProject;
-import com.phoenix.huashi.entity.User;
+import com.phoenix.huashi.entity.*;
 import com.phoenix.huashi.enums.MemberTypeEnum;
 import com.phoenix.huashi.enums.MessageTypeEnum;
-import com.phoenix.huashi.mapper.MemberMapper;
-import com.phoenix.huashi.mapper.MessageMapper;
-import com.phoenix.huashi.mapper.RecruitProjectMapper;
-import com.phoenix.huashi.mapper.UserMapper;
+import com.phoenix.huashi.mapper.*;
+import com.phoenix.huashi.service.DisplayProjectService;
 import com.phoenix.huashi.service.MessageService;
 import com.phoenix.huashi.util.TimeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +36,10 @@ public class MessageServiceImpl implements MessageService {
     private UserMapper userMapper;
     @Autowired
     private MemberMapper memberMapper;
+    @Autowired
+    private DisplayProjectMapper displayProjectMapper;
+    @Autowired
+    private DisplayProjectService displayProjectService;
 
     @Override
     public void applyForProject(String userChuangNum, Long projectId) {
@@ -89,6 +86,7 @@ public class MessageServiceImpl implements MessageService {
         }
         return null;
     }
+
 
     @Override
     public void projectInvitation(InviteUserRequest request, String captainChuangNum) {
@@ -209,4 +207,17 @@ public class MessageServiceImpl implements MessageService {
         }
         return null;
     }
+
+    @Override
+    public String auditProject(UpdateDisplayProjectStatusRequest request) {
+        Message message = messageMapper.getMessage(request.getProjectId());
+        if(request.getStatus().equals("REFUSE")){
+            messageMapper.updateStatus(-1,request.getReason(),timeUtil.getCurrentTimestamp(),1,request.getProjectId());
+        }
+        else if(request.getStatus().equals("ACCEPT")){
+            messageMapper.updateStatus(1,null,timeUtil.getCurrentTimestamp(),1,request.getProjectId());
+        }
+        return displayProjectService.updateDisplayProjectStatus(request);
+    }
+
 }

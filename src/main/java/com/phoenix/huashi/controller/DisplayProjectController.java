@@ -172,18 +172,18 @@ public class DisplayProjectController {
         }
     }
 
-    @GetMapping(value = "/update", produces = "application/json" )
-    @ApiOperation(value = "更新展示项目审核状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "审核状态 1通过 -1未通过", required = true, paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "id", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
-    })
-    public Result updateDisplayProjectStatus(@NotNull @RequestParam("status") Integer newStatus,@NotNull @RequestParam("id") Long displayProjectId) {
-        try {
-            return Result.success(displayProjectService.updateDisplayProjectStatus(newStatus,displayProjectId));
-        } catch (CommonException e) {
-            return Result.result(e.getCommonErrorCode());
-        }
-    }
+//    @GetMapping(value = "/update", produces = "application/json" )
+//    @ApiOperation(value = "更新展示项目审核状态")
+//    @ApiImplicitParams({
+//            @ApiImplicitParam(name = "status", value = "审核状态 1通过 -1未通过", required = true, paramType = "query", dataType = "Integer"),
+//            @ApiImplicitParam(name = "id", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
+//    })
+//    public Result updateDisplayProjectStatus(@NotNull @RequestParam("status") Integer newStatus,@NotNull @RequestParam("id") Long displayProjectId) {
+//        try {
+//            return Result.success(displayProjectService.updateDisplayProjectStatus(newStatus,displayProjectId));
+//        } catch (CommonException e) {
+//            return Result.result(e.getCommonErrorCode());
+//        }
+//    }
 }
 

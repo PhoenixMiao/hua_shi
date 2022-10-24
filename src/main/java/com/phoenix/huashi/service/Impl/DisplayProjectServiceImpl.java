@@ -6,11 +6,8 @@ import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
-import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
-import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
+import com.phoenix.huashi.controller.request.*;
 
-import com.phoenix.huashi.controller.request.GetListRequest;
-import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
@@ -325,10 +322,11 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public String updateDisplayProjectStatus(Integer newStatus, Long displayProjectId) {
-        DisplayProject displayProject = displayProjectMapper.selectByPrimaryKey(displayProjectId);
+    public String updateDisplayProjectStatus(UpdateDisplayProjectStatusRequest request) {
+        DisplayProject displayProject = displayProjectMapper.selectByPrimaryKey(request.getProjectId());
         if (displayProject == null) throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
-        displayProject.setStatus(newStatus);
+        if(request.getStatus().equals("ACCEPT")) displayProject.setStatus(1);
+        else displayProject.setStatus(-1);
         displayProjectMapper.updateByPrimaryKey(displayProject);
         return "更新成功";
     }
