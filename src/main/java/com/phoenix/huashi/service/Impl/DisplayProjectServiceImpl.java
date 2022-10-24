@@ -323,10 +323,9 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
     @Override
     public String updateDisplayProjectStatus(UpdateDisplayProjectStatusRequest request) {
-        DisplayProject displayProject = displayProjectMapper.selectByPrimaryKey(request.getProjectId());
+        DisplayProject displayProject = displayProjectMapper.getDisplayProjectById(request.getProjectId());
         if (displayProject == null) throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
         if(request.getStatus().equals("ACCEPT")) displayProject.setStatus(1);
-        else displayProject.setStatus(-1);
         displayProjectMapper.updateByPrimaryKey(displayProject);
         return "更新成功";
     }
