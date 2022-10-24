@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.annotation.Admin;
 import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.PageParam;
@@ -92,7 +93,7 @@ public class MessageController {
         }
     }
 
-    @Auth
+    @Admin
     @PostMapping("/auditProject")
     @ApiOperation(value = "更新项目审核状态并反馈",response = String.class)
     public Result updateProjectStatus(@NotNull @Valid @RequestBody UpdateDisplayProjectStatusRequest request){

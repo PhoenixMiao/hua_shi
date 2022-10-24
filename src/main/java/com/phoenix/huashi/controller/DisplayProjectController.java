@@ -84,7 +84,7 @@ public class DisplayProjectController {
         }
     }
 
-    @Auth
+    @Admin
     @PostMapping("/add")
     @ApiOperation(value = "增加展示项目", response = String.class)
     public Result applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request) {
@@ -150,7 +150,7 @@ public class DisplayProjectController {
             return Result.result(e.getCommonErrorCode());
         }
     }
-
+    @Admin
     @PostMapping(value = "/allList", produces = "application/json" )
     @ApiOperation(value = "获取展示项目所有信息列表", response = BriefDisplayProject.class)
     public Result getAllDisplayProjectList(@NotNull @Valid @RequestBody GetListRequest getListRequest) {
@@ -161,7 +161,7 @@ public class DisplayProjectController {
         }
     }
 
-
+    @Admin
     @GetMapping(value = "/uncheckedList", produces = "application/json" )
     @ApiOperation(value = "获得待审核展示项目列表")
     public Result getCarouselUncheckedList() {
