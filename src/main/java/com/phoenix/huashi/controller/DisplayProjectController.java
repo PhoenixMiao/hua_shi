@@ -7,6 +7,7 @@ import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonErrorCode;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
+import com.phoenix.huashi.controller.request.AddDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.ApplyForDisplayProjectRequest;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.controller.request.GetListRequest;
@@ -87,14 +88,14 @@ public class DisplayProjectController {
     @Admin
     @PostMapping("/add")
     @ApiOperation(value = "增加展示项目", response = String.class)
-    public Result applyForDisplayProject(@NotNull @Valid @RequestBody ApplyForDisplayProjectRequest request) {
+    public Result applyForDisplayProject(@NotNull @Valid @RequestBody AddDisplayProjectRequest request) {
         try {
             return Result.success(displayProjectService.addDisplayProject(request));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
     }
-
+    @Auth
     @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传文件")
     @ApiImplicitParams({
@@ -161,10 +162,10 @@ public class DisplayProjectController {
         }
     }
 
-    @Admin
+  @Admin
     @GetMapping(value = "/uncheckedList", produces = "application/json" )
     @ApiOperation(value = "获得待审核展示项目列表")
-    public Result getCarouselUncheckedList() {
+    public Result getDisplayProjectUncheckedList() {
         try {
             return Result.success(displayProjectService.getDisplayProjectUncheckedList());
         } catch (CommonException e) {

@@ -76,7 +76,7 @@ public interface MessageMapper {
     @Select("SELECT * FROM message WHERE type=#{type} AND project_id=#{projectId}  ")
     List<Message> getApplication(@Param("type") String type, @Param("projectId") Long projectId);
 
-    @Insert("INSERT INTO message(type,project_name,project_id,status,status_update_time,reason,is_read,project_captain_chuang_num,project_captain_nickname) VALUE(#{type},#{project_name},#{project_id},#{member_chuang_num},#{member_nickname},#{status},#{status_update_time},#{reason},#{is_read},#{project_captain_chuang_num},#{project_captain_nickname})")
+    @Insert("INSERT INTO message(type,project_name,project_id,status,status_update_time,reason,is_read,project_captain_chuang_num,project_captain_nickname) VALUE(#{type},#{project_name},#{project_id},#{status},#{status_update_time},#{reason},#{is_read},#{project_captain_chuang_num},#{project_captain_nickname})")
     void applyForDisplayProject(
             @Param("type") String type,
             @Param("project_name") String projectName,
