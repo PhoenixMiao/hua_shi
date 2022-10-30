@@ -164,10 +164,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
     }
 
     @Override
-    public Long addDisplayProject(ApplyForDisplayProjectRequest applyForDisplayProjectRequest) {
-        RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(applyForDisplayProjectRequest.getRecruitProjectId());
-        if (recruitProject == null) throw new CommonException(CommonErrorCode.PROGRAM_NOT_EXIST);
-        if (recruitProject.getStatus() != -1) throw new CommonException(CommonErrorCode.PROGRAM_UNDERWAY);
+    public Long addDisplayProject(AddDisplayProjectRequest applyForDisplayProjectRequest) {
         DisplayProject displayProject = DisplayProject
                 .builder()
                 .name(applyForDisplayProjectRequest.getName())
@@ -212,8 +209,6 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 .build();
         displayProjectMapper.insert(displayProject);
         Long displayProjectId = displayProject.getId();
-        recruitProject.setDisplayId(displayProjectId);
-        recruitProjectMapper.updateByPrimaryKeySelective(recruitProject);
         return displayProjectId;
     }
 
