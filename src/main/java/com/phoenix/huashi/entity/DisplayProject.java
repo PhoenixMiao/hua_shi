@@ -150,6 +150,9 @@ public class DisplayProject implements Serializable {
 
     @ApiModelProperty("状态 0审核中 1通过 -1未通过")
     private Integer status;
+
+    @ApiModelProperty("投票数")
+    private Long vote;
 }
 
 
