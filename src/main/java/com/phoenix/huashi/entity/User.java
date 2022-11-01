@@ -96,6 +96,8 @@ public class User implements Serializable {
     @ApiModelProperty("学号")
     private String studentNumber;
 
+    @ApiModelProperty("投票数")
+    private Integer vote;
     public User(String sessionId, String openId, String unionId, String sessionKey, String createTime,String nickname) {
         this.sessionId = sessionId;
         this.openId = openId;
