@@ -24,6 +24,11 @@ public interface UserMapper extends MyMapper<User> {
     @Update("UPDATE user SET chuang_num=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);
 
+
+
+    @Select("SELECT * FROM user")
+    List<User> getUserList();
+
     @Update("UPDATE user SET nickname=#{nickname},name=#{name},gender=#{gender},school=#{school},department=#{department},major=#{major},grade=#{grade},telephone=#{telephone},q_q=#{qq},wechat_num=#{wechatNum},portrait=#{portrait},resume=#{resume},attachment=#{attachment},student_number=#{studentNumber} WHERE chuang_num=#{chuangNum}")
     void fillUserInformation(@Param("chuangNum") String chuangNum,
                          @Param("nickname") String nickname,

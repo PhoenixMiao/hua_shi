@@ -16,6 +16,7 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     @Select("SELECT * FROM display_project WHERE status=#{status}")
     List<DisplayProject> getBriefDisplayProjectList(@Param("status") Integer status);
 
+
     @Select("SELECT * FROM display_project WHERE type=#{type} AND status=#{status}")
     List<DisplayProject> getBriefDisplayProjectListByType(@Param("type") String type, @Param("status") Integer status);
 
@@ -31,7 +32,8 @@ public interface DisplayProjectMapper extends MyMapper<DisplayProject> {
     @Update("UPDATE display_project SET collections=#{collections} WHERE id=#{id};")
     void setCollectionNumber(@Param("collections") Long collections, @Param("id") Long id);
 
-
+    @Update("UPDATE display_project SET vote=vote+1 WHERE id=#{id};")
+    void updateVote( @Param("id") Long id);
 //    @Insert("INSERT INTO displayProject(id,year,institute,name,captainChuangNum,captainName,teacherName,teacherApartment,teacherRank,teacherStudy,uploadTime,introduction,type,major,number,award,innovation,likes,paper,deadline,personLimit,collections)  VALUE(null,#{year},#{institute},#{name},#{captainChuangNum},#{captainName},#{teacherName},#{teacherApartment},#{teacherRank},#{teacherStudy},#{uploadTime},#{introduction},#{type},#{major},#{number},#{award},#{innovation},#{likes},#{paper},#{deadline},#{personLimit},#{collections})")
 //    void newDisplayProject(ApplyForDisplayProjectRequest displayProject);
 }

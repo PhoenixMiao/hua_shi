@@ -11,7 +11,9 @@ import com.phoenix.huashi.controller.request.*;
 import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
+import com.phoenix.huashi.dto.displayproject.BriefDisplayVoteProject;
 import com.phoenix.huashi.dto.member.BriefMember;
+import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.dto.user.BriefUserName;
 import com.phoenix.huashi.dto.user.DisplayProjectMember;
 import com.phoenix.huashi.entity.*;
@@ -161,6 +163,20 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
+    }
+
+    @Override
+    public Page<BriefDisplayVoteProject> getBriefDisplayProjectVoteList(GetBriefProjectListRequest request) {
+        if (request == null) return null;
+        List<BriefDisplayVoteProject> briefDisplayVoteProjectList = new ArrayList<>();
+        PageParam pageParam = request.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "vote desc");
+        List<DisplayProject> displayProjectList = displayProjectMapper.getBriefDisplayProjectList(1);
+        for(DisplayProject displayProject:displayProjectList){
+            BriefDisplayVoteProject briefDisplayVoteProject=new BriefDisplayVoteProject(displayProject.getId(),displayProject.getName(),displayProject.getCaptainName(),displayProject.getType(),displayProject.getInstitute(),displayProject.getVote());
+            briefDisplayVoteProjectList.add(briefDisplayVoteProject);
+        }
+        return new Page(new PageInfo<>(briefDisplayVoteProjectList));
     }
 
     @Override

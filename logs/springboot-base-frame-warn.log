@@ -1,1 +1,1 @@
-2022-11-01 22:10:15.882 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2022-11-12 11:06:43.738 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
