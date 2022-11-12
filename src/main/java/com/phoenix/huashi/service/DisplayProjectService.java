@@ -6,6 +6,7 @@ import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 
+import com.phoenix.huashi.dto.displayproject.BriefDisplayVoteProject;
 import com.phoenix.huashi.entity.DisplayProject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -18,6 +19,8 @@ public interface DisplayProjectService {
     Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefProjectListRequest request);
 
     Page<BriefDisplayProject> searchDisplayProject(SearchRequest searchRequest);
+
+    Page<BriefDisplayVoteProject> getBriefDisplayProjectVoteList(GetBriefProjectListRequest request);
 
     Long addDisplayProject(AddDisplayProjectRequest applyForDisplayProjectRequest);
 
