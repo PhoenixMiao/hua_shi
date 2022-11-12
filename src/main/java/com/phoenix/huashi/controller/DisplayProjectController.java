@@ -85,6 +85,16 @@ public class DisplayProjectController {
         }
     }
 
+    @PostMapping("/voteList")
+    @ApiOperation(value = "获取展示项目投票简要信息列表", response = BriefDisplayProject.class)
+    public Result getBriefDisplayProjectVoteList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
+        try {
+            return Result.success(displayProjectService.getBriefDisplayProjectVoteList(request));
+        } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
     @Admin
     @PostMapping("/add")
     @ApiOperation(value = "增加展示项目", response = String.class)
