@@ -52,7 +52,7 @@ public class VoteController {
     }
 
     @Auth
-    @GetMapping("/vote")
+    @GetMapping("/giveVote")
     @ApiOperation(value = "投票", response = String.class)
     @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "Long")
     public Result vote(@NotNull @RequestParam("projectId") Long projectId){
