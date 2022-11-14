@@ -59,4 +59,15 @@ public class VoteServiceImpl implements VoteService {
         }
         voteMapper.deleteVote();
     }
+
+    @Override
+    public String vote(Long projectId, String userChuangNum) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        if(user.getVote() == 3)
+            throw new CommonException(CommonErrorCode.VOTES_MAXIMUM_REACHED);
+        voteMapper.addToVote(projectId,userChuangNum);
+        user.setVote(user.getVote() + 1);
+        userMapper.updateByPrimaryKey(user);
+        return "投票成功";
+    }
 }

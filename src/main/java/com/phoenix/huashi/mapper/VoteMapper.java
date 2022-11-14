@@ -5,6 +5,7 @@ import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.RecruitProject;
 import com.phoenix.huashi.entity.Vote;
 import org.apache.ibatis.annotations.Delete;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
@@ -18,4 +19,10 @@ public interface VoteMapper extends MyMapper<Vote>{
 
     @Delete("DELETE FROM vote")
     void deleteVote();
+
+    @Insert("INSERT INTO vote(project_id,chuang_num) VALUES (#{projectId},#{chuangNum})")
+    void addToVote(
+            @Param("projectId") Long projectId,
+            @Param("chuangNum") String chuangNum
+    );
 }

@@ -37,6 +37,9 @@ public class VoteController {
     @Autowired
     private VoteService voteService;
 
+    @Autowired
+    private SessionUtils sessionUtils;
+
     @GetMapping("")
     @ApiOperation(value = "投票更新", response = String.class)
     public Result voteUpdate() {
@@ -44,6 +47,18 @@ public class VoteController {
             voteService.updateVote();
             return Result.success(null);
         } catch (CommonException e) {
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @Auth
+    @GetMapping("/vote")
+    @ApiOperation(value = "投票", response = String.class)
+    @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "Long")
+    public Result vote(@NotNull @RequestParam("projectId") Long projectId){
+        try{
+            return Result.success(voteService.vote(projectId, sessionUtils.getUserChuangNum()));
+        }catch (CommonException e){
             return Result.result(e.getCommonErrorCode());
         }
     }
