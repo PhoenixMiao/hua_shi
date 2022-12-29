@@ -251,4 +251,19 @@ public class UserController {
             return  Result.result(e.getCommonErrorCode());
         }
     }
+
+    @GetMapping(value = "/send", produces = "application/json")
+    @ApiOperation(value = "发送验证邮箱")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "注册和找回密码输入邮箱", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "0为注册,1为找回密码", required = true, paramType = "query"),
+    })
+    public Result sendEmail(@NotNull @RequestParam("email") String email,
+                            @NotNull @RequestParam("type") int type) {
+        try {
+            return Result.success(userService.sendEmail(email,type));
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
 }

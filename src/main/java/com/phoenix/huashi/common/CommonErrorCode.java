@@ -67,6 +67,7 @@ public enum CommonErrorCode {
     UNSIGNED_USER(1011,"未注册用户","请前往注册"),
     INVALID_PHONE(1012,"无效手机号","请输入正确的手机号"),
     VOTES_MAXIMUM_REACHED(1013,"本日投票已达上限","本日投票已达上限，请明日再投票"),
+    SEND_EMAIL_FAILED(1014, "邮件发送失败", "邮件发送失败"),
 
     ;
 

@@ -9,6 +9,17 @@ server:
     uri-encoding: UTF-8
 
 spring:
+  mail:
+    host: smtphz.qiye.163.com
+    username: zyxy@ecnu.edu.cn
+    password: 8xcenWhGDHqbrgq9
+    protocol: smtp
+    properties.mail.smtp.auth: true
+    properties.mail.smtp.starttls.enable: true
+    properties.mail.smtp.starttls.required: true
+    properties.mail.smtp.ssl.enable: true
+    default-encoding: utf-8
+
   servlet:
     multipart:
       max-file-size: 100MB
