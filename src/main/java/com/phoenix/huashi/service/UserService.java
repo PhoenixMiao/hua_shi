@@ -42,7 +42,9 @@ public interface UserService {
 
     String adminLogin(String number,String password);
 
-    String  uploadResumeRTF(String userChuangNum,  MultipartFile file);
+    String uploadResumeRTF(String userChuangNum,  MultipartFile file);
 
     String uploadPortrait(String userChuangNum, MultipartFile file);
+
+    String sendEmail(String email, int flag);
 }

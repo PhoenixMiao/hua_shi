@@ -28,6 +28,8 @@ import com.qcloud.cos.model.UploadResult;
 import com.qcloud.cos.transfer.TransferManager;
 import com.qcloud.cos.transfer.Upload;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -61,6 +63,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private COSClient cosClient;
+
+    @Autowired
+    private JavaMailSender jms;
+
+    @Value("${spring.mail.username}")
+    private String sender;
+
+    @Autowired
+    private MessageUtil messageUtil;
 
     @Override
     public User getUserByChuangNum(String userChuangNum) {
@@ -364,10 +375,23 @@ public class UserServiceImpl implements UserService {
         return res;
     }
 
+
     @Override
     public void updateResumeRTF(String userChuangNum, String resume) {
         User user = userMapper.getUserByChuangNum(userChuangNum);
         user.setResume(resume);
         userMapper.updateByPrimaryKey(user);
+    }
+
+    @Override
+    public String sendEmail(String email, int flag) {
+
+        String verificationCode = RandomVerifyCodeUtil.getRandomVerifyCode();
+        try {
+            messageUtil.sendMail(sender, email, verificationCode, jms, flag);
+        } catch (Exception e) {
+            throw new CommonException(CommonErrorCode.SEND_EMAIL_FAILED);
+        }
+        return verificationCode;
     }
 }
