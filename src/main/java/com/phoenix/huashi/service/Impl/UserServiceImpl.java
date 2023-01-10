@@ -384,9 +384,19 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void checkCode(String email, String code) throws CommonException {
+        //if (!redisUtils.hasKey(email)) throw new CommonException((CommonErrorCode.HAS_NOT_SENT_EMAIL));
+        if (redisUtils.isExpire(email)) throw new CommonException(CommonErrorCode.VERIFICATION_CODE_HAS_EXPIRED);
+        if (!redisUtils.get(email).equals(code)) throw new CommonException(CommonErrorCode.VERIFICATION_CODE_WRONG);
+        else redisUtils.del(email);
+    }
+
+
+    @Override
     public String sendEmail(String email, int flag) {
 
         String verificationCode = RandomVerifyCodeUtil.getRandomVerifyCode();
+        redisUtils.set(email, verificationCode, 3000);
         try {
             messageUtil.sendMail(sender, email, verificationCode, jms, flag);
         } catch (Exception e) {

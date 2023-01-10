@@ -32,6 +32,7 @@ public interface UserService {
 
     void updateResumeRTF(String userChuangNum, String resume);
 
+    void checkCode(String email, String code);
     /**
      * 登录
      *

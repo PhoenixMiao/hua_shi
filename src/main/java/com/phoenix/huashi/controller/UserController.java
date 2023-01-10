@@ -252,6 +252,23 @@ public class UserController {
         }
     }
 
+    @GetMapping(value = "/check",produces = "application/json")
+    @ApiOperation(value = "校验验证码")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email",value = "用户邮箱",required = true,paramType = "query"),
+            @ApiImplicitParam(name = "code",value = "邮箱验证码",required = true,paramType = "query")
+    })
+    public Result checkCode(@NotNull @RequestParam("email")String email,
+                            @NotNull @RequestParam("code")String code){
+        try{
+            userService.checkCode(email,code);
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+        return Result.success("验证码正确");
+    }
+
+
     @GetMapping(value = "/send", produces = "application/json")
     @ApiOperation(value = "发送验证邮箱")
     @ApiImplicitParams({

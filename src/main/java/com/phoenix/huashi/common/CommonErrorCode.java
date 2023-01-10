@@ -62,14 +62,17 @@ public enum CommonErrorCode {
 
     TEL_USED_ERROR(1007,"手机号已注册","请前往登录"),
     VERIFY_FAILED(1008,"验证失败","请重试"),
+
     LOGIN_FAILED(1009,"登录失败","用户名或密码错误"),
     PARAMS_INVALID(1010,"存在有误的参数","请重试"),
     UNSIGNED_USER(1011,"未注册用户","请前往注册"),
     INVALID_PHONE(1012,"无效手机号","请输入正确的手机号"),
     VOTES_MAXIMUM_REACHED(1013,"本日投票已达上限","本日投票已达上限，请明日再投票"),
     SEND_EMAIL_FAILED(1014, "邮件发送失败", "邮件发送失败"),
-
+    VERIFICATION_CODE_WRONG(1015, "邮箱验证码错误", "请输入正确的邮箱验证码"),
+    VERIFICATION_CODE_HAS_EXPIRED(1016, "验证码已过期", "请重新申请发送验证码"),
     ;
+
 
     /**
      * 错误码
