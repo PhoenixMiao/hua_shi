@@ -24,6 +24,9 @@ public interface RecruitProjectMapper extends MyMapper<RecruitProject> {
     @Select("SELECT id,name,tag1,tag2,tag3,brief_demand,status FROM recruit_project order by state_update_time desc")
     List<BriefRecruitProject> getAllBriefRList();
 
+    @Select("SELECT id,name,tag1,tag2,tag3,brief_demand,status FROM recruit_project order by state_update_time desc WHERE type=#{type}")
+    List<BriefRecruitProject> getAllBriefRListByType(@Param("type") Integer type);
+
     @Insert("INSERT INTO recruit_project(name,captain_chuang_num,captain_name,institute,introduction,brief_demand,teacher_name,teacher_apartment,teacher_rank,plan_startime,plan_end_time,recruit_time,start_time,end_time,state_update_time,demand,member_num,recruit_num,status,tag1,tag2,tag3) VALUE(#{name},#{captainChuangNum},#{captainName},#{institute},#{introduction},#{briefDemand},#{teacherName},#{teacherApartment},#{teacherRank},#{planStartTime},#{planEndTime},#{recruitTime},#{startTime},#{endTime},#{stateUpdateTime},#{demand},#{memberNum},#{recruitNum},#{status},#{tag1},#{tag2},#{tag3})")
     @Options(useGeneratedKeys = true,keyProperty = "id")
     void creatProject(

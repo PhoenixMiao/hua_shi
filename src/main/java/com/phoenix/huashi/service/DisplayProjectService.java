@@ -7,6 +7,7 @@ import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 
 import com.phoenix.huashi.dto.displayproject.BriefDisplayVoteProject;
+import com.phoenix.huashi.dto.displayproject.BriefHomepageDisplayProject;
 import com.phoenix.huashi.entity.DisplayProject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,6 +20,9 @@ public interface DisplayProjectService {
     Page<BriefDisplayProject> getBriefDisplayProjectList(GetBriefProjectListRequest request);
 
     Page<BriefDisplayProject> searchDisplayProject(SearchRequest searchRequest);
+
+    List<BriefHomepageDisplayProject> getHomePageDisplayProjectList(String year);
+
 
     Page<BriefDisplayVoteProject> getBriefDisplayProjectVoteList(GetBriefProjectListRequest request);
 

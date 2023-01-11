@@ -20,6 +20,8 @@ public interface UserMapper extends MyMapper<User> {
     @Select("SELECT * FROM user WHERE open_id=#{openId};")
     User getUserByOpenId(@Param("openId")String openId);
 
+    @Select("SELECT * FROM user WHERE email=#{emailOrChuangNUm} OR chuangNum=#{emailOrChuangNUm}")
+    User getUserByEmailOrChuangNUm(@Param("emailOrChuangNUm")String emailOrChuangNUm);
 
     @Update("UPDATE user SET chuang_num=#{chuangNum} WHERE id=#{id}")
     void updateChuangNum(@Param("chuangNum") String chuangNum, @Param("id") Long id);

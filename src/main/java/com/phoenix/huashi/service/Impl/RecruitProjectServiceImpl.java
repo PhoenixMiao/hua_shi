@@ -92,12 +92,39 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
+    public List<BriefRecruitProject> getHomepageBriefRecruitProjectList() {
+        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByType(1);
+        List<BriefRecruitProject> briefRecruitProjectList1=recruitProjectMapper.getAllBriefRListByType(0);
+        for(BriefRecruitProject e:briefRecruitProjectList1){
+            briefRecruitProjectList.add(e);
+        }
+        if(briefRecruitProjectList.size()<3){
+            return briefRecruitProjectList;
+        }
+        else return briefRecruitProjectList.subList(0,3);
+    }
+
+    @Override
+    public List<BriefRecruitProject> getHomepageMyProjectList(String userChuangNum) {
+  List<Long> list= memberMapper.getTeamByChuangNum(userChuangNum);
+  List<BriefRecruitProject> briefRecruitProjectList=new ArrayList<>();
+  for (Long e:list){
+      RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(e);
+      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus()));
+  }
+  if(briefRecruitProjectList.size()<3){
+      return briefRecruitProjectList;
+  }
+  else return briefRecruitProjectList.subList(0,3);
+    }
+
+    @Override
     public Long createProject(CreateProjectRequest creatTeamRequest, String userChuangNum) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
         Integer status = 0;
         String chuangNum = creatTeamRequest.getCaptainChuangNum();
         if (chuangNum == null) chuangNum = userChuangNum;
-        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null);
+        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0);
         recruitProjectMapper.newRecruitProject(recruitProject);
         memberMapper.insertMember(recruitProject.getId(), MemberTypeEnum.CAPTAIN.getDescription(), 0, chuangNum, "组长");
         return recruitProject.getId();

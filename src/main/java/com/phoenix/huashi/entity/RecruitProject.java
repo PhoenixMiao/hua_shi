@@ -89,4 +89,7 @@ public class RecruitProject implements Serializable {
 
     @ApiModelProperty("展示项目Id")
     private Long displayId;
+
+    @ApiModelProperty("项目发布类型 0为学生发布 1为教师发布")
+    private Integer type;
 }

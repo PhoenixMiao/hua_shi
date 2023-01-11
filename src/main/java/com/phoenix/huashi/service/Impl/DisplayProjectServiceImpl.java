@@ -12,6 +12,7 @@ import com.phoenix.huashi.controller.response.GetDisplayProjectResponse;
 import com.phoenix.huashi.dto.displayproject.BriefDisplayProject;
 
 import com.phoenix.huashi.dto.displayproject.BriefDisplayVoteProject;
+import com.phoenix.huashi.dto.displayproject.BriefHomepageDisplayProject;
 import com.phoenix.huashi.dto.member.BriefMember;
 import com.phoenix.huashi.dto.recruitproject.BriefRecruitProject;
 import com.phoenix.huashi.dto.user.BriefUserName;
@@ -163,6 +164,23 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
+    }
+
+    @Override
+    public List<BriefHomepageDisplayProject> getHomePageDisplayProjectList(String year) {
+        Example example = new Example(DisplayProject.class);
+        Example.Criteria yearCriteria = example.createCriteria();
+        yearCriteria.orLike("year","%" + year + "%");
+        example.orderBy("id").desc();
+        List<DisplayProject> displayProjectList = displayProjectMapper.selectByExample(example);
+        List<BriefHomepageDisplayProject> briefDisplayProjectList = new ArrayList<>();
+        for (DisplayProject ele : displayProjectList) {
+            briefDisplayProjectList.add(new BriefHomepageDisplayProject(ele.getId(), ele.getName(), ele.getType(), ele.getIntroduction(),ele.getAward()));
+        }
+        if(briefDisplayProjectList.size()<6){
+            return briefDisplayProjectList;
+        }
+        else return briefDisplayProjectList.subList(0,6);
     }
 
     @Override
