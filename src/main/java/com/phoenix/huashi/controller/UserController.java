@@ -44,6 +44,19 @@ public class UserController {
     @Autowired
     private SessionUtils sessionUtils;
 
+    @GetMapping(value = "/webLogin" , produces = "application/json")
+    @ApiOperation(value = "登录",response = SessionData.class)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "emailOrChuangNum",value = "邮箱",required = true,paramType = "query",dataType = "String"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query", dataType = "String"),})
+    public Result login(@NotNull @RequestParam("emailOrChuangNum")String emailOrChuangNum,
+                        @NotNull @RequestParam("password")String password){
+        try{
+            return Result.success(userService.webLogin(emailOrChuangNum,password));
+        }catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
 
     @GetMapping("/login/{code}")
     @ApiOperation(value = "登录", response = SessionData.class)

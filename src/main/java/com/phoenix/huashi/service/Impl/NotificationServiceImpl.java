@@ -7,9 +7,11 @@ import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
 import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.dto.notification.BriefNotification;
+import com.phoenix.huashi.entity.Collection;
 import com.phoenix.huashi.entity.Notification;
 import com.phoenix.huashi.mapper.NotificationMapper;
 import com.phoenix.huashi.service.NotificationService;
+import com.phoenix.huashi.util.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,7 @@ import com.phoenix.huashi.enums.CommodityTypeEnum;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class NotificationServiceImpl implements NotificationService {
@@ -31,6 +32,30 @@ public class NotificationServiceImpl implements NotificationService {
     public Notification getNotificationById(Long id) {
         Notification notification = notificationMapper.getNotificationById(id);
         return notification;
+    }
+
+    @Override
+    public List<BriefNotification> getHomepageNotification() {
+        List<BriefNotification> briefNotificationList = notificationMapper.getALLBriefNotificationList();
+        Collections.sort(briefNotificationList, new Comparator<BriefNotification>() {
+            @Override
+            public int compare(BriefNotification t1, BriefNotification t2) {
+                Date d1= TimeUtil.parseToDate(t1.getPublishDate());
+                Date d2=TimeUtil.parseToDate(t2.getPublishDate());
+                if(d1.after(d2)){
+                    return  -1;
+                }
+                else  return 1;
+            }
+        });
+        if (briefNotificationList.size()<3){
+            List<BriefNotification> list=new ArrayList<>();
+            for(BriefNotification b:briefNotificationList){
+                list.add(b);
+            }
+            return list;
+        }
+        else return briefNotificationList.subList(0,3);
     }
 
     @Override

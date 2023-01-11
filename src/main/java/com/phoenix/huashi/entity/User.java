@@ -99,6 +99,16 @@ public class User implements Serializable {
     @ApiModelProperty("投票数")
     private Integer vote;
 
+
+    @ApiModelProperty("身份 0学生 1老师")
+    private Integer type;
+
+    @ApiModelProperty("密码")
+    private String password;
+
+    @ApiModelProperty("邮箱")
+    private String email;
+
     public User(String sessionId, String openId, String unionId, String sessionKey, String createTime,String nickname) {
         this.sessionId = sessionId;
         this.openId = openId;

@@ -3,6 +3,9 @@ package com.phoenix.huashi.util;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * @author yannis
@@ -25,6 +28,17 @@ public class TimeUtil {
         sb.replace(7,8,"月");
         sb.replace(10,10,"日");
         return sb.toString();
+    }
+
+    public static Date parseToDate(String timeStamp) {
+        SimpleDateFormat mDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = null;
+        try {
+            date = mDateFormat.parse(timeStamp);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date;
     }
 
     public static void main(String[] args) {

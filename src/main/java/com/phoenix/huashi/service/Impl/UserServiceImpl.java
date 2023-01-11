@@ -73,6 +73,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private MessageUtil messageUtil;
 
+    @Autowired
+    private PasswordUtil passwordUtil;
+
     @Override
     public User getUserByChuangNum(String userChuangNum) {
         User user = userMapper.getUserByChuangNum(userChuangNum);
@@ -161,6 +164,26 @@ public class UserServiceImpl implements UserService {
 
         return new SessionData(user1);
     }
+
+    @Override
+    public SessionData webLogin(String emailOrChuangNum, String password) {
+        String sessionId = sessionUtils.generateSessionId();
+
+        User user = userMapper.getUserByEmailOrChuangNUm(emailOrChuangNum);
+
+        AssertUtil.notNull(user, CommonErrorCode.LOGIN_FAILED);
+
+        AssertUtil.isTrue(passwordUtil.convert(password).equals(user.getPassword()), CommonErrorCode.LOGIN_FAILED);
+
+        sessionUtils.setSessionId(sessionId);
+
+        redisUtils.set(sessionId, new SessionData(user), 86400);
+
+        return new SessionData(user);
+    }
+
+
+
 
     @Override
     public String adminLogin(String number, String password) {
