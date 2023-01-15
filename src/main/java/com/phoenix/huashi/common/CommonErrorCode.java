@@ -71,6 +71,11 @@ public enum CommonErrorCode {
     SEND_EMAIL_FAILED(1014, "邮件发送失败", "邮件发送失败"),
     VERIFICATION_CODE_WRONG(1015, "邮箱验证码错误", "请输入正确的邮箱验证码"),
     VERIFICATION_CODE_HAS_EXPIRED(1016, "验证码已过期", "请重新申请发送验证码"),
+    EMAIL_HAS_BEEN_USED(1017, "邮箱已被使用", "邮箱已被使用，建议找回原账号"),
+    PASSWORD_NOT_QUALIFIED(1018, "密码格式错误","密码格式错误，请检查"),
+    NOT_SCHOOL_EMAIL(1019, "不是学校邮箱", "不是学校邮箱,请重新输入"),
+    NOT_TEACHER_EMAIL(1020,"不是教师邮箱","不是教师邮箱，请确认身份"),
+    USER_NOT_TEACHER(1021,"用户不是教师","用户不是教师，请选择学生发布"),
     ;
 
 

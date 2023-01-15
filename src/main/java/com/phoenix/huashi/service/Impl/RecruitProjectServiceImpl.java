@@ -83,11 +83,20 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request) {
+    public Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefRecruitProjectListRequest request) {
+        if (request == null) return null;
+        PageParam pageParam = request.getPageParam();
+        PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "type desc, state_update_time desc");
+        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRList();
+        return new Page(new PageInfo<>(briefRecruitProjectList));
+    }
+
+    @Override
+    public Page<BriefRecruitProject> getBriefRecruitProjectListByType(GetBriefRecruitProjectListRequest request) {
         if (request == null) return null;
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "state_update_time desc");
-        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRList();
+        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByType(request.getType());
         return new Page(new PageInfo<>(briefRecruitProjectList));
     }
 
@@ -124,9 +133,22 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         Integer status = 0;
         String chuangNum = creatTeamRequest.getCaptainChuangNum();
         if (chuangNum == null) chuangNum = userChuangNum;
-        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0);
+        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0,creatTeamRequest.getTeacherPersonalHomepage());
         recruitProjectMapper.newRecruitProject(recruitProject);
         memberMapper.insertMember(recruitProject.getId(), MemberTypeEnum.CAPTAIN.getDescription(), 0, chuangNum, "组长");
+        return recruitProject.getId();
+    }
+
+    @Override
+    public Long createTeacherProject(CreateProjectRequest createProjectRequest, String userChuangNum) {
+        User user = userMapper.getUserByChuangNum(userChuangNum);
+        if (user == null) throw new CommonException(CommonErrorCode.USER_NOT_EXIST);
+        if (user.getType() != 1) throw new CommonException(CommonErrorCode.USER_NOT_TEACHER);
+
+        String statusUpdateTime = TimeUtil.getCurrentTimestamp();
+        Integer status = 0;
+        RecruitProject recruitProject = new RecruitProject(null, createProjectRequest.getName(), userChuangNum, null, createProjectRequest.getInstitute(),createProjectRequest.getIntroduction(), createProjectRequest.getBriefDemand(), createProjectRequest.getTeacherName(), createProjectRequest.getTeacherApartment(), createProjectRequest.getTeacherRank(), createProjectRequest.getPlanStartTime(),createProjectRequest.getPlanEndTime(), TimeUtil.getCurrentTimestamp(), TimeUtil.getCurrentTimestamp(), null, statusUpdateTime, createProjectRequest.getDemand(), status, createProjectRequest.getRecruitNum(), createProjectRequest.getTag1(), createProjectRequest.getTag2(), createProjectRequest.getTag3(), 0L, null, 1,createProjectRequest.getTeacherPersonalHomepage());
+        recruitProjectMapper.newRecruitProject(recruitProject);
         return recruitProject.getId();
     }
 

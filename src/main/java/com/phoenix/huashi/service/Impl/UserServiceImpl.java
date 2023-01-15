@@ -166,6 +166,34 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public  SessionData webSignUp(String email, String password, int type){
+
+        if (userMapper.getUserByEmail(email) != null) throw new CommonException(CommonErrorCode.EMAIL_HAS_BEEN_USED);
+        if (!passwordUtil.EvalPWD(password)) throw new CommonException(CommonErrorCode.PASSWORD_NOT_QUALIFIED);
+
+        String sessionId = sessionUtils.generateSessionId();
+        User user = User.builder()
+                .createTime(TimeUtil.getCurrentTimestamp())
+                .email(email)
+                .password(passwordUtil.convert(password))
+                .nickname("华实创赛用户")
+                .sessionId(sessionId)
+                .build();
+
+        if (!email.endsWith("ecnu.edu.cn")) throw new CommonException(CommonErrorCode.NOT_SCHOOL_EMAIL);
+        if (type == 0) user.setType(0);
+        else if (email.contains("stu")) throw new CommonException(CommonErrorCode.NOT_TEACHER_EMAIL);
+        else user.setType(1);
+
+        userMapper.newUser(user);
+        user.setChuangNum("hs" + String.format("%08d", user.getId()));
+        redisUtils.set(sessionId, new SessionData(user), 86400);
+        userMapper.updateChuangNum(user.getChuangNum(), user.getId());
+        return new SessionData(user);
+
+    }
+
+    @Override
     public SessionData webLogin(String emailOrChuangNum, String password) {
         String sessionId = sessionUtils.generateSessionId();
 

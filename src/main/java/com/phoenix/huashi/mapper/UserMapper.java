@@ -13,14 +13,14 @@ import java.util.List;
 
 @Repository
 public interface UserMapper extends MyMapper<User> {
-    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,nickname) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{nickname})")
+    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,nickname,type) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{nickname},#{type})")
     @Options(useGeneratedKeys=true, keyProperty="id")
     long newUser(User user);
 
     @Select("SELECT * FROM user WHERE open_id=#{openId};")
     User getUserByOpenId(@Param("openId")String openId);
 
-    @Select("SELECT * FROM user WHERE email=#{emailOrChuangNUm} OR chuangNum=#{emailOrChuangNUm}")
+    @Select("SELECT * FROM user WHERE email=#{emailOrChuangNUm} OR chuang_num=#{emailOrChuangNUm}")
     User getUserByEmailOrChuangNUm(@Param("emailOrChuangNUm")String emailOrChuangNUm);
 
     @Update("UPDATE user SET chuang_num=#{chuangNum} WHERE id=#{id}")
@@ -73,6 +73,10 @@ public interface UserMapper extends MyMapper<User> {
 
     @Select("SELECT name,major,grade,telephone,q_q,resume,student_number FROM user WHERE chuang_num=#{chuangNum}")
     BriefUser getUserInformationByChuangNum(@Param("chuangNum") String chuangNum);
+
+    @Select("SELECT * FROM user WHERE email=#{email}")
+    User getUserByEmail(@Param("email") String email);
+
 }
 
 

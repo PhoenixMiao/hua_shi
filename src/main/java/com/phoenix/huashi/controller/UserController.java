@@ -44,6 +44,22 @@ public class UserController {
     @Autowired
     private SessionUtils sessionUtils;
 
+
+    @PostMapping(value = "/webSignUp", produces = "application/json")
+    @ApiOperation(value = "网页版注册")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "email", value = "邮箱", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "password", value = "密码", required = true, paramType = "query"),
+            @ApiImplicitParam(name = "type", value = "用户类型 0为学生 1为教师", required = true, paramType = "query")
+    })
+    public Result webSignUp(@NotNull @RequestParam("email") String email, @NotNull @RequestParam("password") String password, @NotNull @RequestParam("type") Integer type){
+        try {
+            return Result.success(userService.webSignUp(email, password, type));
+        } catch (CommonException e){
+            return Result.result(e.getCommonErrorCode());
+        }
+    }
+
     @GetMapping(value = "/webLogin" , produces = "application/json")
     @ApiOperation(value = "登录",response = SessionData.class)
     @ApiImplicitParams({

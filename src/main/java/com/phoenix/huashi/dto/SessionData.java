@@ -85,6 +85,9 @@ public class SessionData implements Serializable {
     @ApiModelProperty("resume3")
     private String attachment3;
 
+    @ApiModelProperty("用户类型 0为学生,1为教师")
+    private Integer type;
+
     public SessionData(User user) {
         AssertUtil.notNull(user, CommonErrorCode.USER_NOT_EXIST);
         this.id = user.getId();
@@ -106,5 +109,6 @@ public class SessionData implements Serializable {
         this.attachment1 = user.getAttachment();
         this.attachment2=user.getAttachment2();
         this.attachment3=user.getAttachment3();
+        this.type = user.getType();
     }
 }

@@ -43,6 +43,8 @@ public interface UserService {
 
     SessionData webLogin(String emailOrChuangNum,String password);
 
+    SessionData webSignUp(String email, String password, int type);
+
     String adminLogin(String number,String password);
 
     String uploadResumeRTF(String userChuangNum,  MultipartFile file);

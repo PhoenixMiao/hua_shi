@@ -18,7 +18,11 @@ public class CreateProjectRequest {
     @NotNull
     @ApiModelProperty("项目名称")
     private String name;
+
     @NotNull
+    @ApiModelProperty("项目类型 0为学生发布 1为教师发布")
+    private Integer type;
+
     @ApiModelProperty("负责人创赛号")
     private String captainChuangNum;
     @NotNull
@@ -28,13 +32,13 @@ public class CreateProjectRequest {
     @ApiModelProperty("要求详情")
     private String demand;
 
-    @ApiModelProperty("指导老师姓名")
+    @ApiModelProperty("指导老师/发布教师姓名")
     private String teacherName;
 
-    @ApiModelProperty("指导老师院系")
+    @ApiModelProperty("指导老师/发布教师院系")
     private String teacherApartment;
 
-    @ApiModelProperty("指导老师职称")
+    @ApiModelProperty("指导老师/发布教师职称")
     private String teacherRank;
     @NotNull
     @ApiModelProperty("预计起始日期")
@@ -63,4 +67,8 @@ public class CreateProjectRequest {
     private Long recruitNum;
     @ApiModelProperty("已有人数")
     private Long memberNum;
+
+    @ApiModelProperty("教师个人主页(一般仅教师发布有)")
+    private String teacherPersonalHomepage;
+
 }

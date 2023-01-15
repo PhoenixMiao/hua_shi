@@ -12,13 +12,17 @@ import java.util.List;
 public interface RecruitProjectService {
     GetRecruitProjectResponse getRecruitProjectById(Long id);
 
-    Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefProjectListRequest request);
+    Page<BriefRecruitProject> getBriefRecruitProjectList(GetBriefRecruitProjectListRequest request);
+
+    Page<BriefRecruitProject> getBriefRecruitProjectListByType(GetBriefRecruitProjectListRequest request);
 
     List<BriefRecruitProject> getHomepageBriefRecruitProjectList();
 
     List<BriefRecruitProject> getHomepageMyProjectList(String userChuangNum);
 
     Long createProject(CreateProjectRequest creatTeamRequest, String userChuangNum);
+
+    Long createTeacherProject(CreateProjectRequest createProjectRequest, String userChuangNum);
 
     void updateProjectById(UpdateProjectByIdRequest updateProjectByIdRequest);
 
@@ -39,4 +43,5 @@ public interface RecruitProjectService {
     void updateDemandRTF(Long recruitProjectId, String demand);
 
     void updateIntroductionRTF(Long recruitProjectId, String introduction);
+
 }
