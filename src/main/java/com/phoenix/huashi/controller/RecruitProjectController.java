@@ -48,9 +48,10 @@ public class RecruitProjectController {
 
     @PostMapping("/list")
     @ApiOperation(value = "获取招募项目简要信息列表", response = BriefRecruitProject.class)
-    public Result getBriefRecruitProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
+    public Result getBriefRecruitProjectList(@NotNull @Valid @RequestBody GetBriefRecruitProjectListRequest request) {
         try {
-            return Result.success(recruitProjectService.getBriefRecruitProjectList(request));
+            if (request.getType() == null) return Result.success(recruitProjectService.getBriefRecruitProjectList(request));
+            else return Result.success(recruitProjectService.getBriefRecruitProjectListByType(request));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
@@ -73,7 +74,8 @@ public class RecruitProjectController {
     @ApiOperation(value = "创建项目", response = Long.class)
     public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest) {
         try {
-            return Result.success(recruitProjectService.createProject(creatTeamRequest,sessionUtils.getUserChuangNum()));
+            if (creatTeamRequest.getType() == 1) return Result.success(recruitProjectService.createTeacherProject(creatTeamRequest,sessionUtils.getUserChuangNum()));
+            else return Result.success(recruitProjectService.createProject(creatTeamRequest, sessionUtils.getUserChuangNum()));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }
