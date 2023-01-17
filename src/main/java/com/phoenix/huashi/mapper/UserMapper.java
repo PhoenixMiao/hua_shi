@@ -13,7 +13,7 @@ import java.util.List;
 
 @Repository
 public interface UserMapper extends MyMapper<User> {
-    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,nickname,type) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{nickname},#{type})")
+    @Insert("INSERT INTO user(create_time,open_id,union_id,session_key,session_id,nickname,type,email,password) VALUES (#{createTime},#{openId},#{unionId},#{sessionKey},#{sessionId},#{nickname},#{type},#{email},#{password})")
     @Options(useGeneratedKeys=true, keyProperty="id")
     long newUser(User user);
 
