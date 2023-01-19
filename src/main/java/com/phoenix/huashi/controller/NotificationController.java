@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.annotation.Admin;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
@@ -46,6 +47,18 @@ public class NotificationController {
     public Result getBriefNotificationList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
         try {
             return Result.success(notificationService.getBriefNotificationList(request));
+        }catch (CommonException e){
+            return  Result.result(e.getCommonErrorCode());
+        }
+    }
+
+    @Admin
+    @GetMapping("/update")
+    @ApiOperation(value = "更新爬取通知公告", response = String.class)
+    public Result updateNotification() {
+        try {
+            notificationService.updateNotification();
+            return Result.success("更新成功");
         }catch (CommonException e){
             return  Result.result(e.getCommonErrorCode());
         }
