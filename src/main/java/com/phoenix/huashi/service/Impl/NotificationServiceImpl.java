@@ -2,6 +2,8 @@ package com.phoenix.huashi.service.Impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.phoenix.huashi.common.CommonErrorCode;
+import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Page;
 import com.phoenix.huashi.common.PageParam;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
@@ -13,6 +15,10 @@ import com.phoenix.huashi.mapper.NotificationMapper;
 import com.phoenix.huashi.service.NotificationService;
 import com.phoenix.huashi.util.TimeUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,6 +26,7 @@ import com.phoenix.huashi.enums.CommodityTypeEnum;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.util.*;
 
 @Service
@@ -56,6 +63,39 @@ public class NotificationServiceImpl implements NotificationService {
             return list;
         }
         else return briefNotificationList.subList(0,3);
+    }
+
+    @Override
+    public void updateNotification() {
+        String url = "http://www.cxcy.ecnu.edu.cn/18349/list.htm";
+        Document doc = null;
+        try {
+            doc = Jsoup.connect(url).get();
+            Elements listDiv = doc.getElementsByAttributeValue("target", "_blank");
+            for (Element element : listDiv) {
+
+                    // 取所有文本
+                    // String ptext = text.text();
+                Document doc1 = Jsoup.connect("http://www.cxcy.ecnu.edu.cn"+element.attr("href")).get();
+                Elements list = doc1.getElementsByAttributeValue("class", "Article_PublishDate");
+                for(Element e:list){
+                  Notification notification= Notification.builder()
+                          .title(element.attr("title"))
+                          .url("http://www.cxcy.ecnu.edu.cn"+element.attr("href"))
+                          .source("本科创新创业教育网")
+                          .publishDate(e.text())
+                          .type("创新创业训练计划")
+                          .build();
+notificationMapper.insert(notification);}
+
+            }
+        } catch (Exception e) {
+
+          throw new CommonException(CommonErrorCode.UPDATE_FAIL)  ;
+        }
+
+
+
     }
 
     @Override

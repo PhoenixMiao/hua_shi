@@ -15,6 +15,8 @@ public interface NotificationService {
 
     List<BriefNotification> getHomepageNotification();
 
+    void updateNotification();
+
     Page<BriefNotification> getBriefNotificationList(GetBriefProjectListRequest request);
 
     Page<BriefNotification> searchNotification(SearchRequest searchRequest);
