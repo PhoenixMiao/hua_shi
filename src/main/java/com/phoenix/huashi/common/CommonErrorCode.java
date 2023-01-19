@@ -37,6 +37,9 @@ public enum CommonErrorCode {
     WX_SUBSCRIBE_SEND_41030(141030,"page路径不正确，需要保证在现网版本小程序中存在，与app.json保持一致","系统异常，请稍后再试"),
     //微信退款
 
+    WX_QRCODE_UNAUTHORIZED(1012,"暂无生成权限","系统异常，请稍后再试"),
+    WX_QRCODE_TOO_FREQUENT(1013,"调用分钟频率受限(目前5000次/分钟，会调整)，如需大量小程序码，建议预生成","系统繁忙，请稍后重试"),
+
     USER_NOT_EXIST(2001,"用户不存在","用户不存在"),
     SYSTEM_ERROR(2002,"系统错误","系统错误，请重试"),
     INVALID_SESSION(2006,"会话丢失","登录已失效，请重新登录"),

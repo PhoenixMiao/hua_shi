@@ -11,6 +11,7 @@ import com.phoenix.huashi.entity.Member;
 import com.phoenix.huashi.entity.User;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface UserService {
@@ -41,6 +42,8 @@ public interface UserService {
      */
     SessionData login(String code);
 
+
+   String getQRCode() throws IOException;
     SessionData webLogin(String emailOrChuangNum,String password);
 
     String adminLogin(String number,String password);

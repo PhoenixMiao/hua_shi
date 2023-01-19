@@ -19,6 +19,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.apache.http.HttpEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.List;
@@ -296,4 +298,17 @@ public class UserController {
             return Result.result(e.getCommonErrorCode());
         }
     }
+
+    @GetMapping("/qrcode")
+    @ApiOperation(value = "web端获取登录二维码",response = HttpEntity.class)
+    public Object getQRCode() {
+        try{
+            return userService.getQRCode();
+        }catch (IOException e){
+            e.printStackTrace();
+            throw new CommonException(CommonErrorCode.SYSTEM_ERROR);
+        }
+    }
+
+
 }

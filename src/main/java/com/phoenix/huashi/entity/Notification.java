@@ -39,4 +39,6 @@ public class Notification implements Serializable {
     private String picture;
 
 
+    @ApiModelProperty("外链")
+    private String url;
 }
