@@ -137,7 +137,7 @@ notificationMapper.insert(notification);}
 
         ArrayList<BriefNotification> searchResponseArrayList = new ArrayList<>();
         for (Notification ele : notificationList) {
-            searchResponseArrayList.add(new BriefNotification(ele.getId(),ele.getTitle(),ele.getSource(),ele.getPublishDate()));
+            searchResponseArrayList.add(new BriefNotification(ele.getId(),ele.getTitle(),ele.getSource(),ele.getPublishDate(),ele.getUrl()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 

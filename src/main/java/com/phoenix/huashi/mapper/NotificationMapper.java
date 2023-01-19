@@ -14,9 +14,9 @@ public interface NotificationMapper extends MyMapper<Notification> {
     @Select("SELECT * FROM notification WHERE id=#{id}")
     Notification getNotificationById(@Param("id") Long id);
 
-    @Select("SELECT id,title,source,publish_date FROM notification WHERE type=#{type}")
+    @Select("SELECT id,title,source,publish_date,url FROM notification WHERE type=#{type}")
     List<BriefNotification> getBriefNotificationList(@Param("type") String type);
 
-    @Select("SELECT id,title,source,publish_date FROM notification ")
+    @Select("SELECT id,title,source,publish_date,url FROM notification ")
     List<BriefNotification> getALLBriefNotificationList();
 }
