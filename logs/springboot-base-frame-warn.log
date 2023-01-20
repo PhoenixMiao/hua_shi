@@ -1,2 +1,4 @@
-2023-01-17 20:57:27.844 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
-2023-01-17 21:06:57.403 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2023-01-20 13:28:33.603 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2023-01-20 13:29:42.951 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - ------------
+2023-01-20 13:29:42.955 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - operator: 9db3411c-dc82-49c5-ab39-14e01b62f97d1
+2023-01-20 13:29:42.955 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - operation: updateNotification

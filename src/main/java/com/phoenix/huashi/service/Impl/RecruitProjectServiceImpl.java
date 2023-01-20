@@ -103,10 +103,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     @Override
     public List<BriefRecruitProject> getHomepageBriefRecruitProjectList() {
         List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByType(1);
-        List<BriefRecruitProject> briefRecruitProjectList1=recruitProjectMapper.getAllBriefRListByType(0);
-        for(BriefRecruitProject e:briefRecruitProjectList1){
-            briefRecruitProjectList.add(e);
-        }
+      
         if(briefRecruitProjectList.size()<3){
             return briefRecruitProjectList;
         }

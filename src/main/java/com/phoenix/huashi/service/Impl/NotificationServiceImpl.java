@@ -69,7 +69,9 @@ public class NotificationServiceImpl implements NotificationService {
     public void updateNotification() {
         String url = "http://www.cxcy.ecnu.edu.cn/18349/list.htm";
         Document doc = null;
+        int i=2;
         try {
+            while(i<=3){
             doc = Jsoup.connect(url).get();
             Elements listDiv = doc.getElementsByAttributeValue("target", "_blank");
             for (Element element : listDiv) {
@@ -88,6 +90,9 @@ public class NotificationServiceImpl implements NotificationService {
                           .build();
 notificationMapper.insert(notification);}
 
+            }
+            url="http://www.cxcy.ecnu.edu.cn/18349/list"+i+".htm";
+            i++;
             }
         } catch (Exception e) {
 
