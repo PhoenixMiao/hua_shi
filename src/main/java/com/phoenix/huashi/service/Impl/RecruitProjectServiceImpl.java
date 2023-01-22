@@ -119,7 +119,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
   List<BriefRecruitProject> briefRecruitProjectList=new ArrayList<>();
   for (Long e:list){
       RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(e);
-      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus()));
+      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus(), recruitProject.getType()));
   }
   if(briefRecruitProjectList.size()<3){
       return briefRecruitProjectList;
@@ -236,7 +236,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         ArrayList<BriefRecruitProject> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus()));
+            if (searchRequest.getRecruitType() == ele.getType()) searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getType()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
