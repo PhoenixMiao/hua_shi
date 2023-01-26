@@ -25,6 +25,11 @@ public class SearchRequest {
     @ApiModelProperty("搜索类型（1为通知公告，2为展示项目，3为招募项目）")
     Integer type;
 
+    @Min(value = 0, message = "type字段必须为0或1")
+    @Max(value = 1, message = "type字段必须为0或1")
+    @ApiModelProperty("招募类型(仅招募项目时选) 0为学生招募 1为教师招募 不填则全选")
+    Integer recruitType;
+
     @ApiModelProperty("项目名称")
     private String name;
 

@@ -33,4 +33,7 @@ public class BriefRecruitProject {
 
     @ApiModelProperty("状态")
     private Integer status;
+
+    @ApiModelProperty("类型 0为学生发布 1为教师发布")
+    private Integer type;
 }
