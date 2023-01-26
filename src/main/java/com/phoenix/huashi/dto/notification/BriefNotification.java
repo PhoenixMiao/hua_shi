@@ -24,4 +24,10 @@ public class BriefNotification{
 
     @ApiModelProperty("外链")
     private String url;
+
+    @ApiModelProperty("年份")
+    private String year;
+
+    @ApiModelProperty("日期")
+    private String date;
 }

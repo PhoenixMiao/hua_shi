@@ -55,6 +55,10 @@ public class NotificationServiceImpl implements NotificationService {
                 else  return 1;
             }
         });
+        for(BriefNotification b:briefNotificationList){
+            b.setYear(b.getPublishDate().substring(0,4));
+            b.setDate(b.getPublishDate().substring(5,10));
+        }
         if (briefNotificationList.size()<3){
             List<BriefNotification> list=new ArrayList<>();
             for(BriefNotification b:briefNotificationList){
@@ -111,12 +115,24 @@ notificationMapper.insert(notification);}
 
         if (request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription());
+            for(BriefNotification b:briefNotificationList){
+                b.setYear(b.getPublishDate().substring(0,4));
+                b.setDate(b.getPublishDate().substring(5,10));
+            }
             return new Page(new PageInfo<>(briefNotificationList));
         } else if (request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getBriefNotificationList(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription());
+            for(BriefNotification b:briefNotificationList){
+                b.setYear(b.getPublishDate().substring(0,4));
+                b.setDate(b.getPublishDate().substring(5,10));
+            }
             return new Page(new PageInfo<>(briefNotificationList));
         } else if (request.getType().equals(CommodityTypeEnum.ALL.getName())) {
             List<BriefNotification> briefNotificationList = notificationMapper.getALLBriefNotificationList();
+            for(BriefNotification b:briefNotificationList){
+                b.setYear(b.getPublishDate().substring(0,4));
+                b.setDate(b.getPublishDate().substring(5,10));
+            }
             return new Page(new PageInfo<>(briefNotificationList));
         }
         return null;
@@ -142,7 +158,7 @@ notificationMapper.insert(notification);}
 
         ArrayList<BriefNotification> searchResponseArrayList = new ArrayList<>();
         for (Notification ele : notificationList) {
-            searchResponseArrayList.add(new BriefNotification(ele.getId(),ele.getTitle(),ele.getSource(),ele.getPublishDate(),ele.getUrl()));
+            searchResponseArrayList.add(new BriefNotification(ele.getId(),ele.getTitle(),ele.getSource(),ele.getPublishDate(),ele.getUrl(),ele.getPublishDate().substring(0,4),ele.getPublishDate().substring(5,10)));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
