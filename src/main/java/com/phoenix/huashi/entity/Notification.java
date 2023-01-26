@@ -41,4 +41,6 @@ public class Notification implements Serializable {
 
     @ApiModelProperty("外链")
     private String url;
+
+
 }
