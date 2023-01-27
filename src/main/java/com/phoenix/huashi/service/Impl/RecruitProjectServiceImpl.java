@@ -220,6 +220,11 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
             tagCriteria.orLike("tag3", "%" + searchRequest.getTag() + "%");
             example.and(tagCriteria);
         }
+
+        Example.Criteria tagCriteria = example.createCriteria();
+        tagCriteria.andEqualTo("type",searchRequest.getRecruitType());
+
+        example.and();
 //        example.orderBy("id").desc();
         example.setOrderByClause("`status` desc,`id` desc");
 //
@@ -233,7 +238,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         ArrayList<BriefRecruitProject> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            if (searchRequest.getRecruitType() == ele.getType()) searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getType()));
+            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getType()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
