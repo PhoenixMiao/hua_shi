@@ -283,7 +283,7 @@ public class UserController {
         }
     }
 
-    @GetMapping(value = "/check",produces = "application/json")
+    @GetMapping(value = "/checkCode",produces = "application/json")
     @ApiOperation(value = "校验验证码")
     @ApiImplicitParams({
             @ApiImplicitParam(name = "email",value = "用户邮箱",required = true,paramType = "query"),
