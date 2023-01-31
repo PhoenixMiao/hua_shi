@@ -24,4 +24,10 @@ public class BriefDisplayProject {
     @ApiModelProperty("立项学院")
     private String institute;
 
+    @ApiModelProperty("项目介绍")
+    private String introduction;
+
+    @ApiModelProperty("获奖情况(项目成果)")
+    private String award;
+
 }

@@ -96,13 +96,13 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         if (request == null) return null;
         PageParam pageParam = request.getPageParam();
         PageHelper.startPage(pageParam.getPageNum(), pageParam.getPageSize(), "state_update_time desc");
-        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByType(request.getType());
+        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByRecruitType(request.getType());
         return new Page(new PageInfo<>(briefRecruitProjectList));
     }
 
     @Override
     public List<BriefRecruitProject> getHomepageBriefRecruitProjectList() {
-        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByType(1);
+        List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByRecruitType(1);
       
         if(briefRecruitProjectList.size()<3){
             return briefRecruitProjectList;
@@ -116,7 +116,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
   List<BriefRecruitProject> briefRecruitProjectList=new ArrayList<>();
   for (Long e:list){
       RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(e);
-      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus(), recruitProject.getType()));
+      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus(), recruitProject.getRecruitType(), recruitProject.getType(), recruitProject.getIntroduction()));
   }
   if(briefRecruitProjectList.size()<3){
       return briefRecruitProjectList;
@@ -130,7 +130,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         Integer status = 0;
         String chuangNum = creatTeamRequest.getCaptainChuangNum();
         if (chuangNum == null) chuangNum = userChuangNum;
-        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0,creatTeamRequest.getTeacherPersonalHomepage());
+        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0,creatTeamRequest.getType(),creatTeamRequest.getTeacherPersonalHomepage());
         recruitProjectMapper.newRecruitProject(recruitProject);
         memberMapper.insertMember(recruitProject.getId(), MemberTypeEnum.CAPTAIN.getDescription(), 0, chuangNum, "组长");
         return recruitProject.getId();
@@ -144,7 +144,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         String statusUpdateTime = TimeUtil.getCurrentTimestamp();
         Integer status = 0;
-        RecruitProject recruitProject = new RecruitProject(null, createProjectRequest.getName(), userChuangNum, null, createProjectRequest.getInstitute(),createProjectRequest.getIntroduction(), createProjectRequest.getBriefDemand(), createProjectRequest.getTeacherName(), createProjectRequest.getTeacherApartment(), createProjectRequest.getTeacherRank(), createProjectRequest.getPlanStartTime(),createProjectRequest.getPlanEndTime(), TimeUtil.getCurrentTimestamp(), TimeUtil.getCurrentTimestamp(), null, statusUpdateTime, createProjectRequest.getDemand(), status, createProjectRequest.getRecruitNum(), createProjectRequest.getTag1(), createProjectRequest.getTag2(), createProjectRequest.getTag3(), 0L, null, 1,createProjectRequest.getTeacherPersonalHomepage());
+        RecruitProject recruitProject = new RecruitProject(null, createProjectRequest.getName(), userChuangNum, null, createProjectRequest.getInstitute(),createProjectRequest.getIntroduction(), createProjectRequest.getBriefDemand(), createProjectRequest.getTeacherName(), createProjectRequest.getTeacherApartment(), createProjectRequest.getTeacherRank(), createProjectRequest.getPlanStartTime(),createProjectRequest.getPlanEndTime(), TimeUtil.getCurrentTimestamp(), TimeUtil.getCurrentTimestamp(), null, statusUpdateTime, createProjectRequest.getDemand(), status, createProjectRequest.getRecruitNum(), createProjectRequest.getTag1(), createProjectRequest.getTag2(), createProjectRequest.getTag3(), 0L, null, 1,createProjectRequest.getType(),createProjectRequest.getTeacherPersonalHomepage());
         recruitProjectMapper.newRecruitProject(recruitProject);
         return recruitProject.getId();
     }
@@ -238,7 +238,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         ArrayList<BriefRecruitProject> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getType()));
+            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getRecruitType(),ele.getType(),ele.getIntroduction()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 

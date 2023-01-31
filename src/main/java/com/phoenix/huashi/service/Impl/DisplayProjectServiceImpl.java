@@ -110,19 +110,19 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         if (request.getType().equals(CommodityTypeEnum.ALL.getName())) {
             List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectList(1);
             for (DisplayProject project : displayProjects) {
-                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute(),project.getIntroduction(),project.getAward());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         } else if (request.getType().equals(CommodityTypeEnum.ACADEMICCOMPETITION.getName())) {
             List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.ACADEMICCOMPETITION.getDescription(), 1);
             for (DisplayProject project : displayProjects) {
-                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute(),project.getIntroduction(),project.getAward());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         } else if (request.getType().equals(CommodityTypeEnum.INNOVATIONCOMPETITION.getName())) {
             List<DisplayProject> displayProjects = displayProjectMapper.getBriefDisplayProjectListByType(CommodityTypeEnum.INNOVATIONCOMPETITION.getDescription(), 1);
             for (DisplayProject project : displayProjects) {
-                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute());
+                BriefDisplayProject briefDisplayProject = new BriefDisplayProject(project.getId(), project.getName(), project.getCaptainName(), project.getType(), project.getInstitute(),project.getIntroduction(),project.getAward());
                 briefDisplayProjectList.add(briefDisplayProject);
             }
         }
@@ -160,7 +160,7 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
 
         ArrayList<BriefDisplayProject> searchResponseArrayList = new ArrayList<>();
         for (DisplayProject ele : displayProjectList) {
-            searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), ele.getCaptainName(), ele.getType(), ele.getInstitute()));
+            searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), ele.getCaptainName(), ele.getType(), ele.getInstitute(),ele.getIntroduction(),ele.getAward()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
