@@ -1,6 +1,7 @@
 package com.phoenix.huashi.service.Impl;
 
 import com.phoenix.huashi.entity.Collection;
+import com.phoenix.huashi.entity.DisplayProject;
 import com.phoenix.huashi.entity.Likes;
 import com.phoenix.huashi.mapper.DisplayProjectMapper;
 import com.phoenix.huashi.mapper.LikesMapper;
@@ -59,6 +60,10 @@ public class LikeServiceImpl implements LikeService {
         redisUtils.set(LIKE_KEY(projectId), likes + 1);
         String createTime = timeUtil.getCurrentTimestamp();
         likesMapper.addToLikes(projectId, userChuangNum, createTime);
+        DisplayProject displayProject= displayProjectMapper.getDisplayProjectById(projectId);
+        displayProject.setLikes(likes+1);
+        displayProject.setHeat(displayProject.getHeat()+1);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
     }
 
     @Override
@@ -67,5 +72,9 @@ public class LikeServiceImpl implements LikeService {
         Long likes = getLikeNumber(projectId);
         redisUtils.set(LIKE_KEY(projectId), likes - 1);
         likesMapper.cancelLike(like.getId());
+        DisplayProject displayProject= displayProjectMapper.getDisplayProjectById(projectId);
+        displayProject.setLikes(likes-1);
+        displayProject.setHeat(displayProject.getHeat()-1);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
     }
 }

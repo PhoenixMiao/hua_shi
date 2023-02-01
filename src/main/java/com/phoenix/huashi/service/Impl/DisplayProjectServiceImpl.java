@@ -146,12 +146,27 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
             example.and(nameCriteria);
         }
 
+        if (!StringUtils.isEmpty(searchRequest.getYear())) {
+            Example.Criteria yearCriteria = example.createCriteria();
+            yearCriteria.orLike("year", "%" + searchRequest.getYear() + "%");
+            example.and(yearCriteria);
+        }
+
         if (!StringUtils.isEmpty(searchRequest.getCaptain())) {
             Example.Criteria captainCriteria = example.createCriteria();
             captainCriteria.orLike("captainName", "%" + searchRequest.getCaptain() + "%");
             example.and(captainCriteria);
         }
-        example.orderBy("id").desc();
+        if(searchRequest.getSortType()==0){
+            if(searchRequest.getOrder()==0){
+                example.orderBy("uploadTime").asc();}
+            else example.orderBy("uploadTime").desc();
+        }else{
+            if(searchRequest.getOrder()==0){
+                example.orderBy("heat").asc();}
+            else example.orderBy("heat").desc();
+        }
+
 
         PageHelper.startPage(searchRequest.getPageParam().getPageNum(),
                 searchRequest.getPageParam().getPageSize());
@@ -162,9 +177,10 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
         for (DisplayProject ele : displayProjectList) {
             searchResponseArrayList.add(new BriefDisplayProject(ele.getId(), ele.getName(), ele.getCaptainName(), ele.getType(), ele.getInstitute(),ele.getIntroduction(),ele.getAward()));
         }
-        return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 
+        return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
     }
+
 
     @Override
     public List<BriefHomepageDisplayProject> getHomePageDisplayProjectList(String year) {
@@ -240,6 +256,9 @@ public class DisplayProjectServiceImpl implements DisplayProjectService {
                 .fileName(applyForDisplayProjectRequest.getFileName())
                 .fileTwo(applyForDisplayProjectRequest.getFileTwo())
                 .fileTwoName(applyForDisplayProjectRequest.getFileTwoName())
+                .heat(0L)
+                .likes(0L)
+                .collections(0L)
                 .build();
         displayProjectMapper.insert(displayProject);
         Long displayProjectId = displayProject.getId();

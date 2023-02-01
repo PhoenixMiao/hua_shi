@@ -153,6 +153,10 @@ public class DisplayProject implements Serializable {
 
     @ApiModelProperty("投票数")
     private Long vote;
+
+
+    @ApiModelProperty("热度")
+    private Long heat;
 }
 
 

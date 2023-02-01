@@ -42,6 +42,20 @@ public class SearchRequest {
     @ApiModelProperty("项目标签")
     private String tag;
 
+    @ApiModelProperty("年份")
+    private String year;
+
+    @Min(value = 0, message = "type字段必须为0或1")
+    @Max(value = 1, message = "type字段必须为0或1")
+    @ApiModelProperty("排序方式 0为时间排序 1为热度排序 ")
+    private Integer sortType;
+
+    @Min(value = 0, message = "type字段必须为0或1")
+    @Max(value = 1, message = "type字段必须为0或1")
+    @ApiModelProperty("顺序 0顺序 1倒序")
+    private Integer order;
+
+
     @NotNull
     @ApiModelProperty("分页参数")
     private PageParam pageParam;

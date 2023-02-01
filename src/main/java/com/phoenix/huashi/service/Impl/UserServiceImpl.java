@@ -502,7 +502,7 @@ public class UserServiceImpl implements UserService {
 
         JSONObject createQrParam = new JSONObject();
         createQrParam.put("scene", UUID.randomUUID().toString().substring(0,31));
-        createQrParam.put("page", "pages/login/loginInfo/loginInfo");
+        createQrParam.put("page", "pages/account/account");
 
 //        CloseableHttpResponse response = HttpUtil.post("https://api.weixin.qq.com/wxa/getwxacodeunlimit",requestUrlParam,requestBody);
 

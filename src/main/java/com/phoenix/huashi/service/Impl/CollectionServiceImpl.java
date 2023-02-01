@@ -72,6 +72,10 @@ public class CollectionServiceImpl implements CollectionService {
         redisUtils.set(COLLECTION_KEY(projectId), collections + 1);
         String createTime = timeUtil.getCurrentTimestamp();
         collectionMapper.addToCollection(userChuangNum, projectId, createTime);
+        DisplayProject displayProject= displayProjectMapper.getDisplayProjectById(projectId);
+        displayProject.setCollections(collections+1);
+        displayProject.setHeat(displayProject.getHeat()+1);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
     }
 
     @Override
@@ -85,6 +89,10 @@ public class CollectionServiceImpl implements CollectionService {
             redisUtils.set(COLLECTION_KEY(projectId), collections - 1);
         }
         collectionMapper.cancelCollection(collection.getId());
+        DisplayProject displayProject= displayProjectMapper.getDisplayProjectById(projectId);
+        displayProject.setCollections(collections-1);
+        displayProject.setHeat(displayProject.getHeat()-1);
+        displayProjectMapper.updateByPrimaryKey(displayProject);
     }
 
     @Override
