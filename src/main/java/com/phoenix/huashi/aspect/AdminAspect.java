@@ -31,7 +31,7 @@ public class AdminAspect {
         String sessionId = sessionUtil.getSessionId();
 
         AssertUtil.notNull(sessionId, CommonErrorCode.INVALID_SESSION);
-        AssertUtil.isTrue(sessionId.equals(CommonConstants.ADMIN1_SESSIONID)|sessionId.equals(CommonConstants.ADMIN1_SESSIONID)|sessionId.equals(CommonConstants.ADMIN1_SESSIONID),CommonErrorCode.USER_NOT_ADMIN);
+        AssertUtil.isTrue(sessionId.equals(CommonConstants.ADMIN1_SESSIONID)|sessionId.equals(CommonConstants.ADMIN2_SESSIONID)|sessionId.equals(CommonConstants.ADMIN3_SESSIONID),CommonErrorCode.USER_NOT_ADMIN);
 
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
 

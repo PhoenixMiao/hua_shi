@@ -1,4 +1,4 @@
-package com.phoenix.huashi.entity;
+package com.phoenix.huashi.dto.news;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -7,17 +7,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Id;
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@ApiModel("News 新闻")
-public class News implements Serializable {
+@ApiModel("BriefNews 新闻简要信息")
+public class BriefNews {
 
-    @Id
     @ApiModelProperty("Id")
     private Long id;
 
@@ -26,9 +22,6 @@ public class News implements Serializable {
 
     @ApiModelProperty("发布日期")
     private String publishDate;
-
-    @ApiModelProperty("文本内容")
-    private String content;
 
     @ApiModelProperty("图片")
     private String picture;
