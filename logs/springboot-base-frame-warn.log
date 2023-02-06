@@ -3200,3 +3200,15 @@ java.lang.IllegalStateException: Connection pool shut down
 2023-02-06 23:13:03.682 [https-jsse-nio-443-exec-7] ERROR com.phoenix.huashi.aspect.AdminAspect - ------------
 2023-02-06 23:13:03.682 [https-jsse-nio-443-exec-7] ERROR com.phoenix.huashi.aspect.AdminAspect - operator: 9db3411c-dc82-49c5-ab39-14e01b62f97d1
 2023-02-06 23:13:03.682 [https-jsse-nio-443-exec-7] ERROR com.phoenix.huashi.aspect.AdminAspect - operation: uploadPicture
+2023-02-06 23:13:29.151 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
+2023-02-06 23:15:30.574 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - ------------
+2023-02-06 23:15:30.575 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - operator: 9db3411c-dc82-49c5-ab39-14e01b62f97d1
+2023-02-06 23:15:30.575 [https-jsse-nio-443-exec-6] ERROR com.phoenix.huashi.aspect.AdminAspect - operation: addNews
+2023-02-06 23:15:54.768 [https-jsse-nio-443-exec-4] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2023-02-06 23:15:54.768 [https-jsse-nio-443-exec-4] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: getBriefNewsList
+2023-02-06 23:16:30.674 [https-jsse-nio-443-exec-10] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2023-02-06 23:16:30.674 [https-jsse-nio-443-exec-10] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: getBriefNewsList
+2023-02-06 23:16:39.846 [https-jsse-nio-443-exec-5] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2023-02-06 23:16:39.846 [https-jsse-nio-443-exec-5] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: getNews
+2023-02-06 23:16:42.633 [https-jsse-nio-443-exec-1] ERROR com.phoenix.huashi.aspect.AuthAspect - ------------
+2023-02-06 23:16:42.633 [https-jsse-nio-443-exec-1] ERROR com.phoenix.huashi.aspect.AuthAspect - operation: getNews
