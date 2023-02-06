@@ -59,7 +59,7 @@ public enum CommonErrorCode {
     WRONG_FILE_NAME(2017, "文件名重复", "请勿上传重名的文件"),
     PROGRAM_NOT_EXIST(2018,"项目不存在","项目不存在"),
     CAROUSEL_NOT_EXIST(2018,"轮播图","轮播图"),
-    USER_NOT_ADMIN(2018,"轮播图","轮播图"),
+    USER_NOT_ADMIN(2018,"用户不是管理员","用户不是管理员"),
 
 
 
@@ -79,6 +79,7 @@ public enum CommonErrorCode {
     NOT_SCHOOL_EMAIL(1019, "不是学校邮箱", "不是学校邮箱,请重新输入"),
     NOT_TEACHER_EMAIL(1020,"不是教师邮箱","不是教师邮箱，请确认身份"),
     USER_NOT_TEACHER(1021,"用户不是教师","用户不是教师，请选择学生发布"),
+    NEWS_NOT_EXIST(1022,"新闻不存在","新闻不存在"),
     ;
 
 

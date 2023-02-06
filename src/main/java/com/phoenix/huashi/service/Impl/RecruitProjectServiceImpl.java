@@ -105,6 +105,10 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         List<BriefRecruitProject> briefRecruitProjectList = recruitProjectMapper.getAllBriefRListByRecruitType(1);
       
         if(briefRecruitProjectList.size()<3){
+            List<BriefRecruitProject> briefRecruitProjectList1 = recruitProjectMapper.getAllBriefRListByRecruitType(0);
+            for(int i = 0; briefRecruitProjectList.size() < 3; i++){
+                briefRecruitProjectList.add(briefRecruitProjectList1.get(i));
+            }
             return briefRecruitProjectList;
         }
         else return briefRecruitProjectList.subList(0,3);
