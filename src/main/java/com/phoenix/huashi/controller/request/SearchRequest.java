@@ -20,9 +20,9 @@ import javax.validation.constraints.NotNull;
 @Builder
 @ApiModel("SearchRequest 搜索请求")
 public class SearchRequest {
-    @Min(value = 1, message = "type字段必须为1或2或3")
-    @Max(value = 3, message = "type字段必须为1或2或3")
-    @ApiModelProperty("搜索类型（1为通知公告，2为展示项目，3为招募项目）")
+    @Min(value = 1, message = "type字段必须为1或2或3或4")
+    @Max(value = 4, message = "type字段必须为1或2或3或4")
+    @ApiModelProperty("搜索类型（1为通知公告，2为展示项目，3为招募项目，4为新闻）")
     Integer type;
 
     @Min(value = 0, message = "type字段必须为0或1")

@@ -4,6 +4,7 @@ import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.service.DisplayProjectService;
+import com.phoenix.huashi.service.NewsService;
 import com.phoenix.huashi.service.NotificationService;
 import com.phoenix.huashi.service.RecruitProjectService;
 import io.swagger.annotations.Api;
@@ -33,6 +34,9 @@ public class SearchController {
     @Autowired
     private DisplayProjectService displayProjectService;
 
+    @Autowired
+    private NewsService newsService;
+
     @PostMapping("/condition")
     @ApiOperation(value = "根据条件筛选信息")
     public Result search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {
@@ -43,7 +47,9 @@ public class SearchController {
                 return Result.success(displayProjectService.searchDisplayProject(searchRequest));
             if (searchRequest.getType() == 3)
                 return Result.success(recruitProjectService.searchRecruitProject(searchRequest));
-            return Result.fail("tag值必须为1或2或3");
+            if (searchRequest.getType() == 4)
+                return Result.success(newsService.searchNews(searchRequest));
+            return Result.fail("tag值必须为1或2或3或4");
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());
         }

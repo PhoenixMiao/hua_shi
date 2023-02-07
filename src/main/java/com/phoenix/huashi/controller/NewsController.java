@@ -62,16 +62,6 @@ public class NewsController {
         }
     }
 
-    @Auth
-    @PostMapping(value = "/search", produces = "application/json")
-    @ApiOperation(value = "搜索新闻")
-    public Result searchNews(@RequestBody @NotNull SearchRequest request){
-        try {
-            return Result.success(newsService.searchNews(request));
-        } catch (CommonException e){
-            return Result.result(e.getCommonErrorCode());
-        }
-    }
 
     @Admin
     @PostMapping(value = "/uploadContentRTF", produces = "application/json")
