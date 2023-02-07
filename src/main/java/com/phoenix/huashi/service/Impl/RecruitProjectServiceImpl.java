@@ -227,7 +227,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         }
 
         Example.Criteria tagCriteria = example.createCriteria();
-        tagCriteria.andEqualTo("type",searchRequest.getRecruitType());
+        tagCriteria.andEqualTo("recruitType",searchRequest.getRecruitType());
 
         example.and();
 //        example.orderBy("id").desc();
