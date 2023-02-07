@@ -64,28 +64,4 @@ public class CarouselController {
         }
     }
 
-
-    @GetMapping(value = "/uncheckedList", produces = "application/json;charset=UTF-8" )
-    @ApiOperation(value = "获得待审核轮播图列表")
-    public Result getCarouselUncheckedList() {
-        try {
-            return Result.success(carouselService.getCarouselUncheckedList());
-        } catch (CommonException e) {
-            return Result.result(e.getCommonErrorCode());
-        }
-    }
-
-    @GetMapping(value = "/update", produces = "application/json;charset=UTF-8" )
-    @ApiOperation(value = "更新轮播图审核状态")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "status", value = "审核状态 1通过 -1未通过", required = true, paramType = "query", dataType = "Integer"),
-            @ApiImplicitParam(name = "id", value = "轮播图id", required = true, paramType = "query", dataType = "Long")
-    })
-    public Result updateCarouselStatus(@NotNull @RequestParam("status") Integer newStatus,@NotNull @RequestParam("id") Long carouselId) {
-        try {
-            return Result.success(carouselService.updateCarouselStatus(newStatus,carouselId));
-        } catch (CommonException e) {
-            return Result.result(e.getCommonErrorCode());
-        }
-    }
 }

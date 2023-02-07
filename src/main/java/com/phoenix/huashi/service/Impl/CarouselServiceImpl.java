@@ -68,7 +68,7 @@ public class CarouselServiceImpl implements CarouselService {
             res =  cosClient.getObjectUrl(COS_BUCKET_NAME,time + "." +name).toString();
 //            res = URLDecoder.decode(res, "utf-8");
 
-            Carousel carousel=Carousel.builder().url(res).projectId(projectId).projectType(type).uploadTime(time).status(0).build();
+            Carousel carousel=Carousel.builder().url(res).projectId(projectId).projectType(type).uploadTime(time).build();
             carouselMapper.insert(carousel);
 
         } catch (Exception e){
@@ -85,22 +85,7 @@ public class CarouselServiceImpl implements CarouselService {
 
     @Override
     public List<Carousel> getCarouselList(Integer number){
-        return carouselMapper.getCarouselList(number,1);
-    }
-
-    @Override
-    public List<Carousel> getCarouselUncheckedList(){
-        Carousel carousel = Carousel.builder().status(0).build();
-        return carouselMapper.select(carousel);
-    }
-
-    @Override
-    public String updateCarouselStatus(Integer newStatus,Long carouselId){
-        Carousel carousel = carouselMapper.selectByPrimaryKey(carouselId);
-        if(carousel==null)throw new CommonException(CommonErrorCode.CAROUSEL_NOT_EXIST);
-        carousel.setStatus(newStatus);
-        carouselMapper.updateByPrimaryKey(carousel);
-        return "更新成功";
+        return carouselMapper.getCarouselList(number);
     }
 
     @Override

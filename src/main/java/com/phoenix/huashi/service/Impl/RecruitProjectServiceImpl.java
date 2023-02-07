@@ -120,7 +120,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
   List<BriefRecruitProject> briefRecruitProjectList=new ArrayList<>();
   for (Long e:list){
       RecruitProject recruitProject=recruitProjectMapper.getRecruitProjectById(e);
-      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus(), recruitProject.getRecruitType(), recruitProject.getType(), recruitProject.getIntroduction()));
+      briefRecruitProjectList.add(new BriefRecruitProject(recruitProject.getId(),recruitProject.getName(),recruitProject.getTag1(),recruitProject.getTag2(),recruitProject.getTag3(),recruitProject.getBriefDemand(),recruitProject.getStatus(), recruitProject.getRecruitType(), recruitProject.getIntroduction(),recruitProject.getContactInformation()));
   }
   if(briefRecruitProjectList.size()<3){
       return briefRecruitProjectList;
@@ -129,12 +129,13 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
     }
 
     @Override
-    public Long createProject(CreateProjectRequest creatTeamRequest, String userChuangNum) {
+    public Long createProject(CreateProjectRequest creatProjectRequest, String userChuangNum) {
         String stateUpdateTime = timeUtil.getCurrentTimestamp();
         Integer status = 0;
-        String chuangNum = creatTeamRequest.getCaptainChuangNum();
+        String chuangNum = creatProjectRequest.getCaptainChuangNum();
         if (chuangNum == null) chuangNum = userChuangNum;
-        RecruitProject recruitProject = new RecruitProject(null, creatTeamRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatTeamRequest.getInstitute(), creatTeamRequest.getIntroduction(), creatTeamRequest.getBriefDemand(), creatTeamRequest.getTeacherName(), creatTeamRequest.getTeacherApartment(), creatTeamRequest.getTeacherRank(), creatTeamRequest.getPlanStartTime(), creatTeamRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatTeamRequest.getDemand(), status, creatTeamRequest.getRecruitNum(), creatTeamRequest.getTag1(), creatTeamRequest.getTag2(), creatTeamRequest.getTag3(), 1L, null,0,creatTeamRequest.getType(),creatTeamRequest.getTeacherPersonalHomepage());
+        User user = userMapper.getUserByChuangNum(chuangNum);
+        RecruitProject recruitProject = new RecruitProject(null, creatProjectRequest.getName(), chuangNum, userMapper.getUserByChuangNum(chuangNum).getName(), creatProjectRequest.getInstitute(), creatProjectRequest.getIntroduction(), creatProjectRequest.getBriefDemand(), creatProjectRequest.getTeacherName(), creatProjectRequest.getTeacherApartment(), creatProjectRequest.getTeacherRank(), creatProjectRequest.getPlanStartTime(), creatProjectRequest.getPlanEndTime(), timeUtil.getCurrentTimestamp(), timeUtil.getCurrentTimestamp(), null, stateUpdateTime, creatProjectRequest.getDemand(), status, creatProjectRequest.getRecruitNum(), creatProjectRequest.getTag1(), creatProjectRequest.getTag2(), creatProjectRequest.getTag3(), 1L, null,0,creatProjectRequest.getTeacherPersonalHomepage(),user.getTelephone());
         recruitProjectMapper.newRecruitProject(recruitProject);
         memberMapper.insertMember(recruitProject.getId(), MemberTypeEnum.CAPTAIN.getDescription(), 0, chuangNum, "组长");
         return recruitProject.getId();
@@ -148,7 +149,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         String statusUpdateTime = TimeUtil.getCurrentTimestamp();
         Integer status = 0;
-        RecruitProject recruitProject = new RecruitProject(null, createProjectRequest.getName(), userChuangNum, null, createProjectRequest.getInstitute(),createProjectRequest.getIntroduction(), createProjectRequest.getBriefDemand(), createProjectRequest.getTeacherName(), createProjectRequest.getTeacherApartment(), createProjectRequest.getTeacherRank(), createProjectRequest.getPlanStartTime(),createProjectRequest.getPlanEndTime(), TimeUtil.getCurrentTimestamp(), TimeUtil.getCurrentTimestamp(), null, statusUpdateTime, createProjectRequest.getDemand(), status, createProjectRequest.getRecruitNum(), createProjectRequest.getTag1(), createProjectRequest.getTag2(), createProjectRequest.getTag3(), 0L, null, 1,createProjectRequest.getType(),createProjectRequest.getTeacherPersonalHomepage());
+        RecruitProject recruitProject = new RecruitProject(null, createProjectRequest.getName(), userChuangNum, null, createProjectRequest.getInstitute(),createProjectRequest.getIntroduction(), createProjectRequest.getBriefDemand(), createProjectRequest.getTeacherName(), createProjectRequest.getTeacherApartment(), createProjectRequest.getTeacherRank(), createProjectRequest.getPlanStartTime(),createProjectRequest.getPlanEndTime(), TimeUtil.getCurrentTimestamp(), TimeUtil.getCurrentTimestamp(), null, statusUpdateTime, createProjectRequest.getDemand(), status, createProjectRequest.getRecruitNum(), createProjectRequest.getTag1(), createProjectRequest.getTag2(), createProjectRequest.getTag3(), 0L, null, 1,createProjectRequest.getTeacherPersonalHomepage(),user.getTelephone());
         recruitProjectMapper.newRecruitProject(recruitProject);
         return recruitProject.getId();
     }
@@ -158,7 +159,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
         RecruitProject recruitProject = recruitProjectMapper.getRecruitProjectById(request.getRecruitProjectId());
         String uploadTime = timeUtil.getCurrentTimestamp();
         if (recruitProject.getStatus() == -1) {
-            DisplayProject displayProject = new DisplayProject(null, request.getYear(), request.getInstitute(), request.getName(), request.getCaptainName(), request.getTeacherOneName(), request.getTeacherOneApartment(), request.getTeacherOneRank(), request.getTeacherOneStudy(), request.getTeacherTwoName(), request.getTeacherTwoApartment(), request.getTeacherTwoRank(), request.getTeacherTwoStudy(), uploadTime, request.getIntroduction(), request.getType(), request.getMajor(), request.getNumber(), request.getAward(), request.getInnovation(), null, null, request.getPaper(), request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(), request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor(), request.getFile(), request.getFileName(), request.getFileTwo(), request.getFileTwoName(), 0,0L,0L);
+            DisplayProject displayProject = new DisplayProject(null, request.getYear(), request.getInstitute(), request.getName(), request.getCaptainName(), request.getTeacherOneName(), request.getTeacherOneApartment(), request.getTeacherOneRank(), request.getTeacherOneStudy(), request.getTeacherTwoName(), request.getTeacherTwoApartment(), request.getTeacherTwoRank(), request.getTeacherTwoStudy(), uploadTime, request.getIntroduction(), request.getType(), request.getMajor(), request.getNumber(), request.getAward(), request.getInnovation(), null, null, request.getPaper(), request.getMemberOneName(), request.getMemberOneGrade(), request.getMemberOneMajor(), request.getMemberTwoName(), request.getMemberTwoGrade(), request.getMemberTwoMajor(), request.getMemberThreeName(), request.getMemberThreeGrade(), request.getMemberThreeMajor(), request.getMemberFourName(), request.getMemberFourGrade(), request.getMemberFourMajor(), request.getMemberFiveName(), request.getMemberFiveGrade(), request.getMemberFiveMajor(), request.getFile(), request.getFileName(), request.getFileTwo(), request.getFileTwoName(), 0,0L,0L,request.getDisplayType());
             displayProjectMapper.insert(displayProject);
             messageMapper.applyForDisplayProject(MessageTypeEnum.Admin.getDescription(), recruitProject.getName(),recruitProject.getId(),0,timeUtil.getCurrentTimestamp(),null,0,recruitProject.getCaptainChuangNum(), userMapper.getNicknameByChuangNum(recruitProjectMapper.getCaptianChuangNumByProjectId(recruitProject.getId())));
         }
@@ -242,7 +243,7 @@ public class RecruitProjectServiceImpl implements RecruitProjectService {
 
         ArrayList<BriefRecruitProject> searchResponseArrayList = new ArrayList<>();
         for (RecruitProject ele : recruitProjectList) {
-            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getRecruitType(),ele.getType(),ele.getIntroduction()));
+            searchResponseArrayList.add(new BriefRecruitProject(ele.getId(), ele.getName(), ele.getTag1(), ele.getTag2(), ele.getTag3(), ele.getBriefDemand(), ele.getStatus(),ele.getRecruitType(),ele.getIntroduction(),ele.getContactInformation()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
 

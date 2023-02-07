@@ -23,10 +23,6 @@ public class CreateProjectRequest {
     @ApiModelProperty("招募类型 0为学生发布 1为教师发布")
     private Integer recruitType;
 
-    @NotNull
-    @ApiModelProperty("项目类型 0为创新训练 1为创业训练")
-    private Integer type;
-
     @ApiModelProperty("负责人创赛号")
     private String captainChuangNum;
     @NotNull

@@ -77,7 +77,6 @@ public class ApplyForDisplayProjectRequest {
     @ApiModelProperty("论文成果")
     private String paper;
 
-
     @ApiModelProperty("成员1姓名")
     private String memberOneName;
 
@@ -134,5 +133,8 @@ public class ApplyForDisplayProjectRequest {
 
     @ApiModelProperty("附件2名称")
     private String fileTwoName;
+
+    @ApiModelProperty("展示类型 0为学生项目展示 1为教师项目展示")
+    private Integer displayType;
 
 }

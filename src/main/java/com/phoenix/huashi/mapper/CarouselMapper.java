@@ -12,6 +12,6 @@ import java.util.List;
 @Repository
 public interface CarouselMapper extends MyMapper<Carousel> {
 
-    @Select("SELECT * FROM carousel WHERE status=#{status} ORDER BY upload_time LIMIT #{number}")
-    List<Carousel> getCarouselList(@Param("number")Integer number,@Param("status")Integer status);
+    @Select("SELECT * FROM carousel ORDER BY upload_time LIMIT #{number}")
+    List<Carousel> getCarouselList(@Param("number")Integer number);
 }
