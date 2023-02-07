@@ -34,6 +34,4 @@ public class Carousel {
     @ApiModelProperty("上传时间")
     private String uploadTime;
 
-    @ApiModelProperty("状态 0审核中 1通过 -1未通过")
-    private Integer status;
 }

@@ -154,9 +154,11 @@ public class DisplayProject implements Serializable {
     @ApiModelProperty("投票数")
     private Long vote;
 
-
     @ApiModelProperty("热度")
     private Long heat;
+
+    @ApiModelProperty("展示类型 0为学生项目展示 1为教师项目展示")
+    private Integer displayType;
 }
 
 

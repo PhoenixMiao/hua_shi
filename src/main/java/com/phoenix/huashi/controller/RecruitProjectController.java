@@ -74,7 +74,7 @@ public class RecruitProjectController {
     @ApiOperation(value = "创建项目", response = Long.class)
     public Object creatProject(@NotNull @Valid @RequestBody CreateProjectRequest creatTeamRequest) {
         try {
-            if (creatTeamRequest.getType() == 1) return Result.success(recruitProjectService.createTeacherProject(creatTeamRequest,sessionUtils.getUserChuangNum()));
+            if (creatTeamRequest.getRecruitType() == 1) return Result.success(recruitProjectService.createTeacherProject(creatTeamRequest,sessionUtils.getUserChuangNum()));
             else return Result.success(recruitProjectService.createProject(creatTeamRequest, sessionUtils.getUserChuangNum()));
         } catch (CommonException e) {
             return Result.result(e.getCommonErrorCode());

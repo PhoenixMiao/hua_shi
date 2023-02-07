@@ -30,4 +30,7 @@ public class BriefDisplayProject {
     @ApiModelProperty("获奖情况(项目成果)")
     private String award;
 
+    @ApiModelProperty("展示类型 0为学生项目展示 1为教师项目展示")
+    private Integer displayType;
+
 }

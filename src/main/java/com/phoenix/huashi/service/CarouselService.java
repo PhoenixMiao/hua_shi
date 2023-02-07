@@ -12,11 +12,7 @@ public interface CarouselService {
 
     String uploadFile(Long projectId, String fileName, Integer type,MultipartFile multipartFile);
 
-    List<Carousel> getCarouselList(Integer number);
-
-    List<Carousel> getCarouselUncheckedList();
-
-    String updateCarouselStatus(Integer newStatus,Long carouselId);
-
     Page<Carousel> getAllCarouselList(GetListRequest getListRequest);
+
+    List<Carousel> getCarouselList(Integer number);
 }

@@ -93,10 +93,10 @@ public class RecruitProject implements Serializable {
     @ApiModelProperty("招募类型 0为学生发布 1为教师发布")
     private Integer recruitType;
 
-    @ApiModelProperty("项目类型 0为创新训练 1为创业训练")
-    private Integer type;
-
     @ApiModelProperty("教师个人主页（一般仅教师发布有）")
     private String teacherPersonalHomepage;
+
+    @ApiModelProperty("联系方式")
+    private String contactInformation;
 
 }
