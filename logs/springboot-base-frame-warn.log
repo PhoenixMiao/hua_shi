@@ -454,3 +454,4 @@ Caused by: java.sql.SQLSyntaxErrorException: Unknown column 'type' in 'field lis
 	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 	at java.lang.Thread.run(Thread.java:750)
 
+2023-02-07 16:40:59.201 [main] WARN  org.mybatis.spring.mapper.ClassPathMapperScanner - No MyBatis mapper was found in '[com.phoenix.huashi]' package. Please check your configuration.
