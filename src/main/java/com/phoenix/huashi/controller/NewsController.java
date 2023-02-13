@@ -39,7 +39,6 @@ public class NewsController {
         }
     }
 
-    @Auth
     @GetMapping("")
     @ApiOperation(value = "查看新闻详情")
     @ApiImplicitParam(name = "newsId", value = "新闻id", required = true, paramType = "query", dataType = "Long")
@@ -51,7 +50,6 @@ public class NewsController {
         }
     }
 
-    @Auth
     @PostMapping(value = "/list", produces = "application/json")
     @ApiOperation(value = "查看简要新闻列表")
     public Result getBriefNewsList(@RequestBody @NotNull GetBriefNewsListRequest request){
