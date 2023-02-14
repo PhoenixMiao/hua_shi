@@ -1,6 +1,7 @@
 package com.phoenix.huashi.controller;
 
 import com.phoenix.huashi.annotation.Admin;
+import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetBriefProjectListRequest;
@@ -30,6 +31,7 @@ public class NotificationController {
     private SessionUtils sessionUtils;
 
 
+    @Auth
     @GetMapping("")
     @ApiOperation(value = "查看公告详情", response = Notification.class)
     @ApiImplicitParam(name="notificationId",value="公告id",required = true,paramType = "query",dataType = "Long")
@@ -42,6 +44,7 @@ public class NotificationController {
 
     }
 
+    @Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取通知公告简要信息列表", response = BriefNotification.class)
     public Result getBriefNotificationList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {

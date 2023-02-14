@@ -212,6 +212,7 @@ public class UserController {
         }
     }
 
+    @Auth
     @GetMapping(value = "/experience", produces = "application/json")
     @ApiOperation(value = "获取用户项目经历")
     @ApiImplicitParam(name="userChuangNum",value="用户创赛号",required = true,paramType = "query",dataType = "String")
@@ -223,6 +224,7 @@ public class UserController {
         }
     }
 
+    @Auth
     @GetMapping(value = "/downloadResume/{flag}",produces = "application/json")
     @ApiOperation(value = "下载简历附件（pdf或markdown）,整个链接upload接口曾经给过")
     public Result downloadResume(@PathVariable String flag, HttpServletResponse response){
@@ -283,6 +285,7 @@ public class UserController {
         }
     }
 
+    @Auth
     @GetMapping(value = "/checkCode",produces = "application/json")
     @ApiOperation(value = "校验验证码")
     @ApiImplicitParams({
@@ -300,6 +303,7 @@ public class UserController {
     }
 
 
+    @Auth
     @GetMapping(value = "/send", produces = "application/json")
     @ApiOperation(value = "发送验证邮箱")
     @ApiImplicitParams({
