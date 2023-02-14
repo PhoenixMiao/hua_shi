@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/endpoint")
 @Validated
 public class EndpointController {
+
     @GetMapping("/{key}")
     @ApiOperation(value = "获取OSS域名(输入“OSS”时返回OSS域名)", response = String.class)
     public Result getOSS(@PathVariable("key") String key) {

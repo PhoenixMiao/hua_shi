@@ -34,6 +34,7 @@ public class RecruitProjectController {
     @Autowired
     private SessionUtils sessionUtils;
 
+    @Auth
     @GetMapping("/info")
     @ApiOperation(value = "查看项目简介", response = RecruitProject.class)
     @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "Long")
@@ -46,6 +47,7 @@ public class RecruitProjectController {
 
     }
 
+    @Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取招募项目简要信息列表", response = BriefRecruitProject.class)
     public Result getBriefRecruitProjectList(@NotNull @Valid @RequestBody GetBriefRecruitProjectListRequest request) {
@@ -105,6 +107,7 @@ public class RecruitProjectController {
         }
     }
 
+    @Auth
     @GetMapping("/applications")
     @ApiOperation(value = "获得简历数", response = Integer.class)
     @ApiImplicitParam(name = "projectId", value = "项目id", required = true, paramType = "query", dataType = "Long")
@@ -127,6 +130,7 @@ public class RecruitProjectController {
         }
     }
 
+    @Auth
     @PostMapping(value = "/introductionUpload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传介绍富文本")
 
@@ -138,6 +142,8 @@ public class RecruitProjectController {
         }
 
     }
+
+    @Auth
     @PostMapping(value = "/demandUpload", produces = "application/json;charset=UTF-8")
     @ApiOperation(value = "上传要求富文本文件")
     public Result uploadDemand( MultipartFile file) {

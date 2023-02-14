@@ -51,6 +51,7 @@ public class DisplayProjectController {
     private LikeService likeService;
 
 
+    @Auth
     @GetMapping("")
     @ApiOperation(value = "查看项目详情", response = DisplayProject.class)
     @ApiImplicitParam(name = "projectId", value = "展示项目id", required = true, paramType = "query", dataType = "Long")
@@ -75,6 +76,7 @@ public class DisplayProjectController {
     }
 
 
+    @Auth
     @PostMapping("/list")
     @ApiOperation(value = "获取展示项目简要信息列表", response = BriefDisplayProject.class)
     public Result getBriefDisplayProjectList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
@@ -85,6 +87,7 @@ public class DisplayProjectController {
         }
     }
 
+    @Auth
     @PostMapping("/voteList")
     @ApiOperation(value = "获取展示项目投票简要信息列表", response = BriefDisplayProject.class)
     public Result getBriefDisplayProjectVoteList(@NotNull @Valid @RequestBody GetBriefProjectListRequest request) {
@@ -172,7 +175,7 @@ public class DisplayProjectController {
         }
     }
 
-  @Admin
+    @Admin
     @GetMapping(value = "/uncheckedList", produces = "application/json" )
     @ApiOperation(value = "获得待审核展示项目列表")
     public Result getDisplayProjectUncheckedList() {

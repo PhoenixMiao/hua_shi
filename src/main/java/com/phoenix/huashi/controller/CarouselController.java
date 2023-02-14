@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.GetListRequest;
@@ -25,6 +26,7 @@ public class CarouselController {
     @Autowired
     private CarouselService carouselService;
 
+    @Auth
     @PostMapping(value = "/upload", produces = "application/json;charset=UTF-8" )
     @ApiOperation(value = "上传图片")
     @ApiImplicitParams({
@@ -42,6 +44,7 @@ public class CarouselController {
     }
 
 
+    @Auth
     @GetMapping(value = "/list", produces = "application/json;charset=UTF-8" )
     @ApiOperation(value = "获得轮播图列表")
     @ApiImplicitParam(name = "number", value = "轮播图数量", required = true, paramType = "query", dataType = "Integer")
@@ -53,6 +56,7 @@ public class CarouselController {
         }
     }
 
+    @Auth
     @PostMapping(value = "/allList", produces = "application/json;charset=UTF-8" )
     @ApiOperation(value = "获得全部轮播图列表")
     @ApiImplicitParam(name = "number", value = "轮播图数量", required = true, paramType = "query", dataType = "Integer")

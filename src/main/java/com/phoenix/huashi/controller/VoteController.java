@@ -40,6 +40,7 @@ public class VoteController {
     @Autowired
     private SessionUtils sessionUtils;
 
+    @Auth
     @GetMapping("")
     @ApiOperation(value = "投票更新", response = String.class)
     public Result voteUpdate() {

@@ -6,9 +6,7 @@ import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.AddNewsRequest;
 import com.phoenix.huashi.controller.request.GetBriefNewsListRequest;
-import com.phoenix.huashi.controller.request.SearchRequest;
 import com.phoenix.huashi.service.NewsService;
-import com.phoenix.huashi.util.SessionUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +37,7 @@ public class NewsController {
         }
     }
 
+    @Auth
     @GetMapping("")
     @ApiOperation(value = "查看新闻详情")
     @ApiImplicitParam(name = "newsId", value = "新闻id", required = true, paramType = "query", dataType = "Long")
@@ -50,6 +49,7 @@ public class NewsController {
         }
     }
 
+    @Auth
     @PostMapping(value = "/list", produces = "application/json")
     @ApiOperation(value = "查看简要新闻列表")
     public Result getBriefNewsList(@RequestBody @NotNull GetBriefNewsListRequest request){

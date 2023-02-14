@@ -1,5 +1,6 @@
 package com.phoenix.huashi.controller;
 
+import com.phoenix.huashi.annotation.Auth;
 import com.phoenix.huashi.common.CommonException;
 import com.phoenix.huashi.common.Result;
 import com.phoenix.huashi.controller.request.SearchRequest;
@@ -37,6 +38,7 @@ public class SearchController {
     @Autowired
     private NewsService newsService;
 
+    @Auth
     @PostMapping("/condition")
     @ApiOperation(value = "根据条件筛选信息")
     public Result search(@NotNull @Valid @RequestBody SearchRequest searchRequest) {

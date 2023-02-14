@@ -44,6 +44,7 @@ public class HomepageController {
     private SessionUtils sessionUtils;
 
 
+    @Auth
     @GetMapping("/notification")
     @ApiOperation(value = "获取首页通知公告简要信息列表", response = BriefNotification.class)
     public Result getHomepageNotificationList() {
@@ -54,6 +55,7 @@ public class HomepageController {
         }
     }
 
+    @Auth
     @GetMapping("/recruitProject")
     @ApiOperation(value = "获取首页招募项目简要信息列表", response = BriefRecruitProject.class)
     public Result getHomepageRList() {
@@ -64,6 +66,7 @@ public class HomepageController {
         }
     }
 
+    @Auth
     @GetMapping("/displayProject")
     @ApiOperation(value = "获取首页展示项目简要信息列表", response = BriefHomepageDisplayProject.class)
     @ApiImplicitParam(name="year",value="项目年份",required = true,paramType = "query",dataType = "String")
@@ -75,6 +78,7 @@ public class HomepageController {
         }
     }
 
+    @Auth
     @GetMapping("/project")
     @ApiOperation(value = "获取首页项目管理简要信息列表", response = BriefHomepageDisplayProject.class)
     public Result getHomepagePList() {
