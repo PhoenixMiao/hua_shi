@@ -82,7 +82,7 @@ public class NewsServiceImpl implements NewsService {
 
         ArrayList<BriefNews> searchResponseArrayList = new ArrayList<>();
         for (News ele : newsList) {
-            searchResponseArrayList.add(new BriefNews(ele.getId(),ele.getTitle(),ele.getPublishDate(),ele.getPicture()));
+            searchResponseArrayList.add(new BriefNews(ele.getId(),ele.getTitle(),ele.getPublishDate(),ele.getPicture(),ele.getYear(),ele.getDate()));
         }
         return new Page<>(searchRequest.getPageParam(), page.getTotal(), page.getPages(), searchResponseArrayList);
     }
@@ -132,7 +132,9 @@ public class NewsServiceImpl implements NewsService {
 
         if (request == null) return null;
 
-        News news = new News(null, request.getTitle(), TimeUtil.getCurrentTimestamp(), null, null);
+        String publishDate = TimeUtil.getCurrentTimestamp();
+
+        News news = new News(null, request.getTitle(), publishDate, null, null, publishDate.substring(0,4), publishDate.substring(5,10));
         newsMapper.insert(news);
         return news.getId();
 

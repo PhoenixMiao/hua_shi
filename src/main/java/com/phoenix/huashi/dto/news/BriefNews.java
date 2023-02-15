@@ -26,4 +26,10 @@ public class BriefNews {
     @ApiModelProperty("图片")
     private String picture;
 
+    @ApiModelProperty("年份")
+    private String year;
+
+    @ApiModelProperty("日期")
+    private String date;
+
 }
