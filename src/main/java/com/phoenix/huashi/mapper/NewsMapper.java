@@ -16,7 +16,7 @@ public interface NewsMapper extends MyMapper<News> {
     @Select("SELECT * FROM news WHERE id=#{id}")
     News getNewsById(@Param("id") Long id);
 
-    @Select("SELECT id,title,publish_date,picture FROM news")
+    @Select("SELECT id,title,publish_date,picture,year,date FROM news")
     List<BriefNews> getBriefNewsList();
 
     @Insert("INSERT INTO news(title, publish_date, picture) VALUE (#{title},#{publishDate},#{picture})")
