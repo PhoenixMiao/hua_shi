@@ -285,7 +285,6 @@ public class UserController {
         }
     }
 
-    @Auth
     @GetMapping(value = "/checkCode",produces = "application/json")
     @ApiOperation(value = "校验验证码")
     @ApiImplicitParams({
@@ -303,7 +302,6 @@ public class UserController {
     }
 
 
-    @Auth
     @GetMapping(value = "/send", produces = "application/json")
     @ApiOperation(value = "发送验证邮箱")
     @ApiImplicitParams({
